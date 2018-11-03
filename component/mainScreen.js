@@ -1,20 +1,30 @@
 import React, { Component } from 'react'
 import {   Container,  Header, Switch,Title, 
     Content, Button,Footer, FooterTab,Left, Right, Body, Drawer} from 'native-base';
-
 import {View,Text,TouchableHighlight,StyleSheet,Image,ScrollView,FlatList,TouchableOpacity,StatusBar } from 'react-native';
 import HeaderContainer from './headerContainer.js';
 import SearchInput, { createFilter } from 'react-native-search-filter';
 import {AddScreen} from './ScreenName.js';
 import { Icon,ListItem,List } from 'react-native-elements';
-const KEYS_TO_FILTERS = ['name', 'subtitle'];
+const KEYS_TO_FILTERS = ['name', 'receiver',];
 import {list} from './data.js'
-const backgroundColor='#fff'
+import {axios} from 'axios';
+import {API} from '../network/API.js';
+const backgroundColor='#fff';
+// const  instance = axios.create({
+//     baseURL: '171.244.4.48:6969/api/',
+//     timeout: 1000,
+//   });
+//   return instance;
+
+
 class MainScreen extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-          searchTerm: ''
+            data:[],
+            searchTerm: '',
+            loading:true
         }
       }
       searchUpdated(term) {
@@ -27,11 +37,27 @@ class MainScreen extends React.Component{
         );
         return{drawerLabel,drawerIcon};
     }
+    async componentDidMount(){
+        await this.getDataFromServer();
+    }
+    getDataFromServer(){
+    
+        API.getListDevice(0,20).then(
+            res => {
+                this.setState({
+                    data: res.data.content
+                })
+            },
+            err => {
+                console.log('chạy err: '+JSON.stringify(err));
+            }
+        );
+    }
     gotoDetails=(item)=>{
         this.props.navigation.navigate('Details', {data:item});
     }
   render() {
-    const filteredEmails = list.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
+    const filteredEmails = this.state.data.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
     return (
         <View style={{flex: 1}}>
         <StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
@@ -47,7 +73,9 @@ class MainScreen extends React.Component{
             return (
                 <View>
                     <ListItem
-                        onPress={()=>{this.gotoDetails(email)}}
+                        onPress={()=>{
+                            this.gotoDetails(email)
+                        }}
                         avatar={<View style={{width: 80, height: 80, backgroundColor: 'rgb(255, 77, 255)', borderRadius: 30, alignItems: 'center', justifyContent: 'center'}}>
                         <Image source={{uri: email.avatar_url}}
                         style={{width: '100%', height: '100%'}} />            
@@ -57,8 +85,8 @@ class MainScreen extends React.Component{
                         containerStyle={{backgroundColor: 'white'}}
                         subtitle={
                         <View style={styles.subtitleView}>
-                            <Text numberOfLines={2} style={{color: 'black'}}>{email.subtitle}</Text>
-                            <Text numberOfLines={1} style={{ marginTop: 10, color: 'rgb(204, 0, 153)'}}>{email.emanufacture_date}</Text>
+                            <Text numberOfLines={2} style={{color: 'black',margin:5}}>{email.description}</Text>
+                            <Text numberOfLines={1} style={{ marginTop: 10, color: 'rgb(204, 0, 153)'}}>{email.receiver}</Text>
                         </View>
                         }
                         rightIcon={<View/>}
