@@ -1,5 +1,5 @@
 import React,{Comment} from 'react';
-import {Container} from 'native-base';
+import {Container,Card,CardItem} from 'native-base';
 import {View,StyleSheet,Text,ScrollView,Image} from 'react-native';
  
 export default class DetaisItem extends React.Component{
@@ -10,28 +10,52 @@ export default class DetaisItem extends React.Component{
        const info= this.props.data
        
         return(
-                <ScrollView style={{flex: 1}}>
-                <View style={{flex: 1,backgroundColor: 'orange',}}>
-                    <Image source={{uri:info.avatar_url}} style={{width:'100%',height:'50%'}} />
-                    <Container style={{padding: 20}}>
-                    <Text style={{fontWeight:'bold',color:'rgb(255, 77, 255)',fontSize:16}}>Tên: {info.name}</Text>
-                    <View style={{width:'100%',height:1,backgroundColor:'violet'}}/>
-                    <Text style={styles.plantText}>Mã hiệu: {info.keycode}</Text>
-                    <Text style={styles.plantText}>Hãng sản xuất: {info.producer}</Text>
-                    <Text style={styles.plantText}>Nước xuất xứ: {info.country}</Text>
-                    <View style={{width:'100%',height:1,backgroundColor:'violet'}}/>
-                    <Text style={styles.plantText}>Năm sản xuất: {info.emanufacture_date}</Text>
-                    <Text style={styles.plantText}>Năm nhập: {info.received_date}</Text>
-                    <Text style={styles.plantText}>Nguồn kinh phí: {info.source}</Text>
-                    <View style={{width:'100%',height:1,backgroundColor:'violet'}}/>
-                    <Text style={styles.plantText}>Tình trạng: {info.status}</Text>
-                    <Text style={{fontWeight:'bold',color:'rgb(0, 77, 0)', paddingTop:10, paddingBottom:10}}>Chi tiết: {info.description}</Text>
-                    <Text style={{fontWeight:'bold',color:'rgb(255, 77, 255)'}}>Ngày nhập: {info.emanufacture_date}</Text></Container>
+                <View style={{width:'100%',height:'100%'}}>
+                <Image style={{width:'100%',height:'40%' }} source={require('../images/icon_butchi.png')}/>
+                <View style={{flex: 1,backgroundColor:'rgb(225, 225, 234)'}}>
+                <ScrollView>
+                <Container style={{flexDirection: 'column',flex:1}}>
+                    <Card style={{alignItems: 'flex-start',}}>
+                        <Text style={{fontSize:14,color:'black',}}>Tên thiết bị: {info.name}</Text>
+                        <Text style={{fontSize:14,color:'black'}}>Mã thiết bị:</Text>
+                    </Card>
+                    <Card style={{alignItems: 'flex-start',}}>
+                        
+                        <Text style={{fontSize:14,color:'black',}}>Nơi sd:</Text>
+                        <Text style={{fontSize:14,color:'black',}}>Ngày nhận:</Text>
+                    </Card>
+                    <Card style={{alignItems: 'flex-start',}}>
+                        <Text style={{fontSize:14,color:'black'}}>Ngày sd:</Text>
+                        <Text style={{fontSize:14,color:'black'}}>Giá thiết bị:</Text>
+                        <Text style={{fontSize:14,color:'black'}}>Nguồn điện từ: {} đến: {}</Text>
+                    </Card>
+                    <Card style={{alignItems: 'flex-start',}}>
+                        <Text style={{fontSize:14,color:'black'}}>Năm sx:</Text>
+                        <Text style={{fontSize:14,color:'black'}}>Điện áp:</Text>
+                        <Text style={{fontSize:14,color:'black'}}>Sức chứa:</Text>
+                    </Card>
+                    <Card style={{alignItems: 'flex-start',}}>
+                        <Text style={{fontSize:14,color:'black'}}>Phụ tùng kèm theo:</Text>
+                        <Text style={{fontSize:14,color:'black'}}>Người nhận: {info.receiver}</Text>
+                        <Text style={{fontSize:14,color:'black'}}>Nguồn tiền:</Text>
+                    </Card>
+                    <Card style={{alignItems: 'flex-start',}}>
+                        <Text style={{fontSize:14,color:'black'}}>Ngày nhận tiền:</Text>
+                        <Text style={{fontSize:14,color:'black'}}>Trạng thái: </Text>
+                        <Text style={{fontSize:14,color:'black'}}>Mức độ:</Text>
+                    </Card>
+                    <Card>
+                        <Text style={{fontSize:14,color:'black'}}>Mô tả thiết bị: {info.description}</Text>
+                        <Text style={{fontSize:14,color:'black',}}>Nơi sx:</Text>
+                    </Card>
+                </Container>
+                </ScrollView>
                 </View>
-            </ScrollView>
+                </View>
         )
     }
 }
 styles = StyleSheet.create({
-    plantText: {fontWeight:'bold',color:'rgb(255, 77, 255)',fontSize:14}
+    plantText: {fontWeight:'bold',fontSize:14,flex:1,color:'black',alignItems: 'center',height:'33.33%'},
+    containerStyle:{borderWidth: 1, flexDirection: 'row',flex:1}
 });

@@ -5,7 +5,8 @@ import { Icon } from 'react-native-elements';
 import HeaderContainer from './headerContainer.js';
 import DetailsItem from './detailsItem.js';
 import DetaisUsing from './detailsUsing.js';
-import DetaisNote from './detailsNote.js'
+import DetaisNote from './detailsNote.js';
+import ColorApp from './../config/ColorApp'
 
 
 class DetailsScreen extends React.Component{
@@ -22,28 +23,33 @@ class DetailsScreen extends React.Component{
         return{drawerLabel,drawerIcon};
     }
     render(){
-       
+       // <StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
         const info = this.props.navigation.state.params.data;
         return(
                 <View style={{flex: 1}}>
-                    <StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
-                    <TouchableOpacity style={{alignItems: 'flex-start',justifyContent: 'center',width:'100%',height:'8%', backgroundColor:'rgb(204, 0, 153)'}}  
-                        onPress={() => this.props.navigation.goBack()}>
-                        <Icon name="arrow-left" type='font-awesome' color="white" marginLeft={5}/>
-                    </TouchableOpacity>
+                <View style ={{backgroundColor:ColorApp.headerColor,width:'100%',flexDirection: 'row',
+                    justifyContent:'center',alignItems: 'center',height:'8%',alignSelf: 'flex-start'}}>
+                    <TouchableHighlight style={{left: 10,alignItems: 'center',position:'absolute'}}  
+                            onPress={() => this.props.navigation.goBack()}>
+                            <Icon name="times" type='font-awesome' color="white" marginLeft={5}/>
+                        </TouchableHighlight>
+                    <Text style={{fontWeight: 'bold',fontSize: 16,alignItems: 'center',justifyContent:'center',color:'white'}}>
+                        Chi tiết sản phẩm
+                    </Text>
+                    </View>
                     <Tabs tabBarPosition='bottom'>
-                        <Tab  heading={<TabHeading style={{backgroundColor: 'rgb(204, 0, 153)',}}>
+                        <Tab  heading={<TabHeading style={{backgroundColor: 'rgb(153, 0, 255)',flexDirection:'column'}}>
                         <Icon name="align-center" type='font-awesome' color='white' />
                         <Text style={{color:'white', marginLeft: 5}}>Chi tiết</Text></TabHeading>}>
                             <DetailsItem data={info} />
                         </Tab>
-                        <Tab  heading={<TabHeading style={{backgroundColor: 'rgb(204, 0, 153)',}}>
-                        <Icon name="align-center" type='font-awesome' color='white' />
-                        <Text style={{color:'white', marginLeft: 5}}>Lưu ý</Text></TabHeading>}>
-                            <DetaisNote/>
+                        <Tab  heading={<TabHeading style={{backgroundColor: 'rgb(153, 0, 255)',flexDirection:'column'}}>
+                        <Icon name="info" type='font-awesome' color='white' />
+                        <Text style={{color:'white', marginLeft: 5}}>Lịch sử sửa chữa</Text></TabHeading>}>
+                            <DetaisNote data={info}/>
                         </Tab>
-                        <Tab  heading={<TabHeading style={{backgroundColor: 'rgb(204, 0, 153)',}}>
-                        <Icon name="align-center" type='font-awesome' color='white' />
+                        <Tab  heading={<TabHeading style={{backgroundColor: 'rgb(153, 0, 255)',flexDirection:'column'}}>
+                        <Icon name="table" type='font-awesome' color='white' />
                         <Text style={{color:'white', marginLeft: 5}}>Quá trình SD</Text></TabHeading>}>
                             <DetaisUsing/>
                     </Tab>

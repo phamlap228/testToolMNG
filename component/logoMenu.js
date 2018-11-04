@@ -15,14 +15,14 @@ const CustomDrawerContentComponent = (props) => (
         <View style={{flex: 1,marginLeft:20,flexDirection:'column'}}>
             <TouchableHighlight style={{flex: 1}}>
             <View style={{height:'30%',flexDirection:'row',alignItems: 'center'}}>
-            <Icon name='info-circle' type='font-awesome' style={{marginLeft:20}} size={24} color='yellow'/>
+            <Icon name='info-circle' type='font-awesome' style={{marginLeft:20}} size={24} color='#007256'/>
             <Text style={{fontWeight: 'bold',marginLeft:20}}> About</Text>
             </View>
             </TouchableHighlight>
 
             <TouchableHighlight style={{flex: 1}}>
             <View style={{height:'30%',flexDirection:'row',alignItems: 'center'}}>
-            <Icon name='sign-out' type='font-awesome' style={{marginLeft:20}} size={24} color='red'/>
+            <Icon name='sign-out' type='font-awesome' style={{marginLeft:20}} size={24} color='#007256'/>
             <Text style={{fontWeight: 'bold',marginLeft:20}}> Exit</Text>
             </View>
             </TouchableHighlight>

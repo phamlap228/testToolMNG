@@ -1,85 +1,105 @@
 import React,{Comment} from 'react';
 import {Container} from 'native-base';
-import {View,StyleSheet,Text,ScrollView,Image,FlatList,Button,TouchableHighlight,TouchableOpacity} from 'react-native';
-import { ListItem } from 'react-native-elements';
- const timeUsing = [
+import {View,StyleSheet,FlatList,Text,ScrollView,Image,Dimensions} from 'react-native';
+import { ListItem, Card } from 'react-native-elements';
+ var {width,height} = Dimensions.get('window');
+ const listData =[
     {
-        datetime:'2/2/2018',
-        content:'Nội dung nội dung ấy đây là cái nội dung sử dụng',
-        user:'BS1',
-    },
-    {
-        datetime:'2/1/2018',
-        content:'Nội dung nội dung ấy đây là cái nội dung sử dụng',
-        user:'BS1',
-    },
-    {
-        datetime:'1/2/2018',
-        content:'Nội dung nội dung ấy đây là cái nội dung sử dụng',
-        user:'BS1',
-    },
-    
- ]
- let url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgbKwRN73esc3kQRZzzMv-brBh4Vf4CampkLNQBErrT8BiFNuzQg';
- const params={
-    datetime:'25/5/2018',
-    content:'Nội dung nội dung ấy đây là cái nội dung sử dụng',
-    user:'BS7',
-}
+      level:'HP-5012T',
+      subtitle: 'Vui lòng đọc kỹ hướng dẫn sử dụng trước khi dùng',
+      received_date:'Thứ 2, Ngày 30/9/2015',
+      user:'Human Place'
+    },{
+        level:'HP-5012T',
+        subtitle: 'Vui lòng đọc kỹ hướng dẫn sử dụng trước khi dùng',
+        received_date:'Thứ 2, Ngày 30/9/2015',
+        user:'Human Place'
+      },{
+        level:'HP-5012T',
+        subtitle: 'Vui lòng đọc kỹ hướng dẫn sử dụng trước khi dùng',
+        received_date:'Thứ 2, Ngày 30/9/2015',
+        user:'Human Place'
+      },{
+        level:'HP-5012T',
+        subtitle: 'Vui lòng đọc kỹ hướng dẫn sử dụng trước khi dùng',
+        received_date:'Thứ 2, Ngày 30/9/2015',
+        user:'Human Place'
+      },{
+        level:'HP-5012T',
+        subtitle: 'Vui lòng đọc kỹ hướng dẫn sử dụng trước khi dùng',
+        received_date:'Thứ 2, Ngày 30/9/2015',
+        user:'Human Place'
+      },  
+    ]
 export default class DetaisUsing extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            loading:false,
-            newList:timeUsing
+            screenHeight:0
         }
     }
-    _keyExtractor = (item, index) => item.index;
-    appendObjTo=(newList, newObj)=> {
-        const frozenObj = Object.freeze(newObj);
-        return Object.freeze(newList.concat(frozenObj));
+    onSizeChange = (contentWidth,contentHeight)=>{
+        this.setState({screenHeight:contentHeight})
     }
-    rederRow=({item})=>(
-        <ListItem 
-                    avatar={<View style={{width: 80, height: 80, backgroundColor: 'rgb(255, 77, 255)', borderRadius: 30, alignItems: 'center', justifyContent: 'center'}}>
-                                <Image source={{uri:url }}
-                                style={{width: '100%', height: '100%'}} />            
-                            </View>}    
-                    title={item.datetime}
-                    subtitle={<View style={{flex: 1, margin:10}}><Text>{item.content}</Text><Text>{item.user}</Text></View>}
-                    containerStyle={{backgroundColor: 'white'}}
+    _keyExtractor = (item) => {
+        return item.id
+    }
+    
+    _renderItem = ({item})=>{
+        return(
+            <ListItem
+                title={
+                    <Container style={{borderWidth: 0.7,flexDirection: 'row',height:'7%', width:width,}}>
+                            <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}} >
+                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{item.received_date}</Text>
+                            </View>
+                            <View style={{flexDirection:'column',flex: 1,alignSelf: 'center',}}>
+                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{item.subtitle}</Text>
+                            </View>
+                            <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}}>
+                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{item.level}</Text>
+                            </View>
+                            <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}}>
+                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{item.user}</Text>
+                            </View>
+
+                    </Container>}
                     rightIcon={<View/>}
-                    
-                />
-    )
-    thuchien=(params)=>{
-        const a =  this.appendObjTo(this.state.newList, params);
-        this.setState({
-            newList:a
-        });
-       
+            />
+        )
     }
     render(){
-    //    const param= this.props.data { this.thuchien( params)}
+       const scrollEnable = this.state.screenHeight>height
        
         return(
-            <View style={{flex: 1,backgroundColor: 'orange',}}>
-            <Button
-                // onPress={()=>{this.thuchien( params),console.log('click: '+JSON.stringify(this.state.newList))}}
-                onPress ={
-                    ()=>{
-                        alert('đang xây dựng')
-                    }
-                }
-                title="Thêm"
-                color="#841584"
-                />
-            <FlatList
-                data={this.state.newList}
-                renderItem={this.rederRow}
-                keyExtractor={this._keyExtractor}
-            />
+            <View style={{width,height}}>
+                    <View style={{borderWidth: 0.7,flexDirection: 'row',height:'7%', width:width,}}>
+                            <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}} >
+                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>Ngày tháng</Text>
+                            </View>
+                            <View style={{flexDirection:'column',flex: 1,alignSelf: 'center',}}>
+                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>Nội dung</Text>
+                            </View>
+                            <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}}>
+                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>Level</Text>
+                            </View>
+                            <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}}>
+                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>Người theo dõi</Text>
+                            </View>
+
+                    </View>
+                    <ScrollView  scrollEnabled={scrollEnable}  onContentSizeChange={this.onContentSizeChange}>
+                        <View style={{height:'100%',width}}>
+                            <FlatList
+                                data={listData}
+                                keyExtractor={this._keyExtractor}
+                                renderItem={this._renderItem}
+                            />  
+                        </View>
+                    </ScrollView>
+                    
             </View>
+            
         )
     }
 }

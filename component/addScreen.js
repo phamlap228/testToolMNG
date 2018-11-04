@@ -98,9 +98,10 @@ addItem(){
 
 }
 render(){
+    //<StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
     return(
         <View style={{flexDirection: 'column',flex: 1}}>
-        <StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
+        
         <HeaderContainer {...this.props}/>
         <ScrollView >
         <View style={{flex: 1,backgroundColor:'white',padding:2,}}>

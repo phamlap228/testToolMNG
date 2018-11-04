@@ -13,16 +13,17 @@ class UsingScreen extends React.Component{
     static navigationOptions = () => {
         let drawerLabel = 'Using'
         let drawerIcon = () =>(
-            <Icon name='align-center' type='font-awesome' size={24} color='violet' /> 
+            <Icon name='align-center' type='font-awesome' size={24} color='#007256' /> 
         );
         return{drawerLabel,drawerIcon};
     }
     render(){
+        //<StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
         return(
             <View style={{flex: 1}}>
-            <StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
+            
             <HeaderContainer {...this.props}/>
-            <View style={{flex: 1,backgroundColor: 'orange'}}>
+            <View style={{flex: 1,}}>
             <Text>use screen</Text></View>
             </View>
         )

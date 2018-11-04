@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import {   Container,  Header, Switch,Title, 
     Content, Button,Footer, FooterTab,Left, Right, Body, Drawer} from 'native-base';
-import {View,Text,TouchableHighlight,StyleSheet,Image,ScrollView,FlatList,TouchableOpacity,StatusBar } from 'react-native';
+import {View,Text,TouchableHighlight,StyleSheet,Image,ScrollView,FlatList,Picker,TouchableOpacity,StatusBar } from 'react-native';
 import HeaderContainer from './headerContainer.js';
 import SearchInput, { createFilter } from 'react-native-search-filter';
 import {AddScreen} from './ScreenName.js';
 import { Icon,ListItem,List } from 'react-native-elements';
-const KEYS_TO_FILTERS = ['name', 'receiver',];
+import ColorApp from '../config/ColorApp.js';
 import {list} from './data.js'
 import {axios} from 'axios';
 import {API} from '../network/API.js';
-const backgroundColor='#fff';
+const backgroundColor='#007256';
 // const  instance = axios.create({
 //     baseURL: '171.244.4.48:6969/api/',
 //     timeout: 1000,
@@ -24,6 +24,7 @@ class MainScreen extends React.Component{
         this.state = {
             data:[],
             searchTerm: '',
+            searchType:'',
             loading:true
         }
       }
@@ -57,44 +58,67 @@ class MainScreen extends React.Component{
         this.props.navigation.navigate('Details', {data:item});
     }
   render() {
+      //<StatusBar backgroundColor="rgb(51, 153, 255)" barStyle="light-content" />
+      //<Text style={{fontWeight: 'bold',fontSize: 16,alignItems: 'center'}}>{this.props.header}</Text>
+      //<Icon name="ios-menu" style={{width: 24,height: 24,color: "white"}}/>
+      const KEYS_TO_FILTERS = ['name', 'receiver',];
     const filteredEmails = this.state.data.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
     return (
-        <View style={{flex: 1}}>
-        <StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
-        <HeaderContainer {...this.props}/>
-        <SearchInput 
-          onChangeText={(term) => { this.searchUpdated(term) }} 
-          style={styles.searchInput}
-          placeholder="Nhập để tìm kiếm..."
-          ref = {this.refs.filterInput}
-          />
+        <View style={{flex:1}}>
+        <StatusBar backgroundColor={ColorApp.statusBarColor} barStyle="light-content" />
+        <HeaderContainer {...this.props} header='Danh sách thiết bị'/>
+        <View style={{width:'100%',height:50,flexDirection:'row'}}>
+            <SearchInput 
+                onChangeText={(term) => { this.searchUpdated(term) }} 
+                style={styles.searchInput}
+                placeholder="Nhập để tìm kiếm..."
+                ref = {this.refs.filterInput}
+                
+            />
+            <Picker
+                selectedValue={this.state.searchType}
+                style={{width:'40%',end:0,position:'absolute'}}
+                onValueChange={(itemValue, itemIndex) => this.setState({searchType: itemValue})}>
+                <Picker.Item label="Người nhận" value="receiver" />
+                <Picker.Item label="Tên" value="name" />
+            </Picker>
+        </View>
         <ScrollView>
-        {filteredEmails.map(email => {
+            {filteredEmails.map(email => {
             return (
                 <View>
                     <ListItem
+                        key={email.id}
                         onPress={()=>{
                             this.gotoDetails(email)
                         }}
-                        avatar={<View style={{width: 80, height: 80, backgroundColor: 'rgb(255, 77, 255)', borderRadius: 30, alignItems: 'center', justifyContent: 'center'}}>
-                        <Image source={{uri: email.avatar_url}}
+                        avatar={<View style={{width: 80, height: 80, backgroundColor: 'rgb(179, 102, 255)', alignItems: 'center', justifyContent: 'center'}}>
+                        <Image source={require('./../images/icon_butchi.png')}
                         style={{width: '100%', height: '100%'}} />            
                         </View>}
                         title={email.name}
-                        titleStyle={{color: 'rgb(204, 0, 153)', fontSize: 18, fontWeight: 'bold'}}
+                        titleStyle={{ fontSize: 18, fontWeight: 'bold'}}
                         containerStyle={{backgroundColor: 'white'}}
                         subtitle={
                         <View style={styles.subtitleView}>
                             <Text numberOfLines={2} style={{color: 'black',margin:5}}>{email.description}</Text>
-                            <Text numberOfLines={1} style={{ marginTop: 10, color: 'rgb(204, 0, 153)'}}>{email.receiver}</Text>
+                            <Text numberOfLines={1} style={{ marginTop: 10,}}>{email.receiver}</Text>
                         </View>
                         }
                         rightIcon={<View/>}
                     />
                 </View>
-            )
-          })}
+                )
+            })}
         </ScrollView>
+        <TouchableOpacity style={{position:'absolute',right: 20, bottom:20,alignItems:'center', 
+        width:50,height:50,borderRadius: 25,backgroundColor:ColorApp.fabsColor}}
+        onPress={()=>{
+            this.props.navigation.navigate('Add')
+        }}
+        >
+            <Text style={{fontSize: 36,color:'white',alignItems:'center',justifyContent:'center'}}>+</Text>
+        </TouchableOpacity>
         <View>
 
 </View>
@@ -110,6 +134,7 @@ styles = StyleSheet.create({
       color: 'black'
     },
     searchInput:{
+        width:'70%',
         backgroundColor: '#ececec',
         padding: 10
     }

@@ -40,7 +40,6 @@ let drawerNavigatorConfig = {
   drawerPosition:'left',
   contentComponent:CustomDrawerContentComponent,
   contentOptions:{
-    activeTintColor : 'red '
   }
 }
 const Drawer = DrawerNavigator(routerConfigs,drawerNavigatorConfig);
