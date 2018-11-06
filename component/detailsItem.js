@@ -15,38 +15,92 @@ export default class DetaisItem extends React.Component{
                 <View style={{flex: 1,backgroundColor:'rgb(225, 225, 234)'}}>
                 <ScrollView>
                 <Container style={{flexDirection: 'column',flex:1}}>
-                    <Card style={{alignItems: 'flex-start',}}>
-                        <Text style={{fontSize:14,color:'black',}}>Tên thiết bị: {info.name}</Text>
-                        <Text style={{fontSize:14,color:'black'}}>Mã thiết bị:</Text>
+                    <Card style={{alignItems: 'flex-start',width: '100%'}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Tên thiết bị: </Text>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>{info.name}</Text>
+                        </View>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Mã thiết bị: </Text>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>{info.code}</Text>
+                        </View>
                     </Card>
                     <Card style={{alignItems: 'flex-start',}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Nơi sd: </Text>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>{info.useIn}</Text>
+                        </View>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Ngày nhận:  </Text>
+                            <Text style={{fontSize:14,color:'black',}}>{info.dateReceived}</Text>
+                        </View>
                         
-                        <Text style={{fontSize:14,color:'black',}}>Nơi sd:</Text>
-                        <Text style={{fontSize:14,color:'black',}}>Ngày nhận:</Text>
                     </Card>
                     <Card style={{alignItems: 'flex-start',}}>
-                        <Text style={{fontSize:14,color:'black'}}>Ngày sd:</Text>
-                        <Text style={{fontSize:14,color:'black'}}>Giá thiết bị:</Text>
-                        <Text style={{fontSize:14,color:'black'}}>Nguồn điện từ: {} đến: {}</Text>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Ngày sd:  </Text>
+                            <Text style={{fontSize:14,color:'black',}}>{info.dateUse}</Text>
+                        </View>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Giá thiết bị:  </Text>
+                            <Text style={{fontSize:14,color:'black',}}>{info.price}</Text>
+                        </View>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Nguồn điện từ:  </Text>
+                            <Text style={{fontSize:14,color:'black',}}>{info.voltageFrom} đến:  {info.voltageTo}</Text>
+                        </View>
                     </Card>
                     <Card style={{alignItems: 'flex-start',}}>
-                        <Text style={{fontSize:14,color:'black'}}>Năm sx:</Text>
-                        <Text style={{fontSize:14,color:'black'}}>Điện áp:</Text>
-                        <Text style={{fontSize:14,color:'black'}}>Sức chứa:</Text>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Năm sx:  </Text>
+                            <Text style={{fontSize:14,color:'black',}}>{info.madeYear}</Text>
+                        </View>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Điện áp:  </Text>
+                            <Text style={{fontSize:14,color:'black',}}>{info.ampe}</Text>
+                        </View>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Sức chứa:  </Text>
+                            <Text style={{fontSize:14,color:'black',}}>{info.capacity}</Text>
+                        </View>
                     </Card>
                     <Card style={{alignItems: 'flex-start',}}>
-                        <Text style={{fontSize:14,color:'black'}}>Phụ tùng kèm theo:</Text>
-                        <Text style={{fontSize:14,color:'black'}}>Người nhận: {info.receiver}</Text>
-                        <Text style={{fontSize:14,color:'black'}}>Nguồn tiền:</Text>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Phụ tùng kèm theo:  </Text>
+                            <Text style={{fontSize:14,color:'black',}}>{info.accessory}</Text>
+                        </View>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Người nhận:  </Text>
+                            <Text style={{fontSize:14,color:'black',}}>{info.receiver}</Text>
+                        </View>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Nguồn tiền:  </Text>
+                            <Text style={{fontSize:14,color:'black',}}>{info.moneySource}</Text>
+                        </View>
                     </Card>
                     <Card style={{alignItems: 'flex-start',}}>
-                        <Text style={{fontSize:14,color:'black'}}>Ngày nhận tiền:</Text>
-                        <Text style={{fontSize:14,color:'black'}}>Trạng thái: </Text>
-                        <Text style={{fontSize:14,color:'black'}}>Mức độ:</Text>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Ngày nhận tiền:  </Text>
+                            <Text style={{fontSize:14,color:'black',}}>{info.dateIn}</Text>
+                        </View>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Trạng thái:  </Text>
+                            <Text style={{fontSize:14,color:'black',}}>{info.statusReceipt}</Text>
+                        </View>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Mức độ:  </Text>
+                            <Text style={{fontSize:14,color:'black',}}>{info.levelQuality}</Text>
+                        </View>
                     </Card>
                     <Card>
-                        <Text style={{fontSize:14,color:'black'}}>Mô tả thiết bị: {info.description}</Text>
-                        <Text style={{fontSize:14,color:'black',}}>Nơi sx:</Text>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Mô tả thiết bị: </Text>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>{info.description}</Text>
+                        </View>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Nơi sx: </Text>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>{info.madeIn}</Text>
+                        </View>
                     </Card>
                 </Container>
                 </ScrollView>

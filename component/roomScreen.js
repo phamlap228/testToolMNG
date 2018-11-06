@@ -10,48 +10,30 @@ import ColorApp from '../config/ColorApp.js';
 import {list} from './data.js'
 import {axios} from 'axios';
 import {API} from '../network/API.js';
-import _ from 'lodash';
-import {listDevice} from './data.js'
 const backgroundColor='#007256';
-
-class MainScreen extends React.Component{
-    constructor(props) {
+class RoomScreen extends React.Component{
+    constructor (props){
         super(props);
-        this.state = {
+        this.state={
             data:[],
             searchTerm: '',
             searchType:'name',
             loading:true
         }
-      }
-      searchUpdated(term) {
-        this.setState({ searchTerm: term })
-      }
+    }
     static navigationOptions = () => {
-        let drawerLabel = 'Quản lí hiết bị'
+        let drawerLabel = 'Phòng'
         let drawerIcon = () =>(
-            <Icon name='home' type='font-awesome' size={24} color={backgroundColor} /> 
+            <Icon name='align-center' type='font-awesome' size={24} color='#007256' /> 
         );
         return{drawerLabel,drawerIcon};
     }
-    async componentWillMount(){
+    async componentDidMount(){
         await this.getDataFromServer();
     }
-    getDataFromServer(){    
-        // this.setState({
-        //     data:listDevice
-        // })
-        // if(this.props.newItem!=''||this.props.newItem!=null){
-        //     var array= this.state.listDevice;
-        //     var newItem=this.props.newItem;
-        //     var newArr=_(array).push(newItem)
-        //     newArr=newArr.commit();
-        //     console.log('====================================');
-        //     console.log("new list: "+ JSON.stringify(newArr));
-        //     console.log('====================================');
-        // }
-       
-        API.getListDevice(0,20).then(
+    getDataFromServer(){
+    
+        API.getListRoom(0,20).then(
             res => {
                 this.setState({
                     data: res.data.content
@@ -63,15 +45,15 @@ class MainScreen extends React.Component{
         );
     }
     gotoDetails=(item)=>{
-        this.props.navigation.navigate('Details', {data:item});
+        this.props.navigation.navigate('DetailsRoomScreen', {data:item});
     }
-  render() {
-    const KEYS_TO_FILTERS =this.state.searchType;
+    render(){
+const KEYS_TO_FILTERS =this.state.searchType;
     const filteredEmails = this.state.data.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
     return (
         <View style={{flex:1}}>
         <StatusBar backgroundColor={ColorApp.statusBarColor} barStyle="light-content" />
-        <HeaderContainer {...this.props} header='Danh sách thiết bị'/>
+        <HeaderContainer {...this.props} header='Danh sách Phòng'/>
         <View style={{width:'100%',height:50,flexDirection:'row'}}>
             <SearchInput 
                 onChangeText={(term) => { this.searchUpdated(term) }} 
@@ -107,8 +89,8 @@ class MainScreen extends React.Component{
                         containerStyle={{backgroundColor: 'white'}}
                         subtitle={
                         <View style={styles.subtitleView}>
-                            <Text numberOfLines={2} style={{color: 'black',margin:5}}>{email.description}</Text>
-                            <Text numberOfLines={1} style={{ marginTop: 10,}}>{email.receiver}</Text>
+                            <Text numberOfLines={2} style={{color: 'black',margin:5}}>{email.manager}</Text>
+                            <Text numberOfLines={1} style={{ marginTop: 10,}}>{email.code}</Text>
                         </View>
                         }
                         rightIcon={<View/>}
@@ -118,16 +100,12 @@ class MainScreen extends React.Component{
             })}
         </ScrollView>
         <TouchableOpacity style={{position:'absolute',right: 20, bottom:20,alignItems:'center', 
-        width:50,height:50,borderRadius: 25,backgroundColor:ColorApp.fabsColor}}
-        onPress={()=>{
-            this.props.navigation.navigate('Add')
-        }}
-        >
+            width:50,height:50,borderRadius: 25,backgroundColor:ColorApp.fabsColor}}
+            onPress={()=>{
+                this.props.navigation.navigate('AddRoom')
+            }}>
             <Text style={{fontSize: 36,color:'white',alignItems:'center',justifyContent:'center'}}>+</Text>
         </TouchableOpacity>
-        <View>
-
-</View>
     </View>
     );
   }
@@ -145,4 +123,4 @@ styles = StyleSheet.create({
         padding: 10
     }
   })
-export default MainScreen
+export default RoomScreen

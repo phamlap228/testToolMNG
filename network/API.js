@@ -13,8 +13,19 @@ API.getListDevice = (page,size) => {
     return API.instance.get(`device/list?page=${page}&size=${size}`)
 }
 API.addDevice = (params) => {
-    return API.instance.post('device/add',params)
+    return API.instance.post('device/save',params)
+}
+API.getListRoom = (page,size) => {
+    return API.instance.get(`department/list?page=${page}&size=${size}`)
+}
+API.addRoom = (params) => {
+    return API.instance.post('department/save',params)
 }
 API.searchDevice = (querySearch) =>{
     return API.instance.get('api/device/search',querySearch)
+}
+//
+API.getRepairDevice = (page,size,deviceId) =>{
+    return API.instance.get(`repairHistory/getByDevice?page=${page}&size=${size}&deviceId=${deviceId}`)
+                                                    //?page=0&size=20&deviceId=3repairHistory/getByDevice
 }

@@ -2,7 +2,9 @@
 const Login="LoginScreen";
 const Main="MainScreen";
 const Add="AddScreen";
-const Using="UsingScreen";
+const AddRoom="AddRoomScreen";
+const DetailsRoom="DetailsRoomScreen";
+const Room="RoomScreen";
 const Splash="SplashScreen";
 const Details="DetailsScreen";
-export {Login,Main,Add,Using,Splash,Details}
+export {Login,Main,Add,AddRoom,Room,DetailsRoom,Splash,Details}

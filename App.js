@@ -14,10 +14,10 @@ import {DrawerNavigator,StackNavigator} from 'react-navigation';
 import MainScreen from './component/mainScreen.js';
 import AddScreen from './component/addScreen.js';
 import DetailsScreen from './component/detailsScreen.js';
-// import DrawerScreen from './component/drawerScreen.js';
-// import SplashScreen from './component/splashScreen.js';
+import AddRoomScreen from './component/addRoomScreen.js';
+import DetailsRoomScreen from './component/detailsRoomScreen';
 import {Login,Main,Add,Using,Splash} from './component/ScreenName'
-import UsingScreen from './component/usingScreen.js';
+import RoomScreen from './component/roomScreen.js';
 import {CustomDrawerContentComponent} from './component/logoMenu.js'
 var {height, width} = Dimensions.get('window');
 let routerConfigs = {
@@ -29,10 +29,13 @@ let routerConfigs = {
     path:'/add',
     screen: AddScreen,
   },
-  Using:{
-    path:'/using',
-    screen:UsingScreen,
+  Room:{
+    path:'/room',
+    screen:RoomScreen,
   },
+  AddRoom:{
+    screen: AddRoomScreen
+  }
 };
 let drawerNavigatorConfig = {
   initialRouterName:Main,
@@ -47,6 +50,7 @@ const App = StackNavigator(
   {
     Drawer: { screen: Drawer, navigationOptions:() => ({ header:null}) },
     Details:{ screen:DetailsScreen, navigationOptions:() => ({ header:null}) },
+    DetailsRoomScreen:{ screen:DetailsRoomScreen, navigationOptions:() => ({ header:null}) },
   }
 );
 export default  App;
