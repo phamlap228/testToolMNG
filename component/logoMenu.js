@@ -3,10 +3,14 @@ import React, { Component } from 'react';
 import { DrawerItems, SafeAreaView } from 'react-navigation';
 import {View,Text,Image,TouchableOpacity,StyleSheet,ScrollView,BackHandler } from 'react-native';
 import { Icon } from 'react-native-elements';
+import ColorApp from '../config/ColorApp'
 
 const CustomDrawerContentComponent = (props) => (
     <View style={{flex: 1}}>
-        <Image style={{width: '100%',height: '30%', resizeMode:'cover'}} source={require('../images/logo_app.png')}/>
+        <View style={{width: '100%',height: '30%',backgroundColor: ColorApp.headerColor,alignItems: 'center'}}>
+        <View style={{ width: 120, height: 120, borderRadius: 60,backgroundColor: "white",marginTop:5}}/>
+        <Text style={{alignSelf:'center',color:'white',fontSize:24}}>Nguyễn Thúy Linh</Text>
+        </View>
         <ScrollView>
             <SafeAreaView style={styles.container} forceInset={{ flex:1 }}>
                 <DrawerItems {...props} />

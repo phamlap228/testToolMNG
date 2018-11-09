@@ -7,6 +7,8 @@ import DetailsItem from './detailsItem.js';
 import DetaisUsing from './detailsUsing.js';
 import DetaisNote from './detailsNote.js';
 import ColorApp from '../config/ColorApp'
+import ListDeviceRoom from './listDeviceRoom.js';
+import DetailsRoom from './detailsRoom.js';
 
 
 class DetailsRoomScreen extends React.Component{
@@ -25,6 +27,7 @@ class DetailsRoomScreen extends React.Component{
     render(){
        // <StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
         const info = this.props.navigation.state.params.data;
+        console.log("qzz: "+ JSON.stringify(info));
         return(
                 <View style={{flex: 1}}>
                 <View style ={{backgroundColor:ColorApp.headerColor,width:'100%',flexDirection: 'row',
@@ -37,34 +40,19 @@ class DetailsRoomScreen extends React.Component{
                         Chi tiết phòng
                     </Text>
                     </View>
-                    <View style={{width:'100%',height:'100%'}}>
-                    <Image style={{width:'100%',height:'40%' }} source={require('../images/icon_room.png')}/>
-                    <View style={{flex: 1,backgroundColor:'rgb(225, 225, 234)'}}>
-                    <ScrollView>
-                    <Container style={{flexDirection: 'column',flex:1}}>
-                        <Card style={{alignItems: 'flex-start',width: '100%'}}>
-                            <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
-                                <Text style={{fontSize:14,color:'black',width:'50%',}}>Tên phòng: </Text>
-                                <Text style={{fontSize:14,color:'black',width:'50%',}}>{info.name}</Text>
-                            </View>
-                        </Card>
-                        <Card>
-                            <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
-                                <Text style={{fontSize:14,color:'black',width:'50%',}}>Mã phòng: </Text>
-                                <Text style={{fontSize:14,color:'black',width:'50%',}}>{info.code}</Text>
-                            </View>
-                        </Card>
-                        <Card style={{alignItems: 'flex-start',}}>
-                            <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
-                                <Text style={{fontSize:14,color:'black',width:'50%',}}>Trưởng phòng: </Text>
-                                <Text style={{fontSize:14,color:'black',width:'50%',}}>{info.manager}</Text>
-                            </View>
-                            
-                        </Card>
-                    </Container>
-                    </ScrollView>
-                    </View>
-                    </View>
+                    
+                    <Tabs tabBarPosition='bottom'>
+                        <Tab  heading={<TabHeading style={{backgroundColor: 'rgb(153, 0, 255)',flexDirection:'column'}}>
+                        <Icon name="info" type='font-awesome' color='white' />
+                        <Text style={{color:'white', marginLeft: 5}}>Chi tiết phòng</Text></TabHeading>}>
+                            <DetailsRoom data={info} />
+                        </Tab>
+                        <Tab  heading={<TabHeading style={{backgroundColor: 'rgb(153, 0, 255)',flexDirection:'column'}}>
+                        <Icon name="align-center" type='font-awesome' color='white' />
+                        <Text style={{color:'white', marginLeft: 5}}>Thiết bị phòng</Text></TabHeading>}>
+                            <ListDeviceRoom data={info} />
+                        </Tab>
+                </Tabs>
                 
             </View>
         )

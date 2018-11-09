@@ -51,7 +51,10 @@ export default class DetaisNote extends React.Component{
                                 <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{date.toLocaleDateString()}</Text>
                             </View>
                             <View style={{flexDirection:'column',flex: 1,alignSelf: 'center',}}>
-                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center',backgroundColor:'red'}}>{item.content}</Text>
+                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{item.content}</Text>
+                            </View>
+                            <View style={{flexDirection:'column',flex: 0.5,alignSelf: 'center',}}>
+                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{item.level}</Text>
                             </View>
                             <View style={{flexDirection:'column',flex: 0.5,alignSelf: 'center',}}>
                                 <Text style={{alignItems:'center',alignSelf:'flex-start',justifyContent: 'flex-start'}}>{item.follower}</Text>
@@ -73,6 +76,9 @@ export default class DetaisNote extends React.Component{
                             </View>
                             <View style={{flexDirection:'column',flex: 1,alignSelf: 'center',}}>
                                 <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>Nội dung</Text>
+                            </View>
+                            <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}}>
+                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>Level</Text>
                             </View>
                             <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}}>
                                 <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>Người theo dõi</Text>

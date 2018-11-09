@@ -99,7 +99,7 @@ class MainScreen extends React.Component{
                             this.gotoDetails(email)
                         }}
                         avatar={<View style={{width: 80, height: 80, backgroundColor: 'rgb(179, 102, 255)', alignItems: 'center', justifyContent: 'center'}}>
-                        <Image source={require('./../images/icon_butchi.png')}
+                        <Image source={require('./../images/icon_butchi.jpg')}
                         style={{width: '100%', height: '100%'}} />            
                         </View>}
                         title={email.name}

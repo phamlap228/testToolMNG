@@ -5,31 +5,31 @@ import { ListItem, Card } from 'react-native-elements';
  var {width,height} = Dimensions.get('window');
  const listData =[
     {
-      level:'HP-5012T',
-      subtitle: 'Vui lòng đọc kỹ hướng dẫn sử dụng trước khi dùng',
-      received_date:'Thứ 2, Ngày 30/9/2015',
-      user:'Human Place'
+      dateTime:'Thứ 2, Ngày 20/9/2015',
+      content: 'Sử dụng lần 1',
+      follower:'Human Place',
+      deviceId:3,
     },{
-        level:'HP-5012T',
-        subtitle: 'Vui lòng đọc kỹ hướng dẫn sử dụng trước khi dùng',
-        received_date:'Thứ 2, Ngày 30/9/2015',
-        user:'Human Place'
+        dateTime:'Thứ 2, Ngày 30/9/2015',
+        content: 'Sử dụng lần 2',
+        follower:'Human Place',
+        deviceId:3,
       },{
-        level:'HP-5012T',
-        subtitle: 'Vui lòng đọc kỹ hướng dẫn sử dụng trước khi dùng',
-        received_date:'Thứ 2, Ngày 30/9/2015',
-        user:'Human Place'
+        dateTime:'Thứ 2, Ngày 30/11/2015',
+        content: 'Sử dụng lần 3',
+        follower:'Human Place',
+        deviceId:3,
       },{
-        level:'HP-5012T',
-        subtitle: 'Vui lòng đọc kỹ hướng dẫn sử dụng trước khi dùng',
-        received_date:'Thứ 2, Ngày 30/9/2015',
-        user:'Human Place'
+        dateTime:'Thứ 2, Ngày 10/12/2015',
+        content: 'Sử dụng lần 4',
+        follower:'Human Place',
+        deviceId:3,
       },{
-        level:'HP-5012T',
-        subtitle: 'Vui lòng đọc kỹ hướng dẫn sử dụng trước khi dùng',
-        received_date:'Thứ 2, Ngày 30/9/2015',
-        user:'Human Place'
-      },  
+        dateTime:'Thứ 2, Ngày 12/12/2015',
+        content: 'Sử dụng lần 5',
+        follower:'Human Place',
+        deviceId:3,
+      }, 
     ]
 export default class DetaisUsing extends React.Component{
     constructor(props){
@@ -51,16 +51,13 @@ export default class DetaisUsing extends React.Component{
                 title={
                     <Container style={{borderWidth: 0.7,flexDirection: 'row',height:'7%', width:width,}}>
                             <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}} >
-                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{item.received_date}</Text>
+                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{item.dateTime}</Text>
                             </View>
                             <View style={{flexDirection:'column',flex: 1,alignSelf: 'center',}}>
-                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{item.subtitle}</Text>
+                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{item.content}</Text>
                             </View>
                             <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}}>
-                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{item.level}</Text>
-                            </View>
-                            <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}}>
-                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{item.user}</Text>
+                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{item.follower}</Text>
                             </View>
 
                     </Container>}
@@ -79,9 +76,6 @@ export default class DetaisUsing extends React.Component{
                             </View>
                             <View style={{flexDirection:'column',flex: 1,alignSelf: 'center',}}>
                                 <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>Nội dung</Text>
-                            </View>
-                            <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}}>
-                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>Level</Text>
                             </View>
                             <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}}>
                                 <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>Người theo dõi</Text>

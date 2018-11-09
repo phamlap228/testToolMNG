@@ -11,7 +11,7 @@ export default class DetaisItem extends React.Component{
        
         return(
                 <View style={{width:'100%',height:'100%'}}>
-                <Image style={{width:'100%',height:'40%' }} source={require('../images/icon_butchi.png')}/>
+                <Image style={{width:'100%',height:'40%' }} source={require('../images/icon_butchi.jpg')}/>
                 <View style={{flex: 1,backgroundColor:'rgb(225, 225, 234)'}}>
                 <ScrollView>
                 <Container style={{flexDirection: 'column',flex:1}}>

@@ -27,5 +27,7 @@ API.searchDevice = (querySearch) =>{
 //
 API.getRepairDevice = (page,size,deviceId) =>{
     return API.instance.get(`repairHistory/getByDevice?page=${page}&size=${size}&deviceId=${deviceId}`)
-                                                    //?page=0&size=20&deviceId=3repairHistory/getByDevice
+}
+API.getDeviceRoom =  (page,size,deviceId) =>{
+    return API.instance.get(`device/search?page=${page}&size=${size}&department=${deviceId}`)
 }
