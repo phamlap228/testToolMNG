@@ -60,7 +60,7 @@ export default class DetaisItem extends React.Component{
                             <Text style={{fontSize:14,color:'black',}}>{info.ampe}</Text>
                         </View>
                         <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
-                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Sức chứa:  </Text>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Công suất:  </Text>
                             <Text style={{fontSize:14,color:'black',}}>{info.capacity}</Text>
                         </View>
                     </Card>
@@ -80,7 +80,7 @@ export default class DetaisItem extends React.Component{
                     </Card>
                     <Card style={{alignItems: 'flex-start',}}>
                         <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
-                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Ngày nhận tiền:  </Text>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Ngày nhập:  </Text>
                             <Text style={{fontSize:14,color:'black',}}>{info.dateIn}</Text>
                         </View>
                         <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>

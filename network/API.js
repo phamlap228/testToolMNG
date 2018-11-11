@@ -31,3 +31,7 @@ API.getRepairDevice = (page,size,deviceId) =>{
 API.getDeviceRoom =  (page,size,deviceId) =>{
     return API.instance.get(`device/search?page=${page}&size=${size}&department=${deviceId}`)
 }
+//171.244.4.48:6969/api/device/delete?deviceId=20
+API.deleteDevice =  (deviceId) =>{
+    return API.instance.get(`device/delete?deviceId=${deviceId}`)
+}

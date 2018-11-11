@@ -54,6 +54,7 @@ addItem(){
     API.addRoom(params).then(
         res=>{
             if(res.data==='Save DONE!'){
+                // console.log("Params"+JSON.stringify(params)+ " \n"+ res.data );
                 alert("Thêm thành công!");
                 this.props.navigation.goBack() 
             }

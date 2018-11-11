@@ -8,6 +8,8 @@ import HeaderContainer from './headerContainer.js';
 import {Actions} from 'react-native-router-flux';
 import {list} from './data.js';
 import axios from 'axios';
+
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import {API} from '../network/API.js';
 
 // var {height, width} = Dimensions.get('window');
@@ -17,6 +19,9 @@ export default class AddScreen extends Component {
   constructor (props){
     super(props);
     this.state = {
+        isDateTimePickerVisibleIn: false,
+        isDateTimePickerVisibleUse: false,
+        isDateTimePickerVisibleReceived: false,
         name: '',
         madeYear:'',
         code:'',
@@ -61,6 +66,36 @@ quaylai=()=>{
         { cancelable: false }
       )
 };
+/*
+            "id": 3,
+            "accessory": null,
+            "ampe": 5,
+            "capacity": 500,
+            "code": "MSA",
+            "createdAt": 1541512994627,
+            "name": "Máy siêu âm",
+            "dateUse": 1541514967,
+            "dateReceived": 1541511367,
+            "dateIn": null,
+            "description": null,
+            "levelQuality": 1,
+            "madeIn": "Japan",
+            "madeYear": 2018,
+            "moneySource": "Từ bệnh viện",
+            "useIn": null,
+            "departmentId": 5,
+            "price": 20000000,
+            "statusReceipt": "Mới",
+            "voltageFrom": 200,
+            "voltageTo": 220,
+            "receiver": "Nguyễn Văn Dũng"
+
+            //
+
+            var date = new Date(item.dateTime);
+            date.getTime();
+            {console.log("giây: "+date.getTime())}
+*/
 addItem(){
     const params={
         name: this.state.name,
@@ -85,10 +120,14 @@ addItem(){
     }
     API.addDevice(params).then(
         res=>{
-            if(res.data==='ADD DONE!'){
-                this.props.navigation.goBack() 
+            if(res.data==='SUCCESS'){
+                alert("Thêm thành công!");
+                this.props.navigation.goBack();
             }
-            else return alert("Chưa thêm được!");
+            else return (
+                // console.log("Params"+JSON.stringify(params)+ " \n"+ JSON.stringify(res) ),//
+                alert("Chưa thêm được!")
+            )
             
         },
         err=>{
@@ -98,6 +137,40 @@ addItem(){
         });
 
 }
+//IN
+_showDateTimePickerIn = () => this.setState({ isDateTimePickerVisibleIn: true });
+
+_hideDateTimePickerIn = () => this.setState({ isDateTimePickerVisibleIn: false });
+
+_handleDatePickedIn = (date) => {
+    var date = new Date(date).getTime();
+    this.setState({
+        dateIn:date
+    });
+  this._hideDateTimePickerIn();
+};
+//_handleDateUsePicked
+_showDateTimePickerUse = () => this.setState({ isDateTimePickerVisibleUse: true });
+
+_hideDateTimePickerUse = () => this.setState({ isDateTimePickerVisibleUse: false });
+_handleDateUsePicked = (date) => {
+    var date = new Date(date).getTime();
+    this.setState({
+        dateUse:date
+    });
+  this._hideDateTimePickerUse();
+};
+//_handleDateReceivedPicked
+_showDateTimePickerReceived = () => this.setState({ isDateTimePickerVisibleReceived: true });
+
+_hideDateTimePickerReceived = () => this.setState({ isDateTimePickerVisibleReceived: false });
+_handleDateReceivedPicked = (date) => {
+    var date = new Date(date).getTime();
+    this.setState({
+        dateReceived:date
+    });
+  this._hideDateTimePickerReceived();
+};
 render(){
     //<StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
     return(
@@ -138,21 +211,30 @@ render(){
                 <Text style={{flex: 0.4,marginLeft:5}}>Nơi sử dụng: </Text>    
                 <TextInput style={styles.textInput} value={this.state.useIn} ref={(input) => { this.TextInput5 = input }}
                 onChangeText={(useIn) => this.setState({useIn})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { this.TextInput6.focus(); }}
+                onSubmitEditing={() => { Keyboard.dismiss() }}
                 />
             </View>
             <View style={styles.containerTextInput}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Ngày Nhận: </Text>    
-                <TextInput style={styles.textInput} value={this.state.dateReceived} ref={(input) => { this.TextInput6 = input }}
-                onChangeText={(dateReceived) => this.setState({dateReceived})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { this.TextInput7.focus(); }}
+                <TouchableHighlight onPress={this._showDateTimePickerReceived} style={styles.timePicker}>
+                <Icon name='calendar' type='font-awesome' size={24} color={backgroundColor} /> 
+                </TouchableHighlight>    
+                <DateTimePicker styles={{}}
+                    isVisible={this.state.isDateTimePickerVisibleReceived}
+                    onConfirm={this._handleDateReceivedPicked}
+                    onCancel={this._hideDateTimePickerReceived}
                 />
             </View>
             <View style={styles.containerTextInput}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Ngày sử dụng:</Text>    
-                <TextInput style={styles.textInput} value={this.state.dateUse} ref={(input) => { this.TextInput7 = input }}
-                onChangeText={(dateUse) => this.setState({dateUse})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { this.TextInput8.focus(); }}
+                
+                <TouchableHighlight onPress={this._showDateTimePickerUse} style={styles.timePicker}>
+                <Icon name='calendar' type='font-awesome' size={24} color={backgroundColor} /> 
+                </TouchableHighlight>    
+                <DateTimePicker styles={{}}
+                    isVisible={this.state.isDateTimePickerVisibleUse}
+                    onConfirm={this._handleDateUsePicked}
+                    onCancel={this._hideDateTimePickerUse}
                 />
             </View>
             <View style={styles.containerTextInput}>
@@ -191,7 +273,7 @@ render(){
                 />
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Khả năng: </Text>    
+                <Text style={{flex: 0.4,marginLeft:5}}>Công suất: </Text>    
                 <TextInput style={styles.textInput} value={this.state.capacity} ref={(input) => { this.TextInput13 = input }}
                 onChangeText={(capacity) => this.setState({capacity})} placeholder='click để nhập..' 
                 onSubmitEditing={() => { this.TextInput14.focus(); }}
@@ -215,15 +297,19 @@ render(){
                 <Text style={{flex: 0.4,marginLeft:5}}>Nguồn tiền: </Text>    
                 <TextInput style={styles.textInput} value={this.state.moneySource} ref={(input) => { this.TextInput16 = input }}
                 onChangeText={(moneySource) => this.setState({moneySource})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { this.TextInput17.focus(); }}
+                onSubmitEditing={() => { Keyboard.dismiss() }}
                 />
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Ngày nhận tiền: </Text>    
-                <TextInput style={styles.textInput} value={this.state.dateIn} placeholder='click để nhập..' 
-                onSubmitEditing={() => { this.TextInput18.focus(); }}
-                onChangeText={(dateIn) => this.setState({dateIn})} ref={(input) => { this.TextInput17 = input }}
-                />
+                <Text style={{flex: 0.4,marginLeft:5}}>Ngày nhập: </Text>
+                <TouchableHighlight onPress={this._showDateTimePickerIn} style={styles.timePicker}>
+                <Icon name='calendar' type='font-awesome' size={24} color={backgroundColor} /> 
+                </TouchableHighlight>    
+                    <DateTimePicker styles={{}}
+                        isVisible={this.state.isDateTimePickerVisibleIn}
+                        onConfirm={this._handleDatePickedIn}
+                        onCancel={this._hideDateTimePickerIn}
+                    />
             </View>
             <View style={styles.containerTextInput}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Trạng thái tiếp nhận: </Text>    
@@ -236,7 +322,7 @@ render(){
                 <Text style={{flex: 0.4,marginLeft:5}}>Chất lượng: </Text>    
                 <TextInput style={styles.textInput} value={this.state.levelQuality} ref={(input) => { this.TextInput19 = input }}
                 onChangeText={(levelQuality) => this.setState({levelQuality})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { Keyboard.dismiss()}}
+                onSubmitEditing={() => { Keyboard.dismiss();console.log("use: "+ this.state.dateIn+"\n dateReceived"+this.state.dateReceived+"\n dateUse"+this.state.dateUse)}}
                 />
             </View>
             <View style={{width: '40%',height: '10%',borderRadius: 10,alignSelf:'center',marginTop:5}}>
@@ -257,11 +343,16 @@ render(){
 }
 
 const styles = StyleSheet.create({
-    textInput:{flex:0.6,backgroundColor:'white',width: '100%',height: '100%',borderWidth:0.5,borderTopRightRadius:10,borderBottomRightRadius:10,},
+    textInput:{flex:0.6,backgroundColor:'white',width: '100%',height: '100%',borderWidth:0.5,
+                borderTopRightRadius:10,borderBottomRightRadius:10,
+    },
     containerTextInput:{
         margin:5,borderTopRightRadius:10,borderBottomRightRadius:10,
         borderTopLeftRadius:10,borderBottomLeftRadius:10,
         backgroundColor:'rgb(230, 230, 230)',height:'4.2%',
         flexDirection: 'row',alignItems:'center',borderWidth:0.5
+    },
+    timePicker:{flex:0.6,backgroundColor:'white',width: '100%',height: '100%',borderWidth:0.5,
+        borderTopRightRadius:10,borderBottomRightRadius:10,justifyContent: 'center'
     }
 })
