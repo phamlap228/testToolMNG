@@ -1,6 +1,7 @@
 
 import React, {  Component } from 'react';
-import { Platform,Alert,StyleSheet,ScrollView,TouchableHighlight,Button, Text, View,StatusBar,Dimensions,Keyboard,TextInput, Image} from 'react-native';
+import { Platform,Alert,StyleSheet,ScrollView,TouchableHighlight,Button,
+     Text, View,StatusBar,Dimensions,Keyboard,TextInput, Picker,Image} from 'react-native';
 // import { Button, Input } from 'native-base';
 import { Icon } from 'react-native-elements';
 import ColorApp from '../config/ColorApp.js';
@@ -26,7 +27,7 @@ export default class AddScreen extends Component {
         madeYear:'',
         code:'',
         madeIn:'',
-        useIn: '',
+        useIn: 'Phòng sét nghiệm',
         dateReceived:'',
         dateUse:'',
         price:'',
@@ -41,7 +42,26 @@ export default class AddScreen extends Component {
         dateIn:'',
         statusReceipt:'',
         levelQuality:'',
-        newList:[]
+        nameRoom:[],
+        selectedRoom:'',
+        validate:true,
+        //
+        checkname:true,
+        checkmadeYear: true,
+        checkcode:true,
+        checkmadeIn:true,
+        checkuseIn: true,
+        checkdateReceived:true,
+        checkdateUse:true,
+        checkprice:true,
+        checkdescription:true,
+        checkvoltageFrom:true,
+        checkvoltageTo:true,
+        checkreceiver:true,
+        checkmoneySource:true,
+        checkdateIn:true,
+        checkstatusReceipt:true,
+        checklevelQuality:true,
     }
 }
 static navigationOptions = () => {
@@ -118,24 +138,72 @@ addItem(){
         statusReceipt:this.state.statusReceipt,
         levelQuality:this.state.levelQuality,
     }
-    API.addDevice(params).then(
-        res=>{
-            if(res.data==='SUCCESS'){
-                alert("Thêm thành công!");
-                this.props.navigation.goBack();
-            }
-            else return (
-                // console.log("Params"+JSON.stringify(params)+ " \n"+ JSON.stringify(res) ),//
-                alert("Chưa thêm được!")
+    if(params.name===""){
+        return  (
+            this.setState({checkname:false,validate:false}),Alert.alert("Chú ý",'Có trường nhập sai, hoặc để trống!')
             )
-            
-        },
-        err=>{
-            console.log(
-                "err"
-            );
-        });
+    }if(params.madeYear===""){
+        this.setState({checkmadeYear:false,validate:false}),Alert.alert("Chú ý",'Có trường nhập sai, hoặc để trống!')
+    }if(params.code===""){
+        return  this.setState({checkcode:false,validate:false}),Alert.alert("Chú ý",'Có trường nhập sai, hoặc để trống!')
+    }if(params.madeIn===""){
+        return  this.setState({checkmadeIn:false,validate:false}),Alert.alert("Chú ý",'Có trường nhập sai, hoặc để trống!')
+    }if(params.useIn===""){
+        return  this.setState({checkuseIn:false,validate:false}),Alert.alert("Chú ý",'Có trường nhập sai, hoặc để trống!')
+    }if(params.dateReceived===""){
+        return  this.setState({checkdateReceived:false,validate:false}),Alert.alert("Chú ý",'Có trường nhập sai, hoặc để trống!')
+    }if(params.dateUse===""){
+        return  this.setState({checkdateUse:false,validate:false}),Alert.alert("Chú ý",'Có trường nhập sai, hoặc để trống!')
+    }if(params.voltageFrom===""){
+        return this.setState({checkvoltageFrom:false,validate:false}),Alert.alert("Chú ý",'Có trường nhập sai, hoặc để trống!')
+    }if(params.voltageTo===""){
+        return this.setState({checkvoltageTo:false,validate:false}),Alert.alert("Chú ý",'Có trường nhập sai, hoặc để trống!')
+    }if(params.receiver===""){
+        return  this.setState({checkreceiver:false,validate:false}),Alert.alert("Chú ý",'Có trường nhập sai, hoặc để trống!')
+    }if(params.dateIn===""){
+        return  this.setState({checkdateIn:false,validate:false}),Alert.alert("Chú ý",'Có trường nhập sai, hoặc để trống!')
+    }if(params.statusReceipt===""){
+        return this.setState({checkstatusReceipt:false,validate:false}),Alert.alert("Chú ý",'Có trường nhập sai, hoặc để trống!')
+    }if(params.levelQuality===""){
+        return this.setState({checklevelQuality:false,validate:false}),Alert.alert("Chú ý",'Có trường nhập sai, hoặc để trống!')
+    }
+    else{
+        API.addDevice(params).then(
+            res=>{
+                if(res.data==='SUCCESS'){
+                    alert("Thêm thành công!");
+                    this.props.navigation.goBack();
+                }
+                else return (
+                    alert("Chưa thêm được!")
+                )
+                
+            },
+            err=>{
+                console.log(
+                    "err"
+                );
+            });
+    }
+    
 
+}
+
+async componentDidMount(){
+    await this.getRoomFromServer();
+}
+getRoomFromServer(){
+
+    API.getListRoom(0,20).then(
+        res => {
+            this.setState({
+                nameRoom: res.data.content,
+            })
+        },
+        err => {
+            console.log('chạy err: '+JSON.stringify(err));
+        }
+    );
 }
 //IN
 _showDateTimePickerIn = () => this.setState({ isDateTimePickerVisibleIn: true });
@@ -172,6 +240,10 @@ _handleDateReceivedPicked = (date) => {
   this._hideDateTimePickerReceived();
 };
 render(){
+    {console.log(JSON.stringify(this.state.nameRoom))}
+    let roomItems = this.state.nameRoom.map( (s, i) => {
+        return <Picker.Item key={i} value={s.name} label={s.name} />
+    });
     //<StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
     return(
         <View style={{flexDirection: 'column',flex: 1}}>
@@ -181,40 +253,43 @@ render(){
         <View style={{flex: 1,backgroundColor:'white',}}>
             <View style={styles.containerTextInput}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Tên thiết bị: </Text>    
-                <TextInput style={styles.textInput} value={this.state.name} ref={(input) => { this.TextInput1 = input }}
+                <TextInput style={[styles.textInput,{borderColor:this.state.checkname===true?"black":"red"}]} value={this.state.name} ref={(input) => { this.TextInput1 = input }}
                 onChangeText={(name) => this.setState({name})} placeholder='click để nhập..' 
                 onSubmitEditing={() => { this.TextInput2.focus(); }}
                 />
             </View>
             <View style={styles.containerTextInput}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Năm sản xuất </Text>    
-                <TextInput style={styles.textInput} value={this.state.madeYear} ref={(input) => { this.TextInput2 = input }}
-                onChangeText={(madeYear) => this.setState({madeYear})} placeholder='click để nhập..' 
+                <TextInput style={[styles.textInput,{borderColor:this.state.checkmadeYear===true?"black":"red"}]} value={this.state.madeYear} ref={(input) => { this.TextInput2 = input }}
+                onChangeText={(madeYear) => this.setState({madeYear})} placeholder='click để nhập..' keyboardType='numeric'
                 onSubmitEditing={() => { this.TextInput3.focus(); }}
                 />
             </View>
             <View style={styles.containerTextInput}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Mã thiết bị: </Text>    
-                <TextInput style={styles.textInput} value={this.state.code} ref={(input) => { this.TextInput3 = input }}
+                <TextInput style={[styles.textInput,{borderColor:this.state.checkcode===true?"black":"red"}]} value={this.state.code} ref={(input) => { this.TextInput3 = input }}
                 onChangeText={(code) => this.setState({code})} placeholder='click để nhập..' 
                 onSubmitEditing={() => { this.TextInput4.focus(); }}
                 />
             </View>
             <View style={styles.containerTextInput}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Nơi sản xuất: </Text>    
-                <TextInput style={styles.textInput} value={this.state.madeIn} ref={(input) => { this.TextInput4 = input }}
+                <TextInput style={[styles.textInput,{borderColor:this.state.checkmadeIn===true?"black":"red"}]} value={this.state.madeIn} ref={(input) => { this.TextInput4 = input }}
                 onChangeText={(madeIn) => this.setState({madeIn})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { this.TextInput5.focus(); }}
+                onSubmitEditing={() => { Keyboard.dismiss()}}
                 />
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Nơi sử dụng: </Text>    
-                <TextInput style={styles.textInput} value={this.state.useIn} ref={(input) => { this.TextInput5 = input }}
-                onChangeText={(useIn) => this.setState({useIn})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { Keyboard.dismiss() }}
-                />
+                <Text style={{flex: 0.4,marginLeft:5}}>Nơi sử dụng: </Text> 
+                <View style={styles.textInput}>
+                    <Picker
+                    selectedValue={this.state.useIn}
+                    onValueChange={ (room) => ( this.setState({useIn:room}) ) } >
+                    {roomItems}
+                </Picker>
+                </View>
             </View>
-            <View style={styles.containerTextInput}>
+            <View style={[styles.containerTextInput,{borderColor:this.state.checkmadeYear===true?"black":"red"}]}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Ngày Nhận: </Text>    
                 <TouchableHighlight onPress={this._showDateTimePickerReceived} style={styles.timePicker}>
                 <Icon name='calendar' type='font-awesome' size={24} color={backgroundColor} /> 
@@ -225,7 +300,7 @@ render(){
                     onCancel={this._hideDateTimePickerReceived}
                 />
             </View>
-            <View style={styles.containerTextInput}>
+            <View style={[styles.containerTextInput,{borderColor:this.state.checkmadeYear===true?"black":"red"}]}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Ngày sử dụng:</Text>    
                 
                 <TouchableHighlight onPress={this._showDateTimePickerUse} style={styles.timePicker}>
@@ -240,7 +315,7 @@ render(){
             <View style={styles.containerTextInput}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Giá:</Text>    
                 <TextInput style={styles.textInput} value={this.state.price} ref={(input) => { this.TextInput8 = input }}
-                onChangeText={(price) => this.setState({price})} placeholder='click để nhập..' 
+                onChangeText={(price) => this.setState({price})} placeholder='click để nhập..' keyboardType='numeric' 
                 onSubmitEditing={() => { this.TextInput9.focus(); }}
                 />
             </View>
@@ -252,23 +327,22 @@ render(){
                 />
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Dòng viện - từ: </Text>    
-                <TextInput style={styles.textInput} value={this.state.voltageFrom} ref={(input) => { this.TextInput10 = input }}
-                onChangeText={(voltageFrom) => this.setState({voltageFrom})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { this.TextInput11.focus(); }}
-                />
-            </View>
-            <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Đến :</Text>    
-                <TextInput style={styles.textInput} value={this.state.voltageTo} ref={(input) => { this.TextInput11 = input }}
-                onChangeText={(voltageTo) => this.setState({voltageTo})} placeholder='click để nhập..' 
+                <Text style={{flex: 0.39,marginLeft:5}}>Dòng viện - từ: </Text>
+                <View style={{flex:0.61,flexDirection:'row',borderWidth:0.5,justifyContent:'center',alignItems: 'center',borderColor:this.state.checkvoltageFrom===true||this.state.checkvoltageTo===true?"black":"red"}}>
+                    <TextInput style={{flex:0.4,borderWidth: 0.5,backgroundColor: 'white'}} value={this.state.voltageFrom} ref={(input) => { this.TextInput10 = input }}
+                onChangeText={(voltageFrom) => this.setState({voltageFrom})} placeholder='nhập..' keyboardType='numeric'
+                onSubmitEditing={() => { this.TextInput11.focus(); }}/>
+                    <Text style={{flex: 0.2,alignItems:'center'}}> đến :</Text> 
+                    <TextInput style={{flex:0.4,borderWidth: 0.5,backgroundColor: 'white',borderTopRightRadius:10,borderBottomRightRadius:10}} value={this.state.voltageTo} ref={(input) => { this.TextInput11 = input }}
+                onChangeText={(voltageTo) => this.setState({voltageTo})} placeholder='nhập..' keyboardType='numeric'
                 onSubmitEditing={() => { this.TextInput12.focus(); }}
                 />
+                </View>
             </View>
             <View style={styles.containerTextInput}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Ampe: </Text>    
                 <TextInput style={styles.textInput} value={this.state.ampe} ref={(input) => { this.TextInput12 = input }}
-                onChangeText={(ampe) => this.setState({ampe})} placeholder='click để nhập..' 
+                onChangeText={(ampe) => this.setState({ampe})} placeholder='click để nhập..' keyboardType='numeric'
                 onSubmitEditing={() => { this.TextInput13.focus(); }}
                 />
             </View>
@@ -288,19 +362,19 @@ render(){
             </View>
             <View style={styles.containerTextInput}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Người nhận: </Text>    
-                <TextInput style={styles.textInput} value={this.state.receiver} ref={(input) => { this.TextInput15 = input }}
+                <TextInput style={[styles.textInput,{borderColor:this.state.checkreceiver===true?"black":"red"}]} value={this.state.receiver} ref={(input) => { this.TextInput15 = input }}
                 onChangeText={(receiver) => this.setState({receiver})} placeholder='click để nhập..' 
                 onSubmitEditing={() => { this.TextInput16.focus(); }}
                 />
             </View>
             <View style={styles.containerTextInput}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Nguồn tiền: </Text>    
-                <TextInput style={styles.textInput} value={this.state.moneySource} ref={(input) => { this.TextInput16 = input }}
+                <TextInput style={[styles.textInput,{borderColor:this.state.checkmoneySource===true?"black":"red"}]} value={this.state.moneySource} ref={(input) => { this.TextInput16 = input }}
                 onChangeText={(moneySource) => this.setState({moneySource})} placeholder='click để nhập..' 
                 onSubmitEditing={() => { Keyboard.dismiss() }}
                 />
             </View>
-            <View style={styles.containerTextInput}>
+            <View style={[styles.containerTextInput,{borderColor:this.state.checkdateIn===true?"black":"red"}]}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Ngày nhập: </Text>
                 <TouchableHighlight onPress={this._showDateTimePickerIn} style={styles.timePicker}>
                 <Icon name='calendar' type='font-awesome' size={24} color={backgroundColor} /> 
@@ -313,14 +387,14 @@ render(){
             </View>
             <View style={styles.containerTextInput}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Trạng thái tiếp nhận: </Text>    
-                <TextInput style={styles.textInput} value={this.state.statusReceipt} ref={(input) => { this.TextInput18 = input }}
+                <TextInput style={[styles.textInput,{borderColor:this.state.checkstatusReceipt===true?"black":"red"}]} value={this.state.statusReceipt} ref={(input) => { this.TextInput18 = input }}
                 onChangeText={(statusReceipt) => this.setState({statusReceipt})} placeholder='click để nhập..' 
                 onSubmitEditing={() => { this.TextInput19.focus(); }}
                 />
             </View>
             <View style={styles.containerTextInput}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Chất lượng: </Text>    
-                <TextInput style={styles.textInput} value={this.state.levelQuality} ref={(input) => { this.TextInput19 = input }}
+                <TextInput style={[styles.textInput,{borderColor:this.state.checklevelQuality===true?"black":"red"}]} value={this.state.levelQuality} ref={(input) => { this.TextInput19 = input }}
                 onChangeText={(levelQuality) => this.setState({levelQuality})} placeholder='click để nhập..' 
                 onSubmitEditing={() => { Keyboard.dismiss();console.log("use: "+ this.state.dateIn+"\n dateReceived"+this.state.dateReceived+"\n dateUse"+this.state.dateUse)}}
                 />
