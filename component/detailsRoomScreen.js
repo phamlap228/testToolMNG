@@ -37,19 +37,19 @@ class DetailsRoomScreen extends React.Component{
                             <Icon name="times" type='font-awesome' color="white" marginLeft={5}/>
                         </TouchableHighlight>
                     <Text style={{fontWeight: 'bold',fontSize: 16,alignItems: 'center',justifyContent:'center',color:'white'}}>
-                        Chi tiết phòng
+                        Chi tiết Khoa
                     </Text>
                     </View>
                     
                     <Tabs tabBarPosition='bottom'>
                         <Tab  heading={<TabHeading style={{backgroundColor: 'rgb(153, 0, 255)',flexDirection:'column'}}>
                         <Icon name="info" type='font-awesome' color='white' />
-                        <Text style={{color:'white', marginLeft: 5}}>Chi tiết phòng</Text></TabHeading>}>
+                        <Text style={{color:'white', marginLeft: 5}}>Chi tiết Khoa</Text></TabHeading>}>
                             <DetailsRoom data={info} />
                         </Tab>
                         <Tab  heading={<TabHeading style={{backgroundColor: 'rgb(153, 0, 255)',flexDirection:'column'}}>
                         <Icon name="align-center" type='font-awesome' color='white' />
-                        <Text style={{color:'white', marginLeft: 5}}>Thiết bị phòng</Text></TabHeading>}>
+                        <Text style={{color:'white', marginLeft: 5}}>Thiết bị Khoa</Text></TabHeading>}>
                             <ListDeviceRoom data={info} />
                         </Tab>
                 </Tabs>

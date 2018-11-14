@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {   Container,  Header, Switch,Title, 
     Content, Button,Footer, FooterTab,Left, Right, Body, Drawer} from 'native-base';
-import {View,Text,TouchableHighlight,StyleSheet,Image,ScrollView,FlatList,Picker,TouchableOpacity,StatusBar } from 'react-native';
+import {View,Text,TouchableHighlight,StyleSheet,Image,ScrollView,Alert,FlatList,Picker,TouchableOpacity,StatusBar } from 'react-native';
 import HeaderContainer from './headerContainer.js';
 import SearchInput, { createFilter } from 'react-native-search-filter';
 import {AddScreen} from './ScreenName.js';
@@ -10,6 +10,8 @@ import ColorApp from '../config/ColorApp.js';
 import {list} from './data.js'
 import {axios} from 'axios';
 import {API} from '../network/API.js';
+import Swipeout from 'react-native-swipeout';
+
 const backgroundColor='#007256';
 class RoomScreen extends React.Component{
     constructor (props){
@@ -18,11 +20,12 @@ class RoomScreen extends React.Component{
             data:[],
             searchTerm: '',
             searchType:'name',
-            loading:true
+            loading:true,
+            keyItem:null,
         }
     }
     static navigationOptions = () => {
-        let drawerLabel = 'Phòng'
+        let drawerLabel = 'Khoa'
         let drawerIcon = () =>(
             <Icon name='align-center' type='font-awesome' size={24} color='#007256' /> 
         );
@@ -44,12 +47,41 @@ class RoomScreen extends React.Component{
             }
         );
     }
+
     gotoDetails=(item)=>{
         this.props.navigation.navigate('DetailsRoomScreen', {data:item});
     }
     render(){
-const KEYS_TO_FILTERS =this.state.searchType;
-    const filteredEmails = this.state.data.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
+        const swipeSettings={
+            autoClose:true,
+            onClose: ()=>{this.setState({keyItem:null})},
+            onOpen:()=>{this.setState({keyItem:this.state.data.id})},
+            right: [
+                { onPress: ()=>{
+                    Alert.alert(
+                        "Xác nhận","Xóa Khoa này ?",[
+                            {text:'No',onPress:()=>{}},
+                            {text:'Yes',onPress:()=>{
+                                API.deleteDevice(this.state.keyItem).then(
+                                    res => {
+                                        console.log("ok "+res);
+                                    },
+                                    err => {
+                                        console.log('chạy err: '+JSON.stringify(err));
+                                    }
+                                );
+                            }}
+                        ]
+                    );
+                },
+                  text: 'Xóa'
+                }
+              ],
+            rowID:this.state.data.id,
+        }
+        
+        const KEYS_TO_FILTERS =this.state.searchType;
+        const filteredEmails = this.state.data.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
     return (
         <View style={{flex:1}}>
         <StatusBar backgroundColor={ColorApp.statusBarColor} barStyle="light-content" />
@@ -73,6 +105,7 @@ const KEYS_TO_FILTERS =this.state.searchType;
         <ScrollView>
             {filteredEmails.map(email => {
             return (
+                <Swipeout {...swipeSettings}>
                 <View>
                     {console.log(this.state.searchType)}
                     <ListItem
@@ -96,6 +129,7 @@ const KEYS_TO_FILTERS =this.state.searchType;
                         rightIcon={<View/>}
                     />
                 </View>
+                </Swipeout>
                 )
             })}
         </ScrollView>

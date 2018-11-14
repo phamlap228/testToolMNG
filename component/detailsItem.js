@@ -101,6 +101,10 @@ export default class DetaisItem extends React.Component{
                             <Text style={{fontSize:14,color:'black',width:'50%',}}>Nơi sx: </Text>
                             <Text style={{fontSize:14,color:'black',width:'50%',}}>{info.madeIn}</Text>
                         </View>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>Số máy: </Text>
+                            <Text style={{fontSize:14,color:'black',width:'50%',}}>{info.madeIn}</Text>
+                        </View>
                     </Card>
                 </Container>
                 </ScrollView>

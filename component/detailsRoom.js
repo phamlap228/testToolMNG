@@ -90,7 +90,7 @@ import {API} from '../network/API.js';
                 <Container style={{flexDirection: 'column',flex:1}}>
                     <Card style={{alignItems: 'flex-start',width: '100%'}}>
                         <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
-                            <Text style={{fontSize:14,color:'black',width:'46%',alignSelf:'center'}}>Tên phòng: </Text>
+                            <Text style={{fontSize:14,color:'black',width:'46%',alignSelf:'center'}}>Tên Khoa: </Text>
                             <TextInput editable={this.state.showInputName} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
                              placeholder={info.name} ref={(name) => { this.TextInput1 = name }}
                              onChangeText={(name) => this.setState({name})}/>
@@ -107,7 +107,7 @@ import {API} from '../network/API.js';
                     </Card>
                     <Card>
                         <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
-                            <Text style={{fontSize:14,color:'black',width:'46%',alignSelf:'center'}}>Mã phòng: </Text>
+                            <Text style={{fontSize:14,color:'black',width:'46%',alignSelf:'center'}}>Mã Khoa: </Text>
                             <TextInput editable={this.state.showInputCode} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
                              placeholder={info.code} ref={(code) => { this.TextInput2 = code }}
                              onChangeText={(code) => this.setState({code})}/>
@@ -124,7 +124,7 @@ import {API} from '../network/API.js';
                     </Card>
                     <Card style={{alignItems: 'flex-start',}}>
                         <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
-                            <Text style={{fontSize:14,color:'black',width:'46%',alignSelf:'center'}}>Trưởng phòng: </Text>
+                            <Text style={{fontSize:14,color:'black',width:'46%',alignSelf:'center'}}>Trưởng Khoa: </Text>
                             <TextInput editable={this.state.showInputmanager} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
                              placeholder={info.manager} ref={(manager) => { this.TextInput3 = manager }}
                              onChangeText={(manager) => this.setState({manager})}/>

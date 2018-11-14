@@ -1,6 +1,6 @@
 
 import React, {  Component } from 'react';
-import { Platform,Alert,StyleSheet,ScrollView,Keyboard,TextInput,TouchableOpacity,Button, Text, View,StatusBar,Dimensions, Image} from 'react-native';
+import { Platform,Alert,StyleSheet,ScrollView,Keyboard,TextInput,TouchableHighlight,Button, Text, View,StatusBar,Dimensions, Image} from 'react-native';
 // import { Button, Input } from 'native-base';
 import { Icon, Card } from 'react-native-elements';
 import HeaderContainer from './headerContainer.js';
@@ -74,25 +74,34 @@ render(){
     return(
         <View style={{flexDirection: 'column',flex: 1}}>
         <StatusBar backgroundColor={ColorApp.statusBarColor} barStyle="light-content" />
-        <HeaderContainer {...this.props} header='Thêm mới thiết bị'/>
+        <View style ={{backgroundColor:ColorApp.headerColor,width:'100%',flexDirection: 'row',
+                    justifyContent:'center',alignItems: 'center',height:'8%',alignSelf: 'flex-start'}}>
+                    <TouchableHighlight style={{left: 10,alignItems: 'center',position:'absolute'}}  
+                            onPress={() => this.props.navigation.goBack()}>
+                            <Icon name="times" type='font-awesome' color="white" marginLeft={5}/>
+                        </TouchableHighlight>
+                        <Text style={{fontWeight: 'bold',fontSize: 16,alignItems: 'center',justifyContent:'center',color:'white'}}>
+                            Thêm Khoa
+                        </Text>
+                    </View>
         <ScrollView style={{backgroundColor:'white',}}>
         <View style={{flex: 1,backgroundColor:'white',}}>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Tên phòng: </Text>    
+                <Text style={{flex: 0.4,marginLeft:5}}>Tên Khoa: </Text>    
                 <TextInput style={styles.textInput} value={this.state.name} ref={(input) => { this.TextInput1 = input }}
                 onChangeText={(name) => this.setState({name})} placeholder='click để nhập..' 
                 onSubmitEditing={() => { this.TextInput2.focus(); }}
                 />
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Trường phòng: </Text>    
+                <Text style={{flex: 0.4,marginLeft:5}}>Trường Khoa: </Text>    
                 <TextInput style={styles.textInput} value={this.state.manager} ref={(input) => { this.TextInput2 = input }}
                 onChangeText={(manager) => this.setState({manager})} placeholder='click để nhập..' 
                 onSubmitEditing={() => { this.TextInput3.focus(); }}
                 />
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Mã phòng: </Text>    
+                <Text style={{flex: 0.4,marginLeft:5}}>Mã Khoa: </Text>    
                 <TextInput style={styles.textInput} value={this.state.code} ref={(input) => { this.TextInput3 = input }}
                 onChangeText={(code) => this.setState({code})} placeholder='click để nhập..' 
                 onSubmitEditing={() => { Keyboard.dismiss(); }}

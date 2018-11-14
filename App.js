@@ -33,9 +33,7 @@ let routerConfigs = {
     path:'/room',
     screen:RoomScreen,
   },
-  AddRoom:{
-    screen: AddRoomScreen
-  }
+  
 };
 let drawerNavigatorConfig = {
   initialRouterName:Main,
@@ -49,6 +47,7 @@ const Drawer = DrawerNavigator(routerConfigs,drawerNavigatorConfig);
 const App = StackNavigator(
   {
     Drawer: { screen: Drawer, navigationOptions:() => ({ header:null}) },
+    AddRoom:{screen: AddRoomScreen, navigationOptions:() => ({ header:null})},
     Details:{ screen:DetailsScreen, navigationOptions:() => ({ header:null}) },
     DetailsRoomScreen:{ screen:DetailsRoomScreen, navigationOptions:() => ({ header:null}) },
   }

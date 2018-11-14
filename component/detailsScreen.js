@@ -27,15 +27,15 @@ class DetailsScreen extends React.Component{
         const info = this.props.navigation.state.params.data;
         return(
                 <View style={{flex: 1}}>
-                <View style ={{backgroundColor:ColorApp.headerColor,width:'100%',flexDirection: 'row',
+                    <View style ={{backgroundColor:ColorApp.headerColor,width:'100%',flexDirection: 'row',
                     justifyContent:'center',alignItems: 'center',height:'8%',alignSelf: 'flex-start'}}>
                     <TouchableHighlight style={{left: 10,alignItems: 'center',position:'absolute'}}  
                             onPress={() => this.props.navigation.goBack()}>
                             <Icon name="times" type='font-awesome' color="white" marginLeft={5}/>
                         </TouchableHighlight>
-                    <Text style={{fontWeight: 'bold',fontSize: 16,alignItems: 'center',justifyContent:'center',color:'white'}}>
-                        Chi tiết sản phẩm
-                    </Text>
+                        <Text style={{fontWeight: 'bold',fontSize: 16,alignItems: 'center',justifyContent:'center',color:'white'}}>
+                            Chi tiết sản phẩm
+                        </Text>
                     </View>
                     <Tabs tabBarPosition='bottom'>
                         <Tab  heading={<TabHeading style={{backgroundColor: 'rgb(153, 0, 255)',flexDirection:'column'}}>
