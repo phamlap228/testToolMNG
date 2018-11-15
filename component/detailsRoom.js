@@ -2,7 +2,7 @@ import React,{Comment} from 'react';
 import {Container} from 'native-base';
 import {View,StyleSheet,TextInput,FlatList,Text,ScrollView,Image,Dimensions} from 'react-native';
 import { ListItem, Card, Icon } from 'react-native-elements';
-
+import {DeviceEventEmitter} from 'react-native'
 import {API} from '../network/API.js';
  var {width,height} = Dimensions.get('window');
  export default class DetaisRoom extends React.Component{
@@ -42,15 +42,15 @@ import {API} from '../network/API.js';
             }
         );
     }
-    _renderIconSua = ()=>{
-        if(this.state.showIconEdit){
-            return <Icon name='edit'  color='rgb(200, 203, 209)' size={24}/>
-        }
-        else {
-          return <Icon name='check' type='font-awesome' color='rgb(200, 203, 209)' size={24} />
-        }
+    // _renderIconSua = ()=>{
+    //     if(this.state.showIconEdit){
+    //         return <Icon name='edit'  color='rgb(200, 203, 209)' size={24}/>
+    //     }
+    //     else {
+    //       return <Icon name='check' type='font-awesome' color='rgb(200, 203, 209)' size={24} />
+    //     }
         
-    }
+    // }
     addRoomEdit=()=>{
         const params={
             id:this.props.data.id,
@@ -67,8 +67,8 @@ import {API} from '../network/API.js';
                         showInputName:false,
                         showInputCode:false,
                         showInputmanager:false,
-                    })
-                    alert("Thêm thành công!");
+                    },()=>{alert("Thêm thành công!");})
+                    
                     
                 }
                 else return alert("Chưa thêm được!");

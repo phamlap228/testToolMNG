@@ -8,6 +8,7 @@ import ColorApp from '../config/ColorApp.js';
 import {Actions} from 'react-native-router-flux';
 import {list} from './data.js';
 import axios from 'axios';
+import {DeviceEventEmitter} from 'react-native'
 import {API} from '../network/API.js';
 // import { Input } from 'native-base';
 
@@ -54,8 +55,7 @@ addItem(){
     API.addRoom(params).then(
         res=>{
             if(res.data==='Save DONE!'){
-                // console.log("Params"+JSON.stringify(params)+ " \n"+ res.data );
-                alert("Thêm thành công!");
+                Alert.alert("Note","Thêm thành công!");
                 this.props.navigation.goBack() 
             }
             else return alert("Chưa thêm được!");
@@ -77,7 +77,9 @@ render(){
         <View style ={{backgroundColor:ColorApp.headerColor,width:'100%',flexDirection: 'row',
                     justifyContent:'center',alignItems: 'center',height:'8%',alignSelf: 'flex-start'}}>
                     <TouchableHighlight style={{left: 10,alignItems: 'center',position:'absolute'}}  
-                            onPress={() => this.props.navigation.goBack()}>
+                            onPress={() =>{
+                                this.props.navigation.goBack()
+                            } }>
                             <Icon name="times" type='font-awesome' color="white" marginLeft={5}/>
                         </TouchableHighlight>
                         <Text style={{fontWeight: 'bold',fontSize: 16,alignItems: 'center',justifyContent:'center',color:'white'}}>

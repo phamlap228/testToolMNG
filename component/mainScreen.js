@@ -65,9 +65,21 @@ class MainScreen extends React.Component{
     gotoDetails=(item)=>{
         this.props.navigation.navigate('Details', {data:item});
     }
+    _renderIconSua = ()=>{
+        if(this.state.showIconEdit){
+            return <Icon name='edit'  color='rgb(200, 203, 209)' size={24}/>
+        }
+        else {
+          return <Icon name='check' type='font-awesome' color='rgb(200, 203, 209)' size={24} />
+        }
+        
+    }
   render() {
     const KEYS_TO_FILTERS =this.state.searchType;
+    //listDevice
     const filteredEmails = this.state.data.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
+    // const filteredEmails = listDevice.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
+    
     return (
         <View style={{flex:1}}>
         <StatusBar backgroundColor={ColorApp.statusBarColor} barStyle="light-content" />

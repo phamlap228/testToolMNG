@@ -11,6 +11,7 @@ import {list} from './data.js'
 import {axios} from 'axios';
 import {API} from '../network/API.js';
 import Swipeout from 'react-native-swipeout';
+import {NavigationActions}from 'react-navigation';
 
 const backgroundColor='#007256';
 class RoomScreen extends React.Component{
@@ -20,7 +21,7 @@ class RoomScreen extends React.Component{
             data:[],
             searchTerm: '',
             searchType:'name',
-            loading:true,
+            loading:false,
             keyItem:null,
         }
     }
@@ -47,45 +48,22 @@ class RoomScreen extends React.Component{
             }
         );
     }
-
+    refreshFunction () {
+        //do refresh
+        this.getDataFromServer();
+     }
     gotoDetails=(item)=>{
         this.props.navigation.navigate('DetailsRoomScreen', {data:item});
+        // this.props.navigation.reset([NavigationActions.navigate('DetailsRoomScreen', {data:item},{refresh: refreshFunction})], 0)
     }
+
     render(){
-        const swipeSettings={
-            autoClose:true,
-            onClose: ()=>{this.setState({keyItem:null})},
-            onOpen:()=>{this.setState({keyItem:this.state.data.id})},
-            right: [
-                { onPress: ()=>{
-                    Alert.alert(
-                        "Xác nhận","Xóa Khoa này ?",[
-                            {text:'No',onPress:()=>{}},
-                            {text:'Yes',onPress:()=>{
-                                API.deleteDevice(this.state.keyItem).then(
-                                    res => {
-                                        console.log("ok "+res);
-                                    },
-                                    err => {
-                                        console.log('chạy err: '+JSON.stringify(err));
-                                    }
-                                );
-                            }}
-                        ]
-                    );
-                },
-                  text: 'Xóa'
-                }
-              ],
-            rowID:this.state.data.id,
-        }
-        
         const KEYS_TO_FILTERS =this.state.searchType;
         const filteredEmails = this.state.data.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
     return (
         <View style={{flex:1}}>
         <StatusBar backgroundColor={ColorApp.statusBarColor} barStyle="light-content" />
-        <HeaderContainer {...this.props} header='Danh sách Phòng'/>
+        <HeaderContainer {...this.props} header='Danh sách Khoa'/>
         <View style={{width:'100%',height:50,flexDirection:'row'}}>
             <SearchInput 
                 onChangeText={(term) => { this.searchUpdated(term) }} 
@@ -105,7 +83,40 @@ class RoomScreen extends React.Component{
         <ScrollView>
             {filteredEmails.map(email => {
             return (
-                <Swipeout {...swipeSettings}>
+                <Swipeout rowId={email.id}  autoClose={true}
+            onClose={()=>{this.setState({keyItem:null})}}
+            onOpen={()=>{this.setState({keyItem:email.id})}}
+            right={[
+                { onPress: ()=>{
+                    Alert.alert(
+                        "Xác nhận","Xóa Khoa này ?",[
+                            {text:'No',onPress:()=>{}},
+                            {text:'Yes',onPress:()=>{
+                                API.deleteRoom(email.id).then(
+                                    res => {
+                                        if (res.data==="SUCCESS"){
+                                            alert('Đã xóa');
+                                            this.getDataFromServer()
+                                            
+                                        }
+                                        else alert('lỗi');
+                                        
+                                    },
+                                    err => {
+                                        // console.log('chạy err: '+JSON.stringify(err));
+                                        alert('lỗi');
+                                    }
+                                );
+                            }}
+                        ]
+                    );
+                },
+                  text: 'Xóa'
+                }
+              ]} 
+                //
+                
+                >
                 <View>
                     {console.log(this.state.searchType)}
                     <ListItem
