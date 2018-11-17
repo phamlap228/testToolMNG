@@ -86,7 +86,7 @@ import {API} from '../network/API.js';
             <View style={{width:'100%',height:'100%'}}>
             <Image style={{width:'100%',height:'40%' }} source={require('../images/icon_room.jpg')}/>
             <View style={{flex: 1,backgroundColor:'rgb(225, 225, 234)'}}>
-            <ScrollView>
+            <ScrollView style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}>
                 <Container style={{flexDirection: 'column',flex:1}}>
                     <Card style={{alignItems: 'flex-start',width: '100%'}}>
                         <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
@@ -98,10 +98,12 @@ import {API} from '../network/API.js';
                                 (<Icon name='edit'  color='rgb(200, 203, 209)' size={24} onPress={()=>{
                                     this.setState({showIconEditName:!this.state.showIconEditName,showInputName:true},()=>{
                                         this.TextInput1.focus();
+                                        
                                     })
                                 }}/>)
                                 : <Icon name='check' color='rgb(200, 203, 209)' size={24} onPress={()=>{
                                     this.addRoomEdit();
+                                    this.setState({showIconEditName:!this.state.showIconEditName,showInputName:false})
                                 }}/>}
                         </View>
                     </Card>
@@ -119,6 +121,7 @@ import {API} from '../network/API.js';
                                 }}/>)
                                 : <Icon name='check' color='rgb(200, 203, 209)' size={24} onPress={()=>{
                                     this.addRoomEdit();
+                                    this.setState({showIconEditCode:!this.state.showIconEditCode,showInputCode:false})
                                 }}/>}
                         </View>
                     </Card>
@@ -136,6 +139,7 @@ import {API} from '../network/API.js';
                                 }}/>)
                                 : <Icon name='check' color='rgb(200, 203, 209)' size={24} onPress={()=>{
                                     this.addRoomEdit();
+                                    this.setState({showIconEditManager:!this.state.showIconEditManager,showInputmanager:false})
                                 }}/>}
                         </View>
                         

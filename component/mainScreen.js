@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {   Container,  Header, Switch,Title, 
     Content, Button,Footer, FooterTab,Left, Right, Body, Drawer} from 'native-base';
-import {View,Text,TouchableHighlight,StyleSheet,Image,ScrollView,FlatList,Picker,TouchableOpacity,StatusBar } from 'react-native';
+import {View,Text,TouchableHighlight,Alert,StyleSheet,Image,ScrollView,FlatList,Picker,TouchableOpacity,StatusBar } from 'react-native';
 import HeaderContainer from './headerContainer.js';
 import SearchInput, { createFilter } from 'react-native-search-filter';
 import {AddScreen} from './ScreenName.js';
@@ -10,6 +10,7 @@ import ColorApp from '../config/ColorApp.js';
 import {list} from './data.js'
 import {axios} from 'axios';
 import {API} from '../network/API.js';
+import Swipeout from 'react-native-swipeout';
 import _ from 'lodash';
 import {listDevice} from './data.js'
 const backgroundColor='#007256';
@@ -21,7 +22,8 @@ class MainScreen extends React.Component{
             data:[],
             searchTerm: '',
             searchType:'name',
-            loading:true
+            loading:true,
+            keyItem:null,
         }
       }
       searchUpdated(term) {
@@ -96,13 +98,44 @@ class MainScreen extends React.Component{
                 selectedValue={this.state.searchType}
                 style={{width:'40%',end:0,position:'absolute'}}
                 onValueChange={(itemValue, itemIndex) => this.setState({searchType: itemValue})}>
-                <Picker.Item label="Người nhận" value="receiver" />
-                <Picker.Item label="Tên" value="name" />
+                <Picker.Item label="Khoa" value="department" />
+                <Picker.Item label="Tên thiết bị" value="name" />
             </Picker>
         </View>
         <ScrollView>
             {filteredEmails.map(email => {
             return (
+                <Swipeout rowId={email.id}  autoClose={true}
+            onClose={()=>{this.setState({keyItem:null})}}
+            onOpen={()=>{this.setState({keyItem:email.id})}}
+            right={[
+                { onPress: ()=>{
+                    Alert.alert(
+                        "Xác nhận","Xóa thiết bị này ?",[
+                            {text:'No',onPress:()=>{}},
+                            {text:'Yes',onPress:()=>{
+                                API.deleteDevice(email.id).then(
+                                    res => {
+                                        if (res.data==="SUCCESS"){
+                                            alert('Đã xóa');
+                                            this.getDataFromServer()
+                                            
+                                        }
+                                        else alert('lỗi');
+                                        
+                                    },
+                                    err => {
+                                        // console.log('chạy err: '+JSON.stringify(err));
+                                        alert('lỗi');
+                                    }
+                                );
+                            }}
+                        ]
+                    );
+                },
+                  text: 'Xóa'
+                }
+              ]}>
                 <View>
                     {console.log(this.state.searchType)}
                     <ListItem
@@ -120,12 +153,13 @@ class MainScreen extends React.Component{
                         subtitle={
                         <View style={styles.subtitleView}>
                             <Text numberOfLines={2} style={{color: 'black',margin:5}}>{email.description}</Text>
-                            <Text numberOfLines={1} style={{ marginTop: 10,}}>{email.receiver}</Text>
+                            <Text numberOfLines={1} style={{ marginTop: 10,}}>{email.department}</Text>
                         </View>
                         }
                         rightIcon={<View/>}
                     />
                 </View>
+                </Swipeout>
                 )
             })}
         </ScrollView>

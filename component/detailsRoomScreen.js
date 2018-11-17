@@ -47,11 +47,6 @@ class DetailsRoomScreen extends React.Component{
                         <Text style={{color:'white', marginLeft: 5}}>Chi tiết Khoa</Text></TabHeading>}>
                             <DetailsRoom data={info} />
                         </Tab>
-                        <Tab  heading={<TabHeading style={{backgroundColor: 'rgb(153, 0, 255)',flexDirection:'column'}}>
-                        <Icon name="align-center" type='font-awesome' color='white' />
-                        <Text style={{color:'white', marginLeft: 5}}>Thiết bị Khoa</Text></TabHeading>}>
-                            <ListDeviceRoom data={info} />
-                        </Tab>
                 </Tabs>
                 
             </View>

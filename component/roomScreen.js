@@ -113,10 +113,7 @@ class RoomScreen extends React.Component{
                 },
                   text: 'Xóa'
                 }
-              ]} 
-                //
-                
-                >
+              ]}>
                 <View>
                     {console.log(this.state.searchType)}
                     <ListItem

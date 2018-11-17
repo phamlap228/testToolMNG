@@ -42,6 +42,7 @@ export default class AddScreen extends Component {
         dateIn:'',
         statusReceipt:'',
         levelQuality:'',
+        number:null,
         nameRoom:[],
         selectedRoom:'',
         validate:true,
@@ -137,6 +138,7 @@ addItem(){
         dateIn:this.state.dateIn,
         statusReceipt:this.state.statusReceipt,
         levelQuality:this.state.levelQuality,
+        number:this.state.number,
     }
     if(params.name===""){
         return  (
@@ -249,7 +251,8 @@ render(){
         <View style={{flexDirection: 'column',flex: 1}}>
         <StatusBar backgroundColor={ColorApp.statusBarColor} barStyle="light-content" />
         <HeaderContainer {...this.props} header='Thêm mới thiết bị'/>
-        <ScrollView style={{}}>
+        <View style={{flex:1}}>
+        <ScrollView style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}>
         <View style={{flex: 1,backgroundColor:'white',}}>
             <View style={styles.containerTextInput}>
                 <Text style={{flex: 0.4,marginLeft:5}}>Tên thiết bị: </Text>    
@@ -396,7 +399,14 @@ render(){
                 <Text style={{flex: 0.4,marginLeft:5}}>Chất lượng: </Text>    
                 <TextInput style={[styles.textInput,{borderColor:this.state.checklevelQuality===true?"black":"red"}]} value={this.state.levelQuality} ref={(input) => { this.TextInput19 = input }}
                 onChangeText={(levelQuality) => this.setState({levelQuality})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { Keyboard.dismiss();console.log("use: "+ this.state.dateIn+"\n dateReceived"+this.state.dateReceived+"\n dateUse"+this.state.dateUse)}}
+                onSubmitEditing={() => { this.TextInput20.focus(); }}
+                />
+            </View>
+            <View style={styles.containerTextInput}>
+                <Text style={{flex: 0.4,marginLeft:5}}>Số máy: </Text>    
+                <TextInput style={styles.textInput} value={this.state.levelQuality} ref={(input) => { this.TextInput20 = input }}
+                onChangeText={(levelQuality) => this.setState({levelQuality})} placeholder='click để nhập..' 
+                onSubmitEditing={() => { Keyboard.dismiss()}}
                 />
             </View>
             <View style={{width: '40%',height: '10%',borderRadius: 10,alignSelf:'center',marginTop:5}}>
@@ -408,7 +418,7 @@ render(){
            
         </View>
         </ScrollView>
-        
+        </View>
         </View>
         
         )
