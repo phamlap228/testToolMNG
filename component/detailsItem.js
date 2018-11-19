@@ -1,7 +1,7 @@
 import React,{Comment} from 'react';
 import {Container,Card,CardItem} from 'native-base';
 import { ListItem, Icon } from 'react-native-elements';
-import {View,StyleSheet,Text,ScrollView,Image,TextInput,Alert,TouchableHighlight,} from 'react-native';
+import {View,StyleSheet,Text,ScrollView,Image,TextInput,Alert,TouchableHighlight,Picker} from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import {API} from '../network/API.js';
 // import { Icon } from 'react-native-elements';
@@ -18,7 +18,7 @@ export default class DetaisItem extends React.Component{
             madeYear:'',
             code:'',
             madeIn:'',
-            useIn: '',
+            useIn: this.props.data.useIn,
             dateReceived:'',
             dateUse:'',
             price:'',
@@ -36,6 +36,7 @@ export default class DetaisItem extends React.Component{
             department:'',
             selectedRoom:'',
             number:null,
+            nameRoom:[],
             //
             showIconEditName:false,
             enableEditName:false,
@@ -122,9 +123,25 @@ export default class DetaisItem extends React.Component{
             }
         );
     }
-    _hideDateTimePickerRe=()=>{this.setState({visibleDateIn:false})}
+    async componentDidMount(){
+        await this.getRoomFromServer();
+    }
+    getRoomFromServer(){
+    
+        API.getListRoom(0,20).then(
+            res => {
+                this.setState({
+                    nameRoom: res.data.content,
+                })
+            },
+            err => {
+                console.log('chạy err: '+JSON.stringify(err));
+            }
+        );
+    }
+    _hideDateTimePickerRe=()=>{this.setState({visibleDateRe:false})}
     _hideDateTimePickerUse=()=>{this.setState({visibleDateUse:false})}
-    _hideDateTimePickerIn=()=>{this.setState({visibleDateRe:false})}
+    _hideDateTimePickerIn=()=>{this.setState({visibleDateIn:false})}
     _handleDatePickedRe=(date)=>{
         var date = new Date(date).getTime();
         this.setState({dateReceived:date});
@@ -148,15 +165,17 @@ export default class DetaisItem extends React.Component{
        var dateReceivedNew = new Date(this.state.dateReceived).toLocaleDateString();
        var dateUseNew = new Date(this.state.dateUse).toLocaleDateString();
        var dateInNew = new Date(this.state.dateIn).toLocaleDateString();
+       let roomItems = this.state.nameRoom.map( (s, i) => {
+        return <Picker.Item key={i} value={s.name} label={s.name} />
+    });
+    //<Image style={{width:'100%',height:'40%' }} source={require('../images/icon_butchi.jpg')}/>backgroundColor:'rgb(230, 230, 230)',
         return(
                 <View style={{width:'100%',height:'100%'}}>
-                <Image style={{width:'100%',height:'40%' }} source={require('../images/icon_butchi.jpg')}/>
-                <View style={{flex: 1,backgroundColor:'rgb(225, 225, 234)'}}>
+                <View style={{flex: 1,backgroundColor:'white'}}>
                 <ScrollView style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}>
-                    <Card style={{alignItems: 'flex-start',width: '100%'}}>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth:1,borderColor:"#45D0E3",borderRadius:5,margin:5,justifyContent:'center',alignItems:'center'}}>
                             <Text style={{fontSize:14,color:'black',width:'45%',}}>Tên thiết bị: </Text>
-                            <TextInput editable={this.state.enableEditName} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
+                            <TextInput editable={this.state.enableEditName} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderWidth:0.5}}
                              placeholder={info.name} ref={(name) => { this.TextInput1 = name }}
                              onChangeText={(name) => this.setState({name})}/>
                             {!this.state.showIconEditName? 
@@ -170,9 +189,10 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditName:!this.state.showIconEditName,enableEditName:false})
                                 }}/>}
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,justifyContent:'center'
+                        ,alignItems:'center',borderColor:"#45D0E3",borderRadius:5,margin:5}}>
                             <Text style={{fontSize:14,color:'black',width:'45%',}}>Mã thiết bị: </Text>
-                            <TextInput editable={this.state.enableEditCode} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
+                            <TextInput editable={this.state.enableEditCode} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderWidth:0.5}}
                              placeholder={info.code} ref={(code) => { this.TextInput2 = code }}
                              onChangeText={(code) => this.setState({code})}/>
 
@@ -187,31 +207,26 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditCode:!this.state.showIconEditCode,enableEditCode:false})
                                 }}/>}
                         </View>
-                    </Card>
-                    <Card style={{alignItems: 'flex-start',}}>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Nơi sd: </Text>
-                            <TextInput editable={this.state.enableEditUseIn} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
-                             placeholder={info.useIn} ref={(useIn) => { this.TextInput3 = useIn }}
-                             onChangeText={(useIn) => this.setState({useIn})}/>
-                            {!this.state.showIconEditUseIn? 
-                                (<Icon name='edit'  color='rgb(200, 203, 209)' size={24} onPress={()=>{
-                                    this.setState({showIconEditUseIn:!this.state.showIconEditUseIn,enableEditUseIn:true},()=>{
-                                        this.TextInput3.focus();
-                                    })
-                                }}/>)
-                                : <Icon name='check' color='rgb(200, 203, 209)' size={24} onPress={()=>{
-                                    this.addRoomEdit();
-                                    this.setState({showIconEditUseIn:!this.state.showIconEditUseIn,enableEditUseIn:false})
-                                }}/>}
+                    
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,justifyContent:'center'
+                        ,alignItems:'center',borderColor:"#45D0E3",borderRadius:5,margin:5}}>
+                            <Text style={{fontSize:14,color:'black',width:'45%'}}>Nơi sd: </Text>
+                            <View style={{width:'46%',backgroundColor:'white',borderWidth:0.5,alignSelf:'flex-start'}}>
+                            <Picker
+                                selectedValue={this.state.useIn}
+                                onValueChange={ (room) => {this.setState({useIn:room}),()=>{this.addRoomEdit()}}  } >
+                                {roomItems}
+                            </Picker>
+                            </View>
+                            <View style={{width:"6%"}}/>
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Ngày nhận:  </Text>
-                            <Text style={{fontSize:14,color:'black',width:'45%'}}>{this.state.dateReceived===''?dateReceived.toLocaleDateString():dateReceivedNew}</Text>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",padding:5,justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                            <Text style={{fontSize:14,color:'black',width:'45%'}}>Ngày nhận:  </Text>
+                            <Text style={{fontSize:14,color:'black',width:'45%',borderWidth:0.5}}>{this.state.dateReceived===''?dateReceived.toLocaleDateString():dateReceivedNew}</Text>
                             <TouchableHighlight onPress={()=>{
                                 this.setState({visibleDateRe:true})
                             }} style={{width:'10%'}}>
-                            <Icon name='calendar' type='font-awesome' size={24} color='#007256' /> 
+                            <Icon name='calendar' type='font-awesome' size={36} color='#007256' /> 
                             </TouchableHighlight>    
                                 <DateTimePicker styles={{}}
                                     isVisible={this.state.visibleDateRe}
@@ -221,26 +236,25 @@ export default class DetaisItem extends React.Component{
                             
                         </View>
                         
-                    </Card>
-                    <Card style={{alignItems: 'flex-start',}}>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                    
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",padding:5,alignItems:'center',borderRadius:5,margin:5}}>
                             <Text style={{fontSize:14,color:'black',width:'45%',}}>Ngày sd:  </Text>
-                            <Text style={{fontSize:14,color:'black',width:'45%'}}>{this.state.dateUse===''?dateUse.toLocaleDateString():dateUseNew}</Text>
+                            <Text style={{fontSize:14,color:'black',width:'45%',borderWidth:0.5}}>{this.state.dateUse===''?dateUse.toLocaleDateString():dateUseNew}</Text>
                             <TouchableHighlight onPress={()=>{
-                                this.setState({visibleDateIn:true})
+                                this.setState({visibledateUse:true})
                             }} style={{width:'10%'}}>
-                            <Icon name='calendar' type='font-awesome' size={24} color='#007256' /> 
+                            <Icon name='calendar' type='font-awesome' size={36} color='#007256' /> 
                             </TouchableHighlight>    
                                 <DateTimePicker styles={{}}
-                                    isVisible={this.state.visibleDateIn}
-                                    onConfirm={this._handleDatePickedIn}
-                                    onCancel={this._hideDateTimePickerIn}
+                                    isVisible={this.state.visibledateUse}
+                                    onConfirm={this._handleDatePickedUse}
+                                    onCancel={this._hideDateTimePickerUse}
                                 />
                             
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
                             <Text style={{fontSize:14,color:'black',width:'45%',}}>Giá thiết bị:  </Text>
-                            <TextInput editable={this.state.enableEditPrice} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
+                            <TextInput editable={this.state.enableEditPrice} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
                              placeholder={''+info.price} ref={(price) => { this.TextInput4 = price }}
                              onChangeText={(price) => this.setState({price})} keyboardType='numeric'/>
 
@@ -255,10 +269,10 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditPrice:!this.state.showIconEditPrice,enableEditPrice:false})
                                 }}/>}
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3",alignItems:'center'}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
                             <Text style={{fontSize:14,color:'black',width:'20%',}}>Nguồn điện từ:  </Text>
                             
-                            <TextInput editable={this.state.enableEditVoltageFrom} style={{fontSize:14,color:'black',width:'20%',backgroundColor:'rgb(200, 203, 209)'}}
+                            <TextInput editable={this.state.enableEditVoltageFrom} style={{fontSize:14,color:'black',width:'20%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
                              placeholder={''+info.voltageFrom} ref={(voltageFrom) => { this.TextInput5 = voltageFrom }}
                              onChangeText={(voltageFrom) => this.setState({voltageFrom})}keyboardType='numeric'/>
                              {!this.state.showIconEditVoltageFrom? 
@@ -272,7 +286,7 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditVoltageFrom:!this.state.showIconEditVoltageFrom,enableEditVoltageFrom:false})
                                 }}/>}
                              <Text style={{fontSize:14,color:'black',width:'20%',borderWidth:0.5}}> đến: </Text>
-                             <TextInput editable={this.state.enableEditVoltageTo} style={{fontSize:14,color:'black',width:'20%',backgroundColor:'rgb(200, 203, 209)'}}
+                             <TextInput editable={this.state.enableEditVoltageTo} style={{fontSize:14,color:'black',width:'20%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
                              placeholder={''+info.voltageTo} ref={(voltageTo) => { this.TextInput6 = voltageTo }}
                              onChangeText={(voltageTo) => this.setState({voltageTo})} keyboardType='numeric'/>
 
@@ -287,11 +301,9 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditVoltageTo:!this.state.showIconEditVoltageTo,enableEditVoltageTo:false})
                                 }}/>}
                         </View>
-                    </Card>
-                    <Card style={{alignItems: 'flex-start',}}>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
                             <Text style={{fontSize:14,color:'black',width:'45%',}}>Năm sx:  </Text>
-                            <TextInput editable={this.state.enableEditMadeYear} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
+                            <TextInput editable={this.state.enableEditMadeYear} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
                              placeholder={''+info.madeYear} ref={(madeYear) => { this.TextInput7 = madeYear }}
                              onChangeText={(madeYear) => this.setState({madeYear})} keyboardType='numeric'/>
                             {!this.state.showIconEditMadeYear? 
@@ -305,9 +317,9 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditMadeYear:!this.state.showIconEditMadeYear,enableEditMadeYear:false})
                                 }}/>}
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
                             <Text style={{fontSize:14,color:'black',width:'45%',}}>Điện áp:  </Text>
-                            <TextInput editable={this.state.enableEditAmpe} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
+                            <TextInput editable={this.state.enableEditAmpe} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
                              placeholder={''+info.ampe} ref={(ampe) => { this.TextInput8 = ampe }}
                              onChangeText={(ampe) => this.setState({ampe})} keyboardType='numeric'/>
                             {!this.state.showIconEditAmpe? 
@@ -321,9 +333,9 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditAmpe:!this.state.showIconEditAmpe,enableEditAmpe:false})
                                 }}/>}
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
                             <Text style={{fontSize:14,color:'black',width:'45%',}}>Công suất:  </Text>
-                            <TextInput editable={this.state.enableEditCapacity} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
+                            <TextInput editable={this.state.enableEditCapacity} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
                              placeholder={''+info.capacity} ref={(capacity) => { this.TextInput9 = capacity }}
                              onChangeText={(capacity) => this.setState({capacity})}/>
                             {!this.state.showIconEditCapacity? 
@@ -337,11 +349,9 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditCapacity:!this.state.showIconEditCapacity,enableEditCapacity:false})
                                 }}/>}
                         </View>
-                    </Card>
-                    <Card style={{alignItems: 'flex-start',}}>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
                             <Text style={{fontSize:14,color:'black',width:'45%',}}>Phụ tùng kèm theo:  </Text>
-                            <TextInput editable={this.state.enableEditAccessory} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
+                            <TextInput editable={this.state.enableEditAccessory} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
                              placeholder={info.accessory} ref={(accessory) => { this.TextInput10 = accessory }}
                              onChangeText={(accessory) => this.setState({accessory})}/>
                             {!this.state.showIconEditAccessory? 
@@ -355,9 +365,9 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditAccessory:!this.state.showIconEditAccessory,enableEditAccessory:false})
                                 }}/>}
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
                             <Text style={{fontSize:14,color:'black',width:'45%',}}>Người nhận:  </Text>
-                            <TextInput editable={this.state.enableEditReceiver} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
+                            <TextInput editable={this.state.enableEditReceiver} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
                              placeholder={info.receiver} ref={(receiver) => { this.TextInput11 = receiver }}
                              onChangeText={(receiver) => this.setState({receiver})}/>
                             
@@ -372,9 +382,9 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditReceiver:!this.state.showIconEditReceiver,enableEditReceiver:false})
                                 }}/>}
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
                             <Text style={{fontSize:14,color:'black',width:'45%',}}>Nguồn tiền:  </Text>
-                            <TextInput editable={this.state.enableEditMoneySource} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
+                            <TextInput editable={this.state.enableEditMoneySource} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
                              placeholder={""+info.moneySource} ref={(moneySource) => { this.TextInput12 = moneySource }}
                              onChangeText={(moneySource) => this.setState({moneySource})}/>
                             {!this.state.showIconEditMoneySource? 
@@ -388,13 +398,13 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditMoneySource:!this.state.showIconEditMoneySource,enableEditMoneySource:false})
                                 }}/>}
                         </View>
-                    </Card>
-                    <Card style={{alignItems: 'flex-start',}}>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5,padding:5}}>
                             <Text style={{fontSize:14,color:'black',width:'45%',}}>Ngày nhập:  </Text>
-                            <Text style={{fontSize:14,color:'black',width:'45%'}}>{this.state.dateIn===''?dateIn.toLocaleDateString():dateInNew}</Text>
-                            <TouchableHighlight onPress={{}} style={{width:'10%'}}>
-                            <Icon name='calendar' type='font-awesome' size={24} color='#007256' /> 
+                            <Text style={{fontSize:14,color:'black',width:'45%',borderWidth:0.5}}>{this.state.dateIn===''?dateIn.toLocaleDateString():dateInNew}</Text>
+                            <TouchableHighlight onPress={()=>{
+                                this.setState({visibleDateIn:true})
+                            }} style={{width:'10%'}}>
+                            <Icon name='calendar' type='font-awesome' size={36} color='#007256' /> 
                             </TouchableHighlight>    
                                 <DateTimePicker styles={{}}
                                     isVisible={this.state.visibleDateIn}
@@ -403,9 +413,9 @@ export default class DetaisItem extends React.Component{
                                 />
                             
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
                             <Text style={{fontSize:14,color:'black',width:'45%',}}>Trạng thái:  </Text>
-                            <TextInput editable={this.state.enableEditStatusReceipt} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
+                            <TextInput editable={this.state.enableEditStatusReceipt} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
                              placeholder={""+info.statusReceipt} ref={(statusReceipt) => { this.TextInput13 = statusReceipt }}
                              onChangeText={(statusReceipt) => this.setState({statusReceipt})}/>
                             {!this.state.showIconEditStatusReceipt? 
@@ -419,9 +429,9 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditStatusReceipt:!this.state.showIconEditStatusReceipt,enableEditStatusReceipt:false})
                                 }}/>}
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Mức độ:  </Text>
-                            <TextInput editable={this.state.enableEditLevelQuality} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Chất lượng:  </Text>
+                            <TextInput editable={this.state.enableEditLevelQuality} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
                              placeholder={""+info.levelQuality} ref={(levelQuality) => { this.TextInput14 = levelQuality }}
                              onChangeText={(levelQuality) => this.setState({levelQuality})}/>
                             {!this.state.showIconEditLevelQuality? 
@@ -435,11 +445,9 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditLevelQuality:!this.state.showIconEditLevelQuality,enableEditLevelQuality:false})
                                 }}/>}
                         </View>
-                    </Card>
-                    <Card>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5 }}>
                             <Text style={{fontSize:14,color:'black',width:'45%',}}>Mô tả thiết bị: </Text>
-                            <TextInput editable={this.state.enableEditDescription} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
+                            <TextInput editable={this.state.enableEditDescription} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
                              placeholder={info.description} ref={(description) => { this.TextInput15 = description }}
                              onChangeText={(description) => this.setState({description})}/>
                             {!this.state.showIconEditDescription? 
@@ -453,9 +461,9 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditDescription:!this.state.showIconEditDescription,enableEditDescription:false})
                                 }}/>}
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
                             <Text style={{fontSize:14,color:'black',width:'45%',}}>Nơi sx: </Text>
-                            <TextInput editable={this.state.enableEditMadeIn} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
+                            <TextInput editable={this.state.enableEditMadeIn} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
                              placeholder={info.madeIn} ref={(madeIn) => { this.TextInput16 = madeIn }}
                              onChangeText={(madeIn) => this.setState({madeIn})}/>
                             
@@ -470,9 +478,9 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditMadeIn:!this.state.showIconEditMadeIn,enableEditMadeIn:false})
                                 }}/>}
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
                             <Text style={{fontSize:14,color:'black',width:'45%',}}>Khoa: </Text>
-                            <TextInput editable={this.state.enableDepartment} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
+                            <TextInput editable={this.state.enableDepartment} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
                              placeholder={''+info.department} ref={(department) => { this.TextInput17 = department }}
                              onChangeText={(department) => this.setState({department})} keyboardType='numeric'/>
                             {!this.state.showIconEditDepartment? 
@@ -486,9 +494,9 @@ export default class DetaisItem extends React.Component{
                                     this.setState({showIconEditDepartment:!this.state.showIconEditDepartment,enableDepartment:false})
                                 }}/>}
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 0.3,borderColor:"#45D0E3"}}>
+                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
                         <Text style={{fontSize:14,color:'black',width:'45%',}}>Số máy: </Text>
-                        <TextInput editable={this.state.enableEditNumber} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'rgb(200, 203, 209)'}}
+                        <TextInput editable={this.state.enableEditNumber} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
                          placeholder={''+info.number} ref={(number) => { this.TextInput17 = number }}
                          onChangeText={(number) => this.setState({number})} keyboardType='numeric'/>
                         {!this.state.showIconEditNumber? 
@@ -502,7 +510,6 @@ export default class DetaisItem extends React.Component{
                                 this.setState({showIconEditNumber:!this.state.showIconEditNumber,enableEditNumber:false})
                             }}/>}
                     </View>
-                    </Card>
                 </ScrollView>
                 </View>
                 </View>

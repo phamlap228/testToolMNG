@@ -2,6 +2,7 @@ import React,{Comment} from 'react';
 import {Container} from 'native-base';
 import {View,StyleSheet,FlatList,Text,ScrollView,Image,Dimensions} from 'react-native';
 import { ListItem, Card } from 'react-native-elements';
+import {API} from '../network/API.js';
  var {width,height} = Dimensions.get('window');
  const listData =[
     {
@@ -44,7 +45,21 @@ export default class DetaisUsing extends React.Component{
     _keyExtractor = (item) => {
         return item.id
     }
-    
+    async componentWillMount(){
+        // await this.getDataFromServer();
+    }
+    getDataFromServer(){   
+        API.getListDevice(0,20).then(
+            res => {
+                this.setState({
+                    data: res.data.content
+                })
+            },
+            err => {
+                console.log('chạy err: '+JSON.stringify(err));
+            }
+        );
+    }
     _renderItem = ({item})=>{
         return(
             <ListItem

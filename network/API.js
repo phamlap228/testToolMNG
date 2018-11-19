@@ -28,6 +28,11 @@ API.searchDevice = (querySearch) =>{
 API.getRepairDevice = (page,size,deviceId) =>{
     return API.instance.get(`repairHistory/getByDevice?page=${page}&size=${size}&deviceId=${deviceId}`)
 }
+//
+// API.getRepairDevice = (page,size,deviceId) =>{
+//     return API.instance.get(`repairHistory/getByDevice?page=${page}&size=${size}&deviceId=${deviceId}`)
+// }
+//171.244.4.48:6969/api/useHistory/save
 API.getDeviceRoom =  (page,size,deviceId) =>{
     return API.instance.get(`device/search?page=${page}&size=${size}&department=${deviceId}`)
 }
