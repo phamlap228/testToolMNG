@@ -24,7 +24,7 @@ API.addRoom = (params) => {
 API.searchDevice = (querySearch) =>{
     return API.instance.get('api/device/search',querySearch)
 }
-//
+//lịch sử sửa chữa
 API.getRepairDevice = (page,size,deviceId) =>{
     return API.instance.get(`repairHistory/getByDevice?page=${page}&size=${size}&deviceId=${deviceId}`)
 }
@@ -43,3 +43,13 @@ API.deleteDevice =  (deviceId) =>{
 API.deleteRoom =  (deviceId) =>{
     return API.instance.get(`department/delete?id=${deviceId}`)
 }
+API.addRepair = (params) => {
+    return API.instance.post('repairHistory/save',params)
+}
+API.addUse = (params) => {
+    return API.instance.post('useHistory/save',params)
+}
+API.getUseHistory =  (page,size,deviceId) =>{
+    return API.instance.get(`useHistory/getByDevice?page=${page}&size=${size}&deviceId=${deviceId}`)
+}
+//171.244.4.48:6969/api/useHistory/getByDevice?page=0&size=20&deviceId=3

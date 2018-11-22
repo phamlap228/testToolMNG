@@ -221,8 +221,9 @@ export default class DetaisItem extends React.Component{
                             <View style={{width:"6%"}}/>
                         </View>
                         <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",padding:5,justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%'}}>Ngày nhận:  </Text>
-                            <Text style={{fontSize:14,color:'black',width:'45%',borderWidth:0.5}}>{this.state.dateReceived===''?dateReceived.toLocaleDateString():dateReceivedNew}</Text>
+                            <Text style={{fontSize:14,color:'black',width:'47%'}}>Ngày nhận:  </Text>
+                            <TextInput style={{fontSize:14,backgroundColor:'white',width:'45%',borderWidth:0.5}} 
+                            editable = {false} placeholder={this.state.dateReceived===''?dateReceived.toLocaleDateString():dateReceivedNew} />
                             <TouchableHighlight onPress={()=>{
                                 this.setState({visibleDateRe:true})
                             }} style={{width:'10%'}}>
@@ -238,8 +239,9 @@ export default class DetaisItem extends React.Component{
                         
                     
                         <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",padding:5,alignItems:'center',borderRadius:5,margin:5}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Ngày sd:  </Text>
-                            <Text style={{fontSize:14,color:'black',width:'45%',borderWidth:0.5}}>{this.state.dateUse===''?dateUse.toLocaleDateString():dateUseNew}</Text>
+                            <Text style={{fontSize:14,color:'black',width:'47%',}}>Ngày sd:  </Text>
+                            <TextInput style={{fontSize:14,backgroundColor:'white',width:'45%',borderWidth:0.5}} 
+                            editable = {false} placeholder={this.state.dateUse===''?dateUse.toLocaleDateString():dateUseNew} />
                             <TouchableHighlight onPress={()=>{
                                 this.setState({visibledateUse:true})
                             }} style={{width:'10%'}}>
@@ -399,8 +401,10 @@ export default class DetaisItem extends React.Component{
                                 }}/>}
                         </View>
                         <View style={{flexDirection:'row',width:'100%',borderWidth: 1,borderColor:"#45D0E3",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5,padding:5}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Ngày nhập:  </Text>
-                            <Text style={{fontSize:14,color:'black',width:'45%',borderWidth:0.5}}>{this.state.dateIn===''?dateIn.toLocaleDateString():dateInNew}</Text>
+                            <Text style={{fontSize:14,color:'black',width:'47%',}}>Ngày nhập:  </Text>
+                            <TextInput style={{fontSize:14,backgroundColor:'white',width:'45%',borderWidth:0.5}} 
+                            editable = {false} placeholder={this.state.dateIn===''?dateIn.toLocaleDateString():dateInNew} />
+                            
                             <TouchableHighlight onPress={()=>{
                                 this.setState({visibleDateIn:true})
                             }} style={{width:'10%'}}>
@@ -510,6 +514,7 @@ export default class DetaisItem extends React.Component{
                                 this.setState({showIconEditNumber:!this.state.showIconEditNumber,enableEditNumber:false})
                             }}/>}
                     </View>
+                    
                 </ScrollView>
                 </View>
                 </View>

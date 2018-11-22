@@ -37,7 +37,7 @@ class RoomScreen extends React.Component{
     }
     getDataFromServer(){
     
-        API.getListRoom(0,20).then(
+        API.getListRoom(0,50).then(
             res => {
                 this.setState({
                     data: res.data.content

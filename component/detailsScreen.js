@@ -25,6 +25,7 @@ class DetailsScreen extends React.Component{
     render(){
        // <StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
         const info = this.props.navigation.state.params.data;
+        // console.log(JSON.stringify(this.props.navigation.state.params))
         return(
                 <View style={{flex: 1}}>
                     <View style ={{backgroundColor:ColorApp.headerColor,width:'100%',flexDirection: 'row',
@@ -51,7 +52,7 @@ class DetailsScreen extends React.Component{
                         <Tab  heading={<TabHeading style={{backgroundColor: 'rgb(153, 0, 255)',flexDirection:'column'}}>
                         <Icon name="table" type='font-awesome' color='white' />
                         <Text style={{color:'white', marginLeft: 5}}>Quá trình SD</Text></TabHeading>}>
-                            <DetaisUsing/>
+                            <DetaisUsing data={info}/>
                     </Tab>
                 </Tabs>
                 

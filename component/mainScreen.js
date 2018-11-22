@@ -53,7 +53,7 @@ class MainScreen extends React.Component{
         //     console.log('====================================');
         // }
        
-        API.getListDevice(0,20).then(
+        API.getListDevice(0,100).then(
             res => {
                 this.setState({
                     data: res.data.content
