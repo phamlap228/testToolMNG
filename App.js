@@ -19,7 +19,6 @@ import DetailsRoomScreen from './component/detailsRoomScreen';
 import {Login,Main,Add,Using,Splash} from './component/ScreenName'
 import RoomScreen from './component/roomScreen.js';
 import {CustomDrawerContentComponent} from './component/logoMenu.js'
-import AddRepair from './component/addRepair.js'
 var {height, width} = Dimensions.get('window');
 let routerConfigs = {
   Main: {
@@ -50,8 +49,7 @@ const App = StackNavigator(
     Drawer: { screen: Drawer, navigationOptions:() => ({ header:null}) },
     AddRoom:{screen: AddRoomScreen, navigationOptions:() => ({ header:null})},
     Details:{ screen:DetailsScreen, navigationOptions:() => ({ header:null}) },
-    DetailsRoomScreen:{ screen:DetailsRoomScreen, navigationOptions:() => ({ header:null}) },
-    AddRepair:{screen:AddRepair, navigationOptions:()=>({header:null})},
+    DetailsRoomScreen:{ screen:DetailsRoomScreen, navigationOptions:() => ({ header:null}) }
   }
 );
 export default  App;

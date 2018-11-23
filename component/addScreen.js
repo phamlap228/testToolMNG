@@ -264,35 +264,56 @@ render(){
         <ScrollView style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}>
         <View style={{flex: 1,backgroundColor:'white',}}>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Tên thiết bị *: </Text>    
-                <TextInput style={[styles.textInput,{borderColor:this.state.checkname===true?"black":"red"}]} value={this.state.name} ref={(input) => { this.TextInput1 = input }}
+                <View  style={{flex: 0.4,marginLeft:5}}>
+                <Text>Tên thiết bị *: </Text>  
+                </View>  
+                <View style={[styles.textInput,{borderColor:this.state.checkname===true?"black":"red"}]}>
+                    <TextInput  value={this.state.name} ref={(input) => { this.TextInput1 = input }}
                 onChangeText={(name) => this.setState({name})} placeholder='click để nhập..' 
                 onSubmitEditing={() => { this.TextInput2.focus(); }}
                 />
+                </View>
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Năm sản xuất * </Text>    
-                <TextInput style={[styles.textInput,{borderColor:this.state.checkmadeYear===true?"black":"red"}]} value={this.state.madeYear} ref={(input) => { this.TextInput2 = input }}
-                onChangeText={(madeYear) => this.setState({madeYear})} placeholder='click để nhập..' keyboardType='numeric'
-                onSubmitEditing={() => { this.TextInput3.focus(); }}
-                />
+                <View style={{flex: 0.4,marginLeft:5}}>
+                    <Text>Năm sản xuất * </Text>  
+                </View>
+                <View  style={[styles.textInput,{borderColor:this.state.checkmadeYear===true?"black":"red"}]}>
+                    <TextInput value={this.state.madeYear} ref={(input) => { this.TextInput2 = input }}
+                    onChangeText={(madeYear) => this.setState({madeYear})} placeholder='click để nhập..' keyboardType='numeric'
+                    onSubmitEditing={() => { this.TextInput3.focus(); }}
+                    />
+                </View>
+                  
+                
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Mã thiết bị *</Text>    
-                <TextInput style={[styles.textInput,{borderColor:this.state.checkcode===true?"black":"red"}]} value={this.state.code} ref={(input) => { this.TextInput3 = input }}
+            <View style={{flex: 0.4,marginLeft:5}}>
+                <Text>Mã thiết bị *</Text>   
+            </View>
+            <View style={[styles.textInput,{borderColor:this.state.checkcode===true?"black":"red"}]}>
+                <TextInput  value={this.state.code} ref={(input) => { this.TextInput3 = input }}
                 onChangeText={(code) => this.setState({code})} placeholder='click để nhập..' 
                 onSubmitEditing={() => { this.TextInput4.focus(); }}
                 />
             </View>
+                
+            </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Nơi sản xuất * </Text>    
-                <TextInput style={[styles.textInput,{borderColor:this.state.checkmadeIn===true?"black":"red"}]} value={this.state.madeIn} ref={(input) => { this.TextInput4 = input }}
+                <View  style={{flex: 0.4,marginLeft:5}}>
+                <Text>Nơi sản xuất * </Text>    
+                </View>
+                <View  style={[styles.textInput,{borderColor:this.state.checkmadeIn===true?"black":"red"}]}>
+                     <TextInput value={this.state.madeIn} ref={(input) => { this.TextInput4 = input }}
                 onChangeText={(madeIn) => this.setState({madeIn})} placeholder='click để nhập..' 
                 onSubmitEditing={() => { Keyboard.dismiss()}}
                 />
+                </View>
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4}}>Nơi sử dụng * </Text> 
+                <View  style={{flex: 0.4,marginLeft:5}}>
+                <Text>Nơi sử dụng * </Text> 
+                </View>
                 <View style={styles.textInput}>
                     <Picker
                     selectedValue={this.state.useIn}
@@ -302,13 +323,23 @@ render(){
                 </View>
             </View>
             <View style={[styles.containerTextInput,{borderColor:this.state.checkmadeYear===true?"black":"red"}]}>
-                <Text style={{flex: 0.41}}>Ngày Nhận * </Text>   
-                <TextInput style={{flex:0.49,backgroundColor:'white',borderWidth:0.5,}} placeholder={this.state.dateReceivedConvert} 
-                editable={false}
-                /> 
-                <TouchableHighlight onPress={this._showDateTimePickerReceived} style={styles.timePicker}>
-                <Icon name='calendar' type='font-awesome' size={24} color={backgroundColor} /> 
-                </TouchableHighlight>    
+                <View style={{flex: 0.4,marginLeft:5}}>
+                     <Text>Ngày Nhận * </Text>   
+                </View>
+                <View style={[styles.textInput,{flexDirection: 'row'}]}>
+                    <View style={{width:'90%'}}>
+                        <TextInput  placeholder={this.state.dateReceivedConvert} 
+                        editable={false} /> 
+                    </View>
+                    
+                    <View style={{width:'10%',alignItems:'center',justifyContent:'center'}}>
+                        <TouchableHighlight onPress={this._showDateTimePickerReceived} style={styles.timePicker}>
+                            <Icon name='calendar' type='font-awesome' size={24} color={backgroundColor} /> 
+                        </TouchableHighlight> 
+                    </View>
+                    
+                </View>
+                   
                 <DateTimePicker styles={{}}
                     isVisible={this.state.isDateTimePickerVisibleReceived}
                     onConfirm={this._handleDateReceivedPicked}
@@ -316,13 +347,24 @@ render(){
                 />
             </View>
             <View style={[styles.containerTextInput,{borderColor:this.state.checkmadeYear===true?"black":"red"}]}>
-                <Text style={{flex: 0.41,}}>Ngày sử dụng *</Text>    
-                <TextInput style={{flex:0.49,backgroundColor:'white',borderWidth:0.5,}} placeholder={this.state.dateUseConvert} 
-                editable={false}
-                /> 
-                <TouchableHighlight onPress={this._showDateTimePickerUse} style={styles.timePicker}>
-                <Icon name='calendar' type='font-awesome' size={24} color={backgroundColor} /> 
-                </TouchableHighlight>    
+                
+                <View style={{flex: 0.4,marginLeft:5}}>
+                    <Text >Ngày sử dụng *</Text>    
+                </View>
+                <View style={[styles.textInput,{flexDirection: 'row'}]}>
+                    <View style={{width:'90%'}}>
+                        <TextInput placeholder={this.state.dateUseConvert} editable={false}/>
+                    </View>
+                    <View style={{width:'10%',alignItems:'center',justifyContent:'center'}}>
+                        <TouchableHighlight onPress={this._showDateTimePickerUse} style={styles.timePicker}>
+                            <Icon name='calendar' type='font-awesome' size={24} color={backgroundColor} /> 
+                        </TouchableHighlight>    
+                    
+                    </View>
+                    
+                </View>
+                
+                
                 <DateTimePicker styles={{}}
                     isVisible={this.state.isDateTimePickerVisibleUse}
                     onConfirm={this._handleDateUsePicked}
@@ -330,75 +372,126 @@ render(){
                 />
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Giá:</Text>    
-                <TextInput style={styles.textInput} value={this.state.price} ref={(input) => { this.TextInput8 = input }}
-                onChangeText={(price) => this.setState({price})} placeholder='click để nhập..' keyboardType='numeric' 
-                onSubmitEditing={() => { this.TextInput9.focus(); }}
-                />
-            </View>
-            <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Mô tả * </Text>    
-                <TextInput style={styles.textInput} value={this.state.description} ref={(input) => { this.TextInput9 = input }}
-                onChangeText={(description) => this.setState({description})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { this.TextInput10.focus(); }}
-                />
-            </View>
-            <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.39,marginLeft:5}}>Dòng viện - từ* : </Text>
-                <View style={{flex:0.61,flexDirection:'row',borderWidth: 0.5,borderTopRightRadius:10,borderBottomRightRadius:10,justifyContent:'center',alignItems: 'center',borderColor:this.state.checkvoltageFrom===true||this.state.checkvoltageTo===true?"black":"red"}}>
-                    <TextInput style={{flex:0.45,backgroundColor: 'white'}} value={this.state.voltageFrom} ref={(input) => { this.TextInput10 = input }}
-                onChangeText={(voltageFrom) => this.setState({voltageFrom})} placeholder='nhập..' keyboardType='numeric'
-                onSubmitEditing={() => { this.TextInput11.focus(); }}/>
-                    <Text style={{flex: 0.1,justifyContent:'center',justifyContent:'center'}}>  -</Text> 
-                    <TextInput style={{flex:0.45,backgroundColor: 'white',borderTopRightRadius:10,borderBottomRightRadius:10}} value={this.state.voltageTo} ref={(input) => { this.TextInput11 = input }}
-                onChangeText={(voltageTo) => this.setState({voltageTo})} placeholder='nhập..' keyboardType='numeric'
-                onSubmitEditing={() => { this.TextInput12.focus(); }}
-                />
+                <View  style={{flex: 0.4,marginLeft:5}}>
+                    <Text>Giá:</Text> 
                 </View>
+                <View style={styles.textInput}>
+                    <TextInput value={this.state.price} ref={(input) => { this.TextInput8 = input }}
+                    onChangeText={(price) => this.setState({price})} placeholder='click để nhập..' keyboardType='numeric' 
+                    onSubmitEditing={() => { this.TextInput9.focus(); }}
+                    />
+                </View>
+                
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Điện áp * </Text>    
-                <TextInput style={styles.textInput} value={this.state.ampe} ref={(input) => { this.TextInput12 = input }}
-                onChangeText={(ampe) => this.setState({ampe})} placeholder='click để nhập..' keyboardType='numeric'
-                onSubmitEditing={() => { this.TextInput13.focus(); }}
-                />
+                <View  style={{flex: 0.4,marginLeft:5}}>
+                    <Text>Mô tả * </Text>    
+                </View>
+                <View  style={styles.textInput}>
+                    <TextInput value={this.state.description} ref={(input) => { this.TextInput9 = input }}
+                    onChangeText={(description) => this.setState({description})} placeholder='click để nhập..' 
+                    onSubmitEditing={() => { this.TextInput10.focus(); }}
+                    />
+                </View>
+                
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Công suất: </Text>    
-                <TextInput style={styles.textInput} value={this.state.capacity} ref={(input) => { this.TextInput13 = input }}
-                onChangeText={(capacity) => this.setState({capacity})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { this.TextInput14.focus(); }}
-                />
+                <View  style={{flex: 0.4,marginLeft:5}}>
+                    <Text>Dòng viện*: </Text>
+                </View>
+                <View style={styles.textInput}>
+                    <View style={{width:'100%',height:'100%',flexDirection:'row',borderTopRightRadius:10,borderBottomRightRadius:10,justifyContent:'center',alignItems: 'center',borderColor:this.state.checkvoltageFrom===true||this.state.checkvoltageTo===true?"black":"red"}}>
+                    <TextInput style={{width:'45%',backgroundColor: 'white'}} value={this.state.voltageFrom} ref={(input) => { this.TextInput10 = input }}
+                        onChangeText={(voltageFrom) => this.setState({voltageFrom})} placeholder='nhập..' keyboardType='numeric'
+                        onSubmitEditing={() => { this.TextInput11.focus(); }}/>
+                    <View style={{width:'10%',height:'100%',borderLeftWidth:0.5,borderRightWidth:0.5,alignItems:'center',justifyContent:'center'}}>
+                        <Text style={{fontWeight:'bold'}}>-</Text> 
+                    </View>
+                    <TextInput style={{width:'45%',backgroundColor: 'white',borderTopRightRadius:10,borderBottomRightRadius:10}} value={this.state.voltageTo} ref={(input) => { this.TextInput11 = input }}
+                        onChangeText={(voltageTo) => this.setState({voltageTo})} placeholder='nhập..' keyboardType='numeric'
+                        onSubmitEditing={() => { this.TextInput12.focus(); }}
+                        />
+                </View>
+                </View>
+                
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Phụ kiện * </Text>    
-                <TextInput style={styles.textInput} value={this.state.accessory} ref={(input) => { this.TextInput14 = input }}
-                onChangeText={(accessory) => this.setState({accessory})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { this.TextInput15.focus(); }}
-                />
+                <View style={{flex: 0.4,marginLeft:5}}>
+                    <Text>Điện áp * </Text> 
+                </View>
+                <View style={styles.textInput}>
+                    <TextInput value={this.state.ampe} ref={(input) => { this.TextInput12 = input }}
+                    onChangeText={(ampe) => this.setState({ampe})} placeholder='click để nhập..' keyboardType='numeric'
+                    onSubmitEditing={() => { this.TextInput13.focus(); }}
+                    />
+                </View>
+                
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Người nhận *  </Text>    
-                <TextInput style={[styles.textInput,{borderColor:this.state.checkreceiver===true?"black":"red"}]} value={this.state.receiver} ref={(input) => { this.TextInput15 = input }}
-                onChangeText={(receiver) => this.setState({receiver})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { this.TextInput16.focus(); }}
-                />
+                <View style={{flex: 0.4,marginLeft:5}}>
+                    <Text>Công suất: </Text>    
+                </View>
+                <View style={styles.textInput}>
+                    <TextInput value={this.state.capacity} ref={(input) => { this.TextInput13 = input }}
+                    onChangeText={(capacity) => this.setState({capacity})} placeholder='click để nhập..' 
+                    onSubmitEditing={() => { this.TextInput14.focus(); }}
+                    />
+                </View>
+                
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Nguồn tiền: </Text>    
-                <TextInput style={[styles.textInput,{borderColor:this.state.checkmoneySource===true?"black":"red"}]} value={this.state.moneySource} ref={(input) => { this.TextInput16 = input }}
-                onChangeText={(moneySource) => this.setState({moneySource})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { Keyboard.dismiss() }}
-                />
+                <View style={{flex: 0.4,marginLeft:5}}>
+                    <Text >Phụ kiện * </Text>    
+                </View>
+                <View style={styles.textInput} >
+                    <TextInput value={this.state.accessory} ref={(input) => { this.TextInput14 = input }}
+                    onChangeText={(accessory) => this.setState({accessory})} placeholder='click để nhập..' 
+                    onSubmitEditing={() => { this.TextInput15.focus(); }}
+                    />
+                </View>
+                
             </View>
-            <View style={[styles.containerTextInput,{borderColor:this.state.checkdateIn===true?"black":"red"}]}>
-                <Text style={{flex: 0.41,}}>Ngày nhập: </Text>
-                <TextInput style={{flex:0.49,backgroundColor:'white',borderWidth:0.5,}} placeholder={this.state.dateInConvert} 
-                editable={false}
-                />
-                <TouchableHighlight onPress={this._showDateTimePickerIn} style={styles.timePicker}>
-                <Icon name='calendar' type='font-awesome' size={24} color={backgroundColor} /> 
-                </TouchableHighlight>    
+            <View style={styles.containerTextInput}>
+                <View style={{flex: 0.4,marginLeft:5}}>
+                    <Text>Người nhận *  </Text>
+                </View>
+                <View style={[styles.textInput,{borderColor:this.state.checkreceiver===true?"black":"red"}]}>
+                    <TextInput value={this.state.receiver} ref={(input) => { this.TextInput15 = input }}
+                    onChangeText={(receiver) => this.setState({receiver})} placeholder='click để nhập..' 
+                    onSubmitEditing={() => { this.TextInput16.focus(); }}
+                    />
+                </View>  
+               
+            </View>
+            <View style={styles.containerTextInput}>
+                <View  style={{flex: 0.4,marginLeft:5}}>
+                    <Text>Nguồn tiền </Text>  
+                </View>  
+                <View  style={[styles.textInput,{borderColor:this.state.checkmoneySource===true?"black":"red"}]}>
+                    <TextInput value={this.state.moneySource} ref={(input) => { this.TextInput16 = input }}
+                    onChangeText={(moneySource) => this.setState({moneySource})} placeholder='click để nhập..' 
+                    onSubmitEditing={() => { Keyboard.dismiss() }}
+                    />
+                </View>
+                
+            </View>
+            <View style={[styles.containerTextInput,{borderColor:this.state.checkmadeYear===true?"black":"red"}]}>
+                
+                <View style={{flex: 0.4,marginLeft:5}}>
+                    <Text >Ngày nhập</Text>    
+                </View>
+                <View style={[styles.textInput,{flexDirection: 'row'}]}>
+                    <View style={{width:'90%'}}>
+                        <TextInput placeholder={this.state.dateInConvert} editable={false}/>
+                    </View>
+                    <View style={{width:'10%',alignItems:'center',justifyContent:'center'}}>
+                        <TouchableHighlight onPress={this._showDateTimePickerIn} style={styles.timePicker}>
+                            <Icon name='calendar' type='font-awesome' size={24} color={backgroundColor} /> 
+                        </TouchableHighlight>    
+                    
+                    </View>
+                    
+                </View>
                     <DateTimePicker styles={{}}
                         isVisible={this.state.isDateTimePickerVisibleIn}
                         onConfirm={this._handleDatePickedIn}
@@ -406,25 +499,41 @@ render(){
                     />
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Trạng thái tiếp nhận * </Text>    
-                <TextInput style={[styles.textInput,{borderColor:this.state.checkstatusReceipt===true?"black":"red"}]} value={this.state.statusReceipt} ref={(input) => { this.TextInput18 = input }}
-                onChangeText={(statusReceipt) => this.setState({statusReceipt})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { this.TextInput19.focus(); }}
-                />
+                <View style={{flex: 0.4,marginLeft:5}}>
+                    <Text >Trạng thái tiếp nhận * </Text>   
+                </View>
+                <View  style={[styles.textInput,{borderColor:this.state.checkstatusReceipt===true?"black":"red"}]}>
+                    <TextInput value={this.state.statusReceipt} ref={(input) => { this.TextInput18 = input }}
+                    onChangeText={(statusReceipt) => this.setState({statusReceipt})} placeholder='click để nhập..' 
+                    onSubmitEditing={() => { this.TextInput19.focus(); }}
+                    />
+                </View>
+                
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Chất lượng * </Text>    
-                <TextInput style={[styles.textInput,{borderColor:this.state.checklevelQuality===true?"black":"red"}]} value={this.state.levelQuality} ref={(input) => { this.TextInput19 = input }}
-                onChangeText={(levelQuality) => this.setState({levelQuality})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { this.TextInput20.focus(); }}
-                />
+                <View  style={{flex: 0.4,marginLeft:5}}>
+                    <Text>Chất lượng * </Text>    
+                </View>
+                <View style={[styles.textInput,{borderColor:this.state.checklevelQuality===true?"black":"red"}]}>
+                    <TextInput value={this.state.levelQuality} ref={(input) => { this.TextInput19 = input }}
+                    onChangeText={(levelQuality) => this.setState({levelQuality})} placeholder='click để nhập..' 
+                    onSubmitEditing={() => { this.TextInput20.focus(); }}
+                    />
+                </View>
+               
+                
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Số máy: </Text>    
-                <TextInput style={styles.textInput} value={this.state.levelQuality} ref={(input) => { this.TextInput20 = input }}
-                onChangeText={(levelQuality) => this.setState({levelQuality})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { Keyboard.dismiss()}}
-                />
+                <View style={{flex: 0.4,marginLeft:5}}>
+                    <Text >Số máy: </Text>    
+                </View>
+                <View style={styles.textInput}>
+                    <TextInput value={this.state.number} ref={(input) => { this.TextInput20 = input }}
+                    onChangeText={(number) => this.setState({number})} placeholder='click để nhập..' 
+                    onSubmitEditing={() => { Keyboard.dismiss()}}
+                    />
+                </View>
+                
             </View>
             <View style={{width: '40%',height: '10%',borderRadius: 10,alignSelf:'center',marginTop:5}}>
             <Button title='Thêm' onPress ={()=>{
@@ -444,7 +553,7 @@ render(){
 }
 
 const styles = StyleSheet.create({
-    textInput:{flex:0.6,backgroundColor:'white',width: '100%',height: '100%',borderWidth:0.5,
+    textInput:{flex:1,backgroundColor:'white',width: '100%',height: '100%',borderWidth:0.5,
                 borderTopRightRadius:10,borderBottomRightRadius:10,
     },
     containerTextInput:{
@@ -453,7 +562,7 @@ const styles = StyleSheet.create({
         backgroundColor:'rgb(230, 230, 230)',height:'4.2%',
         flexDirection: 'row',alignItems:'center',borderWidth:0.5
     },
-    timePicker:{flex:0.1,backgroundColor:'white',width: '100%',height: '100%',borderWidth:0.5,
-        borderTopRightRadius:10,borderBottomRightRadius:10,justifyContent: 'center'
+    timePicker:{flex:0.1,backgroundColor:'white',width: '100%',height: '100%',
+        borderTopRightRadius:10,borderBottomRightRadius:10,alignItems: 'center'
     }
 })

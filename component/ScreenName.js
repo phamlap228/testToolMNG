@@ -7,5 +7,4 @@ const DetailsRoom="DetailsRoomScreen";
 const Room="RoomScreen";
 const Splash="SplashScreen";
 const Details="DetailsScreen";
-const AddRepair="AddRepair"
-export {Login,Main,Add,AddRoom,Room,DetailsRoom,Splash,Details,AddRepair}
+export {Login,Main,Add,AddRoom,Room,DetailsRoom,Splash,Details}

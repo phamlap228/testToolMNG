@@ -161,7 +161,7 @@ export default class DetaisUsing extends React.Component{
                             </View>
 
                     </View>
-                    <TouchableOpacity style={{position:'absolute',right: 40, top:1.06*width,alignItems:'center',zIndex:2, 
+                    <TouchableOpacity style={{position:'absolute',right: 40, bottom:40+(height/5),alignItems:'center',zIndex:2, 
                         width:50,height:50,borderRadius: 25,backgroundColor:ColorApp.fabsColor}}
                         onPress={()=>{
                             this.setModalVisible(true);
@@ -204,8 +204,11 @@ export default class DetaisUsing extends React.Component{
                                 
                                 <View style={{flex:1}}>
                                     <View style={{flex:1,flexDirection:'row',alignItems:'center',margin:5,borderWidth:0.5}}>
-                                        <Text style={{flex:0.39,alignItems:'center'}}>Ngày tháng </Text>
-                                        <View style={{flex:0.61,backgroundColor:'rgb(249, 250, 252)',flexDirection:'row',borderLeftWidth:0.5}}>
+                                        <View  style={{flex:0.4,alignItems:'center'}}>
+                                            <Text>Ngày tháng </Text>
+                                        </View>
+                                        
+                                        <View style={{flex:0.6,backgroundColor:'rgb(249, 250, 252)',flexDirection:'row',borderLeftWidth:0.5}}>
                                             <TouchableHighlight onPress={()=>{
                                                 this.setState({showDateTime:true})
                                             }} style={{flex:0.2,marginTop:5}}>
@@ -225,27 +228,39 @@ export default class DetaisUsing extends React.Component{
                                         
                                     </View>
                                     <View style={{flex:1,flexDirection:'row',alignItems:'center',margin:5,borderWidth:0.5}}>
-                                        <Text style={{flex:0.4,}}>Nội dung </Text>
-                                        <TextInput style={{flex:0.6,backgroundColor:'rgb(249, 250, 252)',borderLeftWidth:0.5}}
+                                        <View  style={{flex:0.4,alignItems:'center'}}>
+                                            <Text>Nội dung </Text>
+                                        </View>
+                                        <View style={{flex:0.6,backgroundColor:'rgb(249, 250, 252)',borderLeftWidth:0.5}}>
+                                            <TextInput 
                                             placeholder={'click để nhập...'}value={this.state.parameter} ref={(content) => { this.TextInput4 = content }}
                                             onChangeText={(content) => this.setState({content})} 
-                                            
-                                        />
+                                            />
+                                        </View>
+                                        
                                     </View>
                                     <View style={{flex:1,flexDirection:'row',alignItems:'center',margin:5,borderWidth:0.5}}>
-                                        <Text style={{flex:0.4,}}>Người theo dõi </Text>
-                                        <TextInput style={{flex:0.6,backgroundColor:'rgb(249, 250, 252)',borderLeftWidth:0.5}}
-                                        placeholder={'click để nhập...'}value={this.state.follower} ref={(follower) => { this.TextInput4 = follower }}
-                                        onChangeText={(follower) => this.setState({follower})}
+                                        <View style={{flex:0.4,alignItems:'center'}}>
+                                            <Text >Người theo dõi </Text>
+                                        </View>
+                                        <View style={{flex:0.6,backgroundColor:'rgb(249, 250, 252)',borderLeftWidth:0.5}}>
+                                            <TextInput 
+                                            placeholder={'click để nhập...'}value={this.state.follower} ref={(follower) => { this.TextInput4 = follower }}
+                                            onChangeText={(follower) => this.setState({follower})}
+                                            />
+                                        </View>
+                                        
+                                    </View>
+                                    <View style={{width: '30%',alignItems:'center',alignSelf:'center'}} >
+                                        <Button
+                                            onPress={()=>{
+                                                this.addRepair();
+                                            }}
+                                            title="Thêm"
+                                            color="#841584"
                                         />
                                     </View>
-                                    <Button
-                                        onPress={()=>{
-                                            this.addRepair();
-                                        }}
-                                        title="Thêm"
-                                        color="#841584"
-                                        />
+                                    
                                 
                                 </View>
                                 
