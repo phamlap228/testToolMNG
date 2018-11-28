@@ -256,6 +256,8 @@ render(){
         return <Picker.Item key={i} value={s.name} label={s.name} />
     });
     //<StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
+    // var price = this.state.price===0 ? info.price:this.state.newPrice
+    // var value = numeral(price).format('0,0');
     return(
         <View style={{flexDirection: 'column',flex: 1}}>
         <StatusBar backgroundColor={ColorApp.statusBarColor} barStyle="light-content" />
@@ -275,18 +277,18 @@ render(){
                 </View>
             </View>
             <View style={styles.containerTextInput}>
-                <View style={{flex: 0.4,marginLeft:5}}>
-                    <Text>Năm sản xuất * </Text>  
-                </View>
-                <View  style={[styles.textInput,{borderColor:this.state.checkmadeYear===true?"black":"red"}]}>
-                    <TextInput value={this.state.madeYear} ref={(input) => { this.TextInput2 = input }}
-                    onChangeText={(madeYear) => this.setState({madeYear})} placeholder='click để nhập..' keyboardType='numeric'
-                    onSubmitEditing={() => { this.TextInput3.focus(); }}
-                    />
-                </View>
-                  
-                
+            <View style={{flex: 0.4,marginLeft:5}}>
+                <Text >Số máy: </Text>    
             </View>
+            <View style={styles.textInput}>
+                <TextInput value={this.state.number} ref={(input) => { this.TextInput20 = input }}
+                onChangeText={(number) => this.setState({number})} placeholder='click để nhập..' 
+                onSubmitEditing={() => { Keyboard.dismiss()}}
+                />
+            </View>
+            
+        </View>
+            
             <View style={styles.containerTextInput}>
             <View style={{flex: 0.4,marginLeft:5}}>
                 <Text>Mã thiết bị *</Text>   
@@ -297,6 +299,19 @@ render(){
                 onSubmitEditing={() => { this.TextInput4.focus(); }}
                 />
             </View>
+                
+            </View>
+            <View style={styles.containerTextInput}>
+                <View style={{flex: 0.4,marginLeft:5}}>
+                    <Text>Năm sản xuất * </Text>  
+                </View>
+                <View  style={[styles.textInput,{borderColor:this.state.checkmadeYear===true?"black":"red"}]}>
+                    <TextInput value={this.state.madeYear} ref={(input) => { this.TextInput2 = input }}
+                    onChangeText={(madeYear) => this.setState({madeYear})} placeholder='click để nhập..' keyboardType='numeric'
+                    onSubmitEditing={() => { this.TextInput3.focus(); }}
+                    />
+                </View>
+                  
                 
             </View>
             <View style={styles.containerTextInput}>
@@ -397,7 +412,7 @@ render(){
             </View>
             <View style={styles.containerTextInput}>
                 <View  style={{flex: 0.4,marginLeft:5}}>
-                    <Text>Dòng viện*: </Text>
+                    <Text>Dòng điện*: </Text>
                 </View>
                 <View style={styles.textInput}>
                     <View style={{width:'100%',height:'100%',flexDirection:'row',borderTopRightRadius:10,borderBottomRightRadius:10,justifyContent:'center',alignItems: 'center',borderColor:this.state.checkvoltageFrom===true||this.state.checkvoltageTo===true?"black":"red"}}>
@@ -523,18 +538,7 @@ render(){
                
                 
             </View>
-            <View style={styles.containerTextInput}>
-                <View style={{flex: 0.4,marginLeft:5}}>
-                    <Text >Số máy: </Text>    
-                </View>
-                <View style={styles.textInput}>
-                    <TextInput value={this.state.number} ref={(input) => { this.TextInput20 = input }}
-                    onChangeText={(number) => this.setState({number})} placeholder='click để nhập..' 
-                    onSubmitEditing={() => { Keyboard.dismiss()}}
-                    />
-                </View>
-                
-            </View>
+
             <View style={{width: '40%',height: '10%',borderRadius: 10,alignSelf:'center',marginTop:5}}>
             <Button title='Thêm' onPress ={()=>{
                 this.addItem();

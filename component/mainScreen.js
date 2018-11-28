@@ -30,7 +30,7 @@ class MainScreen extends React.Component{
         this.setState({ searchTerm: term })
       }
     static navigationOptions = () => {
-        let drawerLabel = 'Quản lí hiết bị'
+        let drawerLabel = 'Quản lí thiết bị'
         let drawerIcon = () =>(
             <Icon name='home' type='font-awesome' size={24} color={backgroundColor} /> 
         );

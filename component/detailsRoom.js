@@ -61,7 +61,7 @@ import {API} from '../network/API.js';
         console.log("params:"+ JSON.stringify(params));
         API.addRoom(params).then(
             res=>{
-                if(res.data==='Save DONE!'){
+                if(res.data==='SUCCESS'){
                     this.setState({
                         reload:!this.state.reload,
                         showInputName:false,

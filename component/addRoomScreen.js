@@ -54,7 +54,7 @@ addItem(){
     }
     API.addRoom(params).then(
         res=>{
-            if(res.data==='Save DONE!'){
+            if(res.data==='SUCCESS'){
                 Alert.alert("Note","Thêm thành công!");
                 this.props.navigation.goBack() 
             }
@@ -96,7 +96,7 @@ render(){
                 />
             </View>
             <View style={styles.containerTextInput}>
-                <Text style={{flex: 0.4,marginLeft:5}}>Trường Khoa: </Text>    
+                <Text style={{flex: 0.4,marginLeft:5}}>Trưởng Khoa: </Text>    
                 <TextInput style={styles.textInput} value={this.state.manager} ref={(input) => { this.TextInput2 = input }}
                 onChangeText={(manager) => this.setState({manager})} placeholder='click để nhập..' 
                 onSubmitEditing={() => { this.TextInput3.focus(); }}

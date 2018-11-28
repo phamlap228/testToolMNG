@@ -4,8 +4,11 @@ import { ListItem, Icon } from 'react-native-elements';
 import {View,StyleSheet,Text,ScrollView,Image,TextInput,Alert,TouchableHighlight,Picker} from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import {API} from '../network/API.js';
+import NumberFormat from 'react-number-format';
+import CurrencyInput from 'react-currency-input';
 // import { Icon } from 'react-native-elements';
-
+import FormatCurrency from 'react-format-currency';
+var numeral = require('numeral');
 
 
 export default class DetaisItem extends React.Component{
@@ -14,6 +17,7 @@ export default class DetaisItem extends React.Component{
         this.state={
             showIconEdit:false,
             //
+            newPrice:0,
             name: '',
             madeYear:'',
             code:'',
@@ -21,7 +25,7 @@ export default class DetaisItem extends React.Component{
             useIn: this.props.data.useIn,
             dateReceived:'',
             dateUse:'',
-            price:'',
+            price:0,
             description:'',
             voltageFrom:'',
             voltageTo:'',
@@ -33,7 +37,7 @@ export default class DetaisItem extends React.Component{
             dateIn:'',
             statusReceipt:'',
             levelQuality:'',
-            department:'',
+            //department:'',
             selectedRoom:'',
             number:null,
             nameRoom:[],
@@ -107,9 +111,12 @@ export default class DetaisItem extends React.Component{
             statusReceipt:this.state.statusReceipt===''?this.props.data.statusReceipt:this.state.statusReceipt,
             levelQuality:this.state.levelQuality===''?this.props.data.levelQuality:this.state.levelQuality,
             number:this.state.name===null?this.props.data.number:this.state.number,
-            department:this.state.department===null?this.props.data.department:this.state.department,
+            
+            //department:this.state.department===null?this.props.data.department:this.state.department,
             //f
+            
         }
+        this.setState({newPrice:this.state.price});
         API.addDevice(params).then(
             res => {
                 if(res.data==='SUCCESS')return Alert.alert('Sửa','Thành công!');
@@ -169,20 +176,23 @@ export default class DetaisItem extends React.Component{
         return <Picker.Item key={i} value={s.name} label={s.name} />
     });
     //<Image style={{width:'100%',height:'40%' }} source={require('../images/icon_butchi.jpg')}/>backgroundColor:'rgb(230, 230, 230)',
+    var price = this.state.price===0 ? info.price:this.state.newPrice
+    var value = numeral(price).format('0,0');
         return(
                 <View style={{width:'100%',height:'100%'}}>
-                <View style={{flex: 1,backgroundColor:'white'}}>
+                <View style={{flex: 1,backgroundColor:'white',alignItems:'center'}}>
                 <ScrollView style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth:1,backgroundColor:"rgb(230, 230, 230)",borderRadius:5,margin:5,justifyContent:'center',alignItems:'center'}}>
+                        <View style={{flexDirection:'row',width:'98%',borderWidth:1,backgroundColor:"rgb(230, 230, 230)",borderRadius:5,margin:5,justifyContent:'center',alignItems:'center'}}>
                             <View style={{fontSize:14,color:'black',width:'45%',}}>
-                                <Text style={{color:'black'}} >Tên thiết bị: </Text>
+                                <Text style={{color:'black',marginLeft:5}} >Tên thiết bị: </Text>
                             </View>
-                            <View style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',flexDirection:'row',borderWidth:0.5}}>
+                            <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',flexDirection:'row',borderWidth:0.5}}>
                                 <TextInput editable={this.state.enableEditName} 
                                 placeholder={info.name} ref={(name) => { this.TextInput1 = name }}
                                 onChangeText={(name) => this.setState({name})}/>
                                 
                             </View>
+                            <View style={{width:'10%'}}>
                             {!this.state.showIconEditName? 
                                 (<Icon name='edit'  color='black' size={24} onPress={()=>{
                                     this.setState({showIconEditName:!this.state.showIconEditName,enableEditName:true},()=>{
@@ -193,19 +203,22 @@ export default class DetaisItem extends React.Component{
                                     this.addRoomEdit();
                                     this.setState({showIconEditName:!this.state.showIconEditName,enableEditName:false})
                                 }}/>}
+                            </View>
+                            
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,justifyContent:'center',alignItems:'center',backgroundColor:"rgb(230, 230, 230)",borderRadius:5,margin:5}}>
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,justifyContent:'center',alignItems:'center',backgroundColor:"rgb(230, 230, 230)",borderRadius:5,margin:5}}>
                             
                             <View style={{fontSize:14,color:'black',width:'45%',}}>
-                                <Text style={{color:'black'}}>Mã thiết bị: </Text>
+                                <Text style={{color:'black',marginLeft:5}}>Mã thiết bị: </Text>
                             </View>
-                            <View style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',flexDirection:'row',borderWidth:0.5}}>
+                            <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',flexDirection:'row',borderWidth:0.5}}>
                                     <TextInput editable={this.state.enableEditCode}
                                     placeholder={info.code} ref={(code) => { this.TextInput2 = code }}
                                     onChangeText={(code) => this.setState({code})}/>
 
                                     
                             </View>
+                            <View style={{width:'10%'}}>
                             {!this.state.showIconEditCode? 
                                 (<Icon name='edit'  color='black' size={24} onPress={()=>{
                                     this.setState({showIconEditCode:!this.state.showIconEditCode,enableEditCode:true},()=>{
@@ -216,34 +229,61 @@ export default class DetaisItem extends React.Component{
                                     this.addRoomEdit();
                                     this.setState({showIconEditCode:!this.state.showIconEditCode,enableEditCode:false})
                                 }}/>}
-                        </View>
-                    
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,justifyContent:'center',alignItems:'center',backgroundColor:"rgb(230, 230, 230)",borderRadius:5,margin:5}}>
-                            
-                            <View style={{fontSize:14,color:'black',width:'45%'}}>
-                                <Text style={{color:'black'}}>Nơi sd: </Text>
                             </View>
-                            <View style={{width:'46%',backgroundColor:'white',borderWidth:0.5,alignSelf:'flex-start'}}>
+                            
+                        </View>
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                            <View style={{fontSize:14,width:'45%',}}>
+                                <Text style={{color:'black',marginLeft:5}}>Số máy: </Text>
+                            </View>
+                            <View style={{flexDirection:'row',fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
+                                <TextInput editable={this.state.enableEditNumber}
+                                placeholder={''+info.number} ref={(number) => { this.TextInput17 = number }}
+                                onChangeText={(number) => this.setState({number})} keyboardType='numeric'/>
+                                
+                            </View>
+                            <View style={{width:'10%'}}>
+                            {!this.state.showIconEditNumber? 
+                                (<Icon name='edit'  color='black' size={24} onPress={()=>{
+                                    this.setState({showIconEditNumber:!this.state.showIconEditNumber,enableEditNumber:true},()=>{
+                                        this.TextInput17.focus();
+                                    })
+                                }}/>)
+                                : <Icon name='check' color='black' size={24} onPress={()=>{
+                                    this.addRoomEdit();
+                                    this.setState({showIconEditNumber:!this.state.showIconEditNumber,enableEditNumber:false})
+                                }}/>}
+                            </View>
+                            
+                        </View>
+
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                            
+                            <View style={{fontSize:14,color:'black',width:'45%',justifyContent:'center'}}>
+                                <Text style={{color:'black',marginLeft:5}}>Nơi sử dụng: </Text>
+                            </View>
+                            <View style={{width:'55%',backgroundColor:'white',borderWidth:0.5,alignSelf:'flex-start'}}>
                             <Picker
+                                style={{width:'100%'}}
                                 selectedValue={this.state.useIn}
                                 onValueChange={ (room) => {this.setState({useIn:room}),()=>{this.addRoomEdit()}}  } >
                                 {roomItems}
                             </Picker>
                             </View>
-                            <View style={{width:"6%"}}/>
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",padding:5,justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
-                            <View style={{fontSize:14,color:'black',width:'45%'}}>
-                                <Text style={{color:'black'}}>Ngày nhận:  </Text>
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                            <View style={{fontSize:14,color:'black',width:'45%',}}>
+                                <Text style={{color:'black',}}>Ngày nhận:  </Text>
                             </View>
-                            <View style={{fontSize:14,backgroundColor:'white',width:'46%',borderWidth:0.5}} >
+                            <View style={{fontSize:14,backgroundColor:'white',width:'45%',borderWidth:0.5}} >
                                 <TextInput 
                                 editable = {false} placeholder={this.state.dateReceived===''?dateReceived.toLocaleDateString():dateReceivedNew} />
                             
                             </View>
+                            <View style={{width:'10%',}}>
                             <TouchableHighlight onPress={()=>{
                                 this.setState({visibleDateRe:true})
-                            }} style={{marginLeft:3}}>
+                            }} style={{}}>
                             <Icon name='calendar' type='font-awesome' size={24} color='black' /> 
                             </TouchableHighlight>    
                                 <DateTimePicker styles={{}}
@@ -251,43 +291,96 @@ export default class DetaisItem extends React.Component{
                                     onConfirm={this._handleDatePickedRe}
                                     onCancel={this._hideDateTimePickerRe}
                                 />
+                            </View>
+                            
                             
                         </View>
                         
                     
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",padding:5,justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,marginLeft:5,marginRight:5}}>
                             
-                            <View style={{fontSize:14,color:'black',width:'45%',}}>
-                                <Text style={{color:'black'}}>Ngày sd:  </Text>
+                            <View style={{fontSize:14,color:'black',width:'45%'}}>
+                                <Text style={{color:'black'}}>Ngày sử dụng:  </Text>
                             </View>
-                            <View style={{fontSize:14,backgroundColor:'white',width:'46%',borderWidth:0.5}}>
+                            <View style={{fontSize:14,backgroundColor:'white',width:'45%',borderWidth:0.5}}>
                                 <TextInput 
                                 editable = {false} placeholder={this.state.dateUse===''?dateUse.toLocaleDateString():dateUseNew} />
                             </View>
                             
-                            <TouchableHighlight onPress={()=>{
-                                this.setState({visibledateUse:true})
-                            }} style={{marginLeft:3}}>
-                            <Icon name='calendar' type='font-awesome' size={24} color='black' /> 
-                            </TouchableHighlight>    
-                                <DateTimePicker styles={{}}
-                                    isVisible={this.state.visibledateUse}
-                                    onConfirm={this._handleDatePickedUse}
-                                    onCancel={this._hideDateTimePickerUse}
+                            <View style={{width:'10%',}}>
+                                <TouchableHighlight onPress={()=>{
+                                        this.setState({visibledateUse:true})
+                                    }} style={{}}>
+                                    <Icon name='calendar' type='font-awesome' size={24} color='black' /> 
+                                    </TouchableHighlight>    
+                                        <DateTimePicker styles={{}}
+                                            isVisible={this.state.visibledateUse}
+                                            onConfirm={this._handleDatePickedUse}
+                                            onCancel={this._hideDateTimePickerUse}
                                 />
+                            </View>
+                            
                             
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                            <View style={{fontSize:14,color:'black',width:'45%'}}>
+                                <Text style={{color:'black'}}>Năm sản xuất:  </Text>
+                            </View>
+                            <View  style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5,}}>
+                                <TextInput editable={this.state.enableEditMadeYear}
+                             placeholder={''+info.madeYear} ref={(madeYear) => { this.TextInput7 = madeYear }}
+                             onChangeText={(madeYear) => this.setState({madeYear})} keyboardType='numeric'/>
+                            </View>
+                            <View style={{width:'10%',alignItems:'center'}}>
+                                {!this.state.showIconEditMadeYear? 
+                                (<Icon name='edit'  color='black' size={24} onPress={()=>{
+                                    this.setState({showIconEditMadeYear:!this.state.showIconEditMadeYear,enableEditMadeYear:true},()=>{
+                                        this.TextInput7.focus();
+                                    })
+                                }}/>)
+                                : <Icon name='check' color='black' size={24} onPress={()=>{
+                                    this.addRoomEdit();
+                                    this.setState({showIconEditMadeYear:!this.state.showIconEditMadeYear,enableEditMadeYear:false})
+                                }}/>}
+                            </View>
+                            
+                        </View>
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                            
+                            <View  style={{fontSize:14,width:'45%',}}>
+                                <Text style={{fontSize:14,color:'black',}}>Nơi sản xuất: </Text>
+                            </View>
+                            <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
+                                <TextInput editable={this.state.enableEditMadeIn}
+                             placeholder={info.madeIn} ref={(madeIn) => { this.TextInput16 = madeIn }}
+                             onChangeText={(madeIn) => this.setState({madeIn})}/>
+                            </View>
+                            <View style={{width:'10%'}}>
+                                 {!this.state.showIconEditMadeIn? 
+                                (<Icon name='edit'  color='black' size={24} onPress={()=>{
+                                    this.setState({showIconEditMadeIn:!this.state.showIconEditMadeIn,enableEditMadeIn:true},()=>{
+                                        this.TextInput16.focus();
+                                    })
+                                }}/>)
+                                : <Icon name='check' color='black' size={24} onPress={()=>{
+                                    this.addRoomEdit();
+                                    this.setState({showIconEditMadeIn:!this.state.showIconEditMadeIn,enableEditMadeIn:false})
+                                }}/>}
+                            </View>
+                            
+                           
+                        </View>
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
                             
                             <View style={{fontSize:14,color:'black',width:'45%',}}>
                                 <Text style={{color:'black'}}>Giá thiết bị:  </Text>
                             </View>
-                            <View style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
+                            <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
                             <TextInput editable={this.state.enableEditPrice}
-                             placeholder={''+info.price} ref={(price) => { this.TextInput4 = price }}
-                             onChangeText={(price) => this.setState({price})} keyboardType='numeric'/>
+                             placeholder={value} ref={(price) => { this.TextInput4 = price }}
+                             onChangeText={(price) => {this.setState({price}) }} keyboardType='numeric'/>
                             </View>
-                            
+                            <View style={{width:'10%'}}>
                             {!this.state.showIconEditPrice? 
                                 (<Icon name='edit'  color='black' size={24} onPress={()=>{
                                     this.setState({showIconEditPrice:!this.state.showIconEditPrice,enableEditPrice:true},()=>{
@@ -298,68 +391,66 @@ export default class DetaisItem extends React.Component{
                                     this.addRoomEdit();
                                     this.setState({showIconEditPrice:!this.state.showIconEditPrice,enableEditPrice:false})
                                 }}/>}
-                        </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
-                            
-                            <View style={{fontSize:14,color:'black',width:'25%',}}>
-                                <Text  style={{color:'black'}}>Nguồn điện:  </Text>
-                            </View>
-                            <View style={{fontSize:14,color:'black',width:'20%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
-                                <TextInput editable={this.state.enableEditVoltageFrom}
-                                placeholder={''+info.voltageFrom} ref={(voltageFrom) => { this.TextInput5 = voltageFrom }}
-                                onChangeText={(voltageFrom) => this.setState({voltageFrom})}keyboardType='numeric'/>
                             </View>
                             
-                             {!this.state.showIconEditVoltageFrom? 
-                                (<Icon name='edit'  color='black' size={24} onPress={()=>{
-                                    this.setState({showIconEditVoltageFrom:!this.state.showIconEditVoltageFrom,enableEditVoltageFrom:true},()=>{
-                                        this.TextInput5.focus();
-                                    })
-                                }}/>)
-                                : <Icon name='check' color='black' size={24} onPress={()=>{
-                                    this.addRoomEdit();
-                                    this.setState({showIconEditVoltageFrom:!this.state.showIconEditVoltageFrom,enableEditVoltageFrom:false})
-                                }}/>}
-                             
-                             <View style={{fontSize:14,color:'black',width:'20%',borderLeftWidth:0.5,justifyContent:'center',alignItems:'center'}}>
-                                <TextInput placeholder="Đến"/>
-                             </View>
-                             <TextInput editable={this.state.enableEditVoltageTo} style={{fontSize:14,color:'black',width:'20%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
-                             placeholder={''+info.voltageTo} ref={(voltageTo) => { this.TextInput6 = voltageTo }}
-                             onChangeText={(voltageTo) => this.setState({voltageTo})} keyboardType='numeric'/>
-
-                            {!this.state.showIconEditVoltageTo? 
-                                (<Icon name='edit'  color='black' size={24} onPress={()=>{
-                                    this.setState({showIconEditVoltageTo:!this.state.showIconEditVoltageTo,enableEditVoltageTo:true},()=>{
-                                        this.TextInput6.focus();
-                                    })
-                                }}/>)
-                                : <Icon name='check' color='black' size={24} onPress={()=>{
-                                    this.addRoomEdit();
-                                    this.setState({showIconEditVoltageTo:!this.state.showIconEditVoltageTo,enableEditVoltageTo:false})
-                                }}/>}
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Năm sx:  </Text>
-                            <TextInput editable={this.state.enableEditMadeYear} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
-                             placeholder={''+info.madeYear} ref={(madeYear) => { this.TextInput7 = madeYear }}
-                             onChangeText={(madeYear) => this.setState({madeYear})} keyboardType='numeric'/>
-                            {!this.state.showIconEditMadeYear? 
-                                (<Icon name='edit'  color='black' size={24} onPress={()=>{
-                                    this.setState({showIconEditMadeYear:!this.state.showIconEditMadeYear,enableEditMadeYear:true},()=>{
-                                        this.TextInput7.focus();
-                                    })
-                                }}/>)
-                                : <Icon name='check' color='black' size={24} onPress={()=>{
-                                    this.addRoomEdit();
-                                    this.setState({showIconEditMadeYear:!this.state.showIconEditMadeYear,enableEditMadeYear:false})
-                                }}/>}
+                        
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>  
+                            <View style={{flexDirection:'row',fontSize:14,color:'black',width:'45%',alignItems:'center',justifyContent:'center',marginLeft:5}}>
+                                <View  style={{width:'100%'}}>
+                                    <Text style={{color:'black',marginLeft:5}}>Dòng điện*: </Text>
+                                </View>
+                            </View>
+                            <View style={{flexDirection:'row',fontSize:14,color:'black',width:'15%', backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5,alignItems:'center'}}>
+                                    <TextInput editable={this.state.enableEditVoltageFrom}
+                                        placeholder={''+info.voltageFrom} ref={(voltageFrom) => { this.TextInput5 = voltageFrom }}
+                                        onChangeText={(voltageFrom) => this.setState({voltageFrom})}keyboardType='numeric'/>
+                            </View>
+                            <View style={{width:'10%'}}>
+                                        {!this.state.showIconEditVoltageFrom? 
+                                        (<Icon name='edit'  color='black' size={24} onPress={()=>{
+                                            this.setState({showIconEditVoltageFrom:!this.state.showIconEditVoltageFrom,enableEditVoltageFrom:true},()=>{
+                                                this.TextInput5.focus();
+                                            })
+                                        }}/>)
+                                        : <Icon name='check' color='black' size={24} onPress={()=>{
+                                            this.addRoomEdit();
+                                            this.setState({showIconEditVoltageFrom:!this.state.showIconEditVoltageFrom,enableEditVoltageFrom:false})
+                                        }}/>}
+                            </View>
+                            <View style={{fontSize:14,color:'black',width:'5%',borderLeftWidth:0.5,justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
+                                         <TextInput style={{color:'black'}} editable={false} placeholder=' -'/>
+                            </View>
+                            <View style={{fontSize:14,color:'black',width:'15%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
+                                            <TextInput editable={this.state.enableEditVoltageTo} 
+                                        placeholder={''+info.voltageTo} ref={(voltageTo) => { this.TextInput6 = voltageTo }}
+                                        onChangeText={(voltageTo) => this.setState({voltageTo})} keyboardType='numeric'/>
+                                </View>
+                            <View style={{width:'10%',justifyContent:'center',marginRight:5}}>
+                                            {!this.state.showIconEditVoltageTo? 
+                                        (<Icon name='edit'  color='black' size={24} onPress={()=>{
+                                            this.setState({showIconEditVoltageTo:!this.state.showIconEditVoltageTo,enableEditVoltageTo:true},()=>{
+                                                this.TextInput6.focus();
+                                            })
+                                        }}/>)
+                                        : <Icon name='check' color='black' size={24} onPress={()=>{
+                                            this.addRoomEdit();
+                                            this.setState({showIconEditVoltageTo:!this.state.showIconEditVoltageTo,enableEditVoltageTo:false})
+                                        }}/>}
+                                    </View>
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Điện áp:  </Text>
-                            <TextInput editable={this.state.enableEditAmpe} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
-                             placeholder={''+info.ampe} ref={(ampe) => { this.TextInput8 = ampe }}
-                             onChangeText={(ampe) => this.setState({ampe})} keyboardType='numeric'/>
+                        
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                            
+                            <View style={{fontSize:14,color:'black',width:'45%',}}>
+                            <Text style={{fontSize:14,color:'black',}}>Điện áp:  </Text>
+                            </View>
+                            <View  style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
+                                <TextInput editable={this.state.enableEditAmpe} 
+                                placeholder={''+info.ampe} ref={(ampe) => { this.TextInput8 = ampe }}
+                                onChangeText={(ampe) => this.setState({ampe})} keyboardType='numeric'/>
+                            </View>
+                            <View style={{width:'10%'}}>
                             {!this.state.showIconEditAmpe? 
                                 (<Icon name='edit'  color='black' size={24} onPress={()=>{
                                     this.setState({showIconEditAmpe:!this.state.showIconEditAmpe,enableEditAmpe:true},()=>{
@@ -370,29 +461,45 @@ export default class DetaisItem extends React.Component{
                                     this.addRoomEdit();
                                     this.setState({showIconEditAmpe:!this.state.showIconEditAmpe,enableEditAmpe:false})
                                 }}/>}
+                            </View>
+                            
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Công suất:  </Text>
-                            <TextInput editable={this.state.enableEditCapacity} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
-                             placeholder={''+info.capacity} ref={(capacity) => { this.TextInput9 = capacity }}
-                             onChangeText={(capacity) => this.setState({capacity})}/>
-                            {!this.state.showIconEditCapacity? 
-                                (<Icon name='edit'  color='black' size={24} onPress={()=>{
-                                    this.setState({showIconEditCapacity:!this.state.showIconEditCapacity,enableEditCapacity:true},()=>{
-                                        this.TextInput9.focus();
-                                    })
-                                }}/>)
-                                : <Icon name='check' color='black' size={24} onPress={()=>{
-                                    this.addRoomEdit();
-                                    this.setState({showIconEditCapacity:!this.state.showIconEditCapacity,enableEditCapacity:false})
-                                }}/>}
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                            
+                            <View style={{fontSize:14,color:'black',width:'45%',}}>
+                                <Text style={{fontSize:14,color:'black',}}>Công suất:  </Text>
+                            </View>
+                            <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}> 
+                                <TextInput editable={this.state.enableEditCapacity}
+                                placeholder={''+info.capacity} ref={(capacity) => { this.TextInput9 = capacity }}
+                                onChangeText={(capacity) => this.setState({capacity})}/>
+                            </View>
+                            <View style={{width:'10%'}}>
+                                 {!this.state.showIconEditCapacity? 
+                                    (<Icon name='edit'  color='black' size={24} onPress={()=>{
+                                        this.setState({showIconEditCapacity:!this.state.showIconEditCapacity,enableEditCapacity:true},()=>{
+                                            this.TextInput9.focus();
+                                        })
+                                    }}/>)
+                                    : <Icon name='check' color='black' size={24} onPress={()=>{
+                                        this.addRoomEdit();
+                                        this.setState({showIconEditCapacity:!this.state.showIconEditCapacity,enableEditCapacity:false})
+                                    }}/>}
+                            </View>
+                           
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Phụ tùng kèm theo:  </Text>
-                            <TextInput editable={this.state.enableEditAccessory} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
-                             placeholder={info.accessory} ref={(accessory) => { this.TextInput10 = accessory }}
-                             onChangeText={(accessory) => this.setState({accessory})}/>
-                            {!this.state.showIconEditAccessory? 
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                            
+                            <View style={{fontSize:14,color:'black',width:'45%',}}>
+                                    <Text style={{fontSize:14,color:'black',}}>Phụ tùng kèm theo:  </Text>
+                            </View>
+                            <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
+                                    <TextInput editable={this.state.enableEditAccessory} 
+                                        placeholder={info.accessory} ref={(accessory) => { this.TextInput10 = accessory }}
+                                        onChangeText={(accessory) => this.setState({accessory})}/>
+                            </View>
+                            <View style={{width:'10%'}}>
+                                    {!this.state.showIconEditAccessory? 
                                 (<Icon name='edit'  color='black' size={24} onPress={()=>{
                                     this.setState({showIconEditAccessory:!this.state.showIconEditAccessory,enableEditAccessory:true},()=>{
                                         this.TextInput10.focus();
@@ -402,14 +509,21 @@ export default class DetaisItem extends React.Component{
                                     this.addRoomEdit();
                                     this.setState({showIconEditAccessory:!this.state.showIconEditAccessory,enableEditAccessory:false})
                                 }}/>}
+                            </View>
+                            
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Người nhận:  </Text>
-                            <TextInput editable={this.state.enableEditReceiver} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                            
+                            <View style={{fontSize:14,color:'black',width:'45%',}}>
+                                <Text style={{fontSize:14,color:'black',}}>Người nhận:  </Text>
+                            </View>
+                            <View  style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
+                                <TextInput editable={this.state.enableEditReceiver}
                              placeholder={info.receiver} ref={(receiver) => { this.TextInput11 = receiver }}
                              onChangeText={(receiver) => this.setState({receiver})}/>
-                            
-                            {!this.state.showIconEditReceiver? 
+                            </View>
+                            <View style={{width:'10%'}}>
+                                {!this.state.showIconEditReceiver? 
                                 (<Icon name='edit'  color='black' size={24} onPress={()=>{
                                     this.setState({showIconEditReceiver:!this.state.showIconEditReceiver,enableEditReceiver:true},()=>{
                                         this.TextInput11.focus();
@@ -419,13 +533,22 @@ export default class DetaisItem extends React.Component{
                                     this.addRoomEdit();
                                     this.setState({showIconEditReceiver:!this.state.showIconEditReceiver,enableEditReceiver:false})
                                 }}/>}
+                            </View>
+                            
+                            
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Nguồn tiền:  </Text>
-                            <TextInput editable={this.state.enableEditMoneySource} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                            
+                            <View style={{fontSize:14,color:'black',width:'45%',}}>
+                                <Text style={{fontSize:14,color:'black'}}>Nguồn tiền:  </Text>
+                            </View>
+                            <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
+                                <TextInput editable={this.state.enableEditMoneySource}
                              placeholder={""+info.moneySource} ref={(moneySource) => { this.TextInput12 = moneySource }}
                              onChangeText={(moneySource) => this.setState({moneySource})}/>
-                            {!this.state.showIconEditMoneySource? 
+                            </View>
+                            <View style={{width:'10%'}}>
+                                {!this.state.showIconEditMoneySource? 
                                 (<Icon name='edit'  color='black' size={24} onPress={()=>{
                                     this.setState({showIconEditMoneySource:!this.state.showIconEditMoneySource,enableEditMoneySource:true},()=>{
                                         this.TextInput12.focus();
@@ -435,29 +558,45 @@ export default class DetaisItem extends React.Component{
                                     this.addRoomEdit();
                                     this.setState({showIconEditMoneySource:!this.state.showIconEditMoneySource,enableEditMoneySource:false})
                                 }}/>}
+                            </View>
+                            
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5,padding:5}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Ngày nhập:  </Text>
-                            <TextInput style={{fontSize:14,backgroundColor:'white',width:'46%',borderWidth:0.5}} 
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5,}}>
+                           
+                            <View style={{fontSize:14,width:'45%',}}>
+                                <Text style={{fontSize:14,color:'black'}}>Ngày nhập:  </Text>
+                            </View>
+                            <View style={{fontSize:14,backgroundColor:'white',width:'45%',borderWidth:0.5}}>
+                                <TextInput  
                             editable = {false} placeholder={this.state.dateIn===''?dateIn.toLocaleDateString():dateInNew} />
-                            
-                            <TouchableHighlight onPress={()=>{
-                                this.setState({visibleDateIn:true})
-                            }} style={{marginLeft:3}}>
-                            <Icon name='calendar' type='font-awesome' size={24} color='black' /> 
-                            </TouchableHighlight>    
-                                <DateTimePicker styles={{}}
-                                    isVisible={this.state.visibleDateIn}
-                                    onConfirm={this._handleDatePickedIn}
-                                    onCancel={this._hideDateTimePickerIn}
+                            </View>
+                            <View style={{width:'10%'}}>
+                                <TouchableHighlight onPress={()=>{
+                                    this.setState({visibleDateIn:true})
+                                }} style={{marginLeft:3}}>
+                                <Icon name='calendar' type='font-awesome' size={24} color='black' /> 
+                                </TouchableHighlight>    
+                                    <DateTimePicker styles={{}}
+                                        isVisible={this.state.visibleDateIn}
+                                        onConfirm={this._handleDatePickedIn}
+                                        onCancel={this._hideDateTimePickerIn}
                                 />
+                            </View>
+                            
+                            
                             
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Trạng thái:  </Text>
-                            <TextInput editable={this.state.enableEditStatusReceipt} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                            
+                            <View style={{fontSize:14,width:'45%',}}>
+                                <Text style={{fontSize:14,color:'black',}}>Trạng thái:  </Text>
+                            </View>
+                            <View  style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
+                                <TextInput editable={this.state.enableEditStatusReceipt}
                              placeholder={""+info.statusReceipt} ref={(statusReceipt) => { this.TextInput13 = statusReceipt }}
                              onChangeText={(statusReceipt) => this.setState({statusReceipt})}/>
+                            </View>
+                            <View style={{width:'10%'}}>
                             {!this.state.showIconEditStatusReceipt? 
                                 (<Icon name='edit'  color='black' size={24} onPress={()=>{
                                     this.setState({showIconEditStatusReceipt:!this.state.showIconEditStatusReceipt,enableEditStatusReceipt:true},()=>{
@@ -467,13 +606,22 @@ export default class DetaisItem extends React.Component{
                                 : <Icon name='check' color='black' size={24} onPress={()=>{
                                     this.addRoomEdit();
                                     this.setState({showIconEditStatusReceipt:!this.state.showIconEditStatusReceipt,enableEditStatusReceipt:false})
-                                }}/>}
+                                }}/>} 
+                            </View>
+                            
+                            
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Chất lượng:  </Text>
-                            <TextInput editable={this.state.enableEditLevelQuality} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
+                            
+                            <View style={{fontSize:14,width:'45%',}}>
+                                <Text style={{fontSize:14,color:'black',}}>Chất lượng:  </Text>
+                            </View>
+                            <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
+                                <TextInput editable={this.state.enableEditLevelQuality} 
                              placeholder={""+info.levelQuality} ref={(levelQuality) => { this.TextInput14 = levelQuality }}
-                             onChangeText={(levelQuality) => this.setState({levelQuality})}/>
+                             onChangeText={(levelQuality) => this.setState({levelQuality})} keyboardType='numeric' />
+                            </View>
+                            <View style={{width:'10%'}}>
                             {!this.state.showIconEditLevelQuality? 
                                 (<Icon name='edit'  color='black' size={24} onPress={()=>{
                                     this.setState({showIconEditLevelQuality:!this.state.showIconEditLevelQuality,enableEditLevelQuality:true},()=>{
@@ -484,13 +632,21 @@ export default class DetaisItem extends React.Component{
                                     this.addRoomEdit();
                                     this.setState({showIconEditLevelQuality:!this.state.showIconEditLevelQuality,enableEditLevelQuality:false})
                                 }}/>}
+                            </View>
+                            
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5 }}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Mô tả thiết bị: </Text>
-                            <TextInput editable={this.state.enableEditDescription} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
+                        <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5 }}>
+                            
+                            <View style={{fontSize:14,width:'45%',}}>
+                                <Text style={{fontSize:14,color:'black'}}>Mô tả thiết bị: </Text>
+                            </View>
+                            <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
+                                 <TextInput editable={this.state.enableEditDescription}
                              placeholder={info.description} ref={(description) => { this.TextInput15 = description }}
                              onChangeText={(description) => this.setState({description})}/>
-                            {!this.state.showIconEditDescription? 
+                            </View>
+                            <View style={{width:'10%'}}>
+                                {!this.state.showIconEditDescription? 
                                 (<Icon name='edit'  color='black' size={24} onPress={()=>{
                                     this.setState({showIconEditDescription:!this.state.showIconEditDescription,enableEditDescription:true},()=>{
                                         this.TextInput15.focus();
@@ -500,57 +656,12 @@ export default class DetaisItem extends React.Component{
                                     this.addRoomEdit();
                                     this.setState({showIconEditDescription:!this.state.showIconEditDescription,enableEditDescription:false})
                                 }}/>}
-                        </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Nơi sx: </Text>
-                            <TextInput editable={this.state.enableEditMadeIn} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
-                             placeholder={info.madeIn} ref={(madeIn) => { this.TextInput16 = madeIn }}
-                             onChangeText={(madeIn) => this.setState({madeIn})}/>
+                            </View>
+                           
                             
-                            {!this.state.showIconEditMadeIn? 
-                                (<Icon name='edit'  color='black' size={24} onPress={()=>{
-                                    this.setState({showIconEditMadeIn:!this.state.showIconEditMadeIn,enableEditMadeIn:true},()=>{
-                                        this.TextInput16.focus();
-                                    })
-                                }}/>)
-                                : <Icon name='check' color='black' size={24} onPress={()=>{
-                                    this.addRoomEdit();
-                                    this.setState({showIconEditMadeIn:!this.state.showIconEditMadeIn,enableEditMadeIn:false})
-                                }}/>}
                         </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
-                            <Text style={{fontSize:14,color:'black',width:'45%',}}>Khoa: </Text>
-                            <TextInput editable={this.state.enableDepartment} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
-                             placeholder={''+info.department} ref={(department) => { this.TextInput17 = department }}
-                             onChangeText={(department) => this.setState({department})} keyboardType='numeric'/>
-                            {!this.state.showIconEditDepartment? 
-                                (<Icon name='edit'  color='black' size={24} onPress={()=>{
-                                    this.setState({showIconEditDepartment:!this.state.showIconEditDepartment,enableDepartment:true},()=>{
-                                        this.TextInput17.focus();
-                                    })
-                                }}/>)
-                                : <Icon name='check' color='black' size={24} onPress={()=>{
-                                    this.addRoomEdit();
-                                    this.setState({showIconEditDepartment:!this.state.showIconEditDepartment,enableDepartment:false})
-                                }}/>}
-                        </View>
-                        <View style={{flexDirection:'row',width:'100%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,margin:5}}>
-                        <Text style={{fontSize:14,color:'black',width:'45%',}}>Số máy: </Text>
-                        <TextInput editable={this.state.enableEditNumber} style={{fontSize:14,color:'black',width:'46%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}
-                         placeholder={''+info.number} ref={(number) => { this.TextInput17 = number }}
-                         onChangeText={(number) => this.setState({number})} keyboardType='numeric'/>
-                        {!this.state.showIconEditNumber? 
-                            (<Icon name='edit'  color='black' size={24} onPress={()=>{
-                                this.setState({showIconEditNumber:!this.state.showIconEditNumber,enableEditNumber:true},()=>{
-                                    this.TextInput17.focus();
-                                })
-                            }}/>)
-                            : <Icon name='check' color='black' size={24} onPress={()=>{
-                                this.addRoomEdit();
-                                this.setState({showIconEditNumber:!this.state.showIconEditNumber,enableEditNumber:false})
-                            }}/>}
-                    </View>
-                    
+                        
+      
                 </ScrollView>
                 </View>
                 </View>

@@ -67,8 +67,8 @@ export default class DetaisNote extends React.Component{
         return(
             <ListItem
                 title={
-                    <Container style={{flexDirection: 'row',height:'10%',flex: 1,}}>
-                            <View style={{flexDirection:'column',flex: 0.5,alignSelf: 'center',}} >
+                    <Container style={{flexDirection: 'row',height:'10%',flex: 1,margin:5}}>
+                            <View style={{flexDirection:'column',flex: 0.4,alignSelf: 'center',}} >
                                 <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{date.toLocaleDateString()}</Text>
                             </View>
                             <View style={{flexDirection:'column',flex: 1,alignSelf: 'center',}}>
@@ -77,7 +77,7 @@ export default class DetaisNote extends React.Component{
                             <View style={{flexDirection:'column',flex: 0.5,alignSelf: 'center',}}>
                                 <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>{item.level}</Text>
                             </View>
-                            <View style={{flexDirection:'column',flex: 0.5,alignSelf: 'center',}}>
+                            <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}}>
                                 <Text style={{alignItems:'center',alignSelf:'flex-start',justifyContent: 'flex-start'}}>{item.follower}</Text>
                             </View>
 
@@ -137,17 +137,17 @@ export default class DetaisNote extends React.Component{
        console.log(JSON.stringify(this.props.data));
         return(
             <View style={{width,height}}>
-                    <View style={{borderWidth: 0.7,flexDirection: 'row',height:'7%', width:width,}}>
-                            <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}} >
-                                <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>Ngày tháng</Text>
+                    <View style={{borderWidth: 0.7,flexDirection: 'row',height:'7%', width:width,margin:5}}>
+                            <View style={{flexDirection:'column',flex: 0.6,alignItems:'center',alignSelf:'center',justifyContent: 'center',}} >
+                                <Text style={{}}>Ngày tháng</Text>
                             </View>
                             <View style={{flexDirection:'column',flex: 1,alignSelf: 'center',}}>
                                 <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>Nội dung</Text>
                             </View>
-                            <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}}>
+                            <View style={{flexDirection:'column',flex: 0.7,alignSelf: 'center',}}>
                                 <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>Level</Text>
                             </View>
-                            <View style={{flexDirection:'column',flex: 0.6,alignSelf: 'center',}}>
+                            <View style={{flexDirection:'column',flex: 0.7,alignSelf: 'center',}}>
                                 <Text style={{alignItems:'center',alignSelf:'center',justifyContent: 'center'}}>Người theo dõi</Text>
                             </View>
 
@@ -155,7 +155,7 @@ export default class DetaisNote extends React.Component{
                     
                     <View style={{flex:1}}>
                     <ScrollView style={{position: 'absolute', top: 0, left: 0, right: 0, bottom:'20%'}}>
-                        <View style={{flex:1,height: '80%'}}>
+                        <View style={{flex:1,height: '80%',margin:5}}>
                             <FlatList
                                 data={this.state.data}
                                 keyExtractor={this._keyExtractor}
@@ -187,35 +187,44 @@ export default class DetaisNote extends React.Component{
                               <ScrollView>
                                 
                                 <View style={{flex:1}}>
-                                    <View style={{flex:1,flexDirection:'row',alignItems:'center',margin:5,borderWidth:0.5}}>
+                                    <View style={{flex:1,flexDirection:'row',alignItems:'center',borderTopRightRadius:10,borderBottomRightRadius:10,
+                                    borderTopLeftRadius:10,borderBottomLeftRadius:10,
+                                    backgroundColor:'rgb(230, 230, 230)',margin:5,borderWidth:0.5,borderBottomRightRadius:10,borderTopRightRadius:10}}>
                                         <View style={{flex:0.4,alignItems:'center'}}>
                                             <Text>Ngày tháng </Text>
                                         </View>
+                                        <View style={{flex:0.6,backgroundColor:'rgb(249, 250, 252)',flexDirection:'row',borderLeftWidth:0.5,borderBottomRightRadius:10,borderTopRightRadius:10}}>
                                         
-                                        <View style={{flex:0.6,backgroundColor:'rgb(249, 250, 252)',flexDirection:'row',borderLeftWidth:0.5}}>
-                                            <TouchableHighlight onPress={()=>{
-                                                this.setState({showDateTime:true})
-                                            }} style={{flex:0.2,marginTop:5}}>
-                                            <Icon name='calendar' type='font-awesome' size={36} color='#007256' /> 
-                                            </TouchableHighlight>    
-                                                <DateTimePicker styles={{}}
-                                                    isVisible={this.state.showDateTime}
-                                                    onConfirm={this._handleDatePicked}
-                                                    onCancel={()=>{this.setState({showDateTime:false})}}
-                                                />
-                                            <TextInput style={{flex:0.4,alignItems:'center'}}
+                                            <View style={{width:'80%',alignItems:'center',borderBottomRightRadius:10,borderTopRightRadius:10}}>
+                                            <TextInput 
                                                 placeholder={""+this.state.dateConverted} value={this.state.dateTime} ref={(input) => { this.TextInput1 = input }}
                                                 editable={false}
                                                 />
+                                            </View>
+                                            <View style={{width:'20%',marginTop:5}}>
+                                                <TouchableHighlight onPress={()=>{
+                                                    this.setState({showDateTime:true})
+                                                }} style={{}}>
+                                                <Icon name='calendar' type='font-awesome' size={36} color='#007256' /> 
+                                                </TouchableHighlight>    
+                                                    <DateTimePicker styles={{}}
+                                                        isVisible={this.state.showDateTime}
+                                                        onConfirm={this._handleDatePicked}
+                                                        onCancel={()=>{this.setState({showDateTime:false})}}
+                                                    />
+                                            </View>
+                                            
                                             
                                         </View>
                                         
                                     </View>
-                                    <View style={{flex:1,flexDirection:'row',alignItems:'center',margin:5,borderWidth:0.5}}>
+                                    <View style={{flex:1,flexDirection:'row',alignItems:'center',borderTopRightRadius:10,borderBottomRightRadius:10,
+                                    borderTopLeftRadius:10,borderBottomLeftRadius:10,
+                                    backgroundColor:'rgb(230, 230, 230)',margin:5,borderWidth:0.5}}>
                                         <View style={{flex:0.4,alignItems:'center'}}>
                                             <Text >Nội dung </Text>
                                         </View>
-                                        <View  style={{flex:0.6,backgroundColor:'rgb(249, 250, 252)',borderLeftWidth:0.5}}>
+                                        <View  style={{flex:0.6,backgroundColor:'rgb(249, 250, 252)',borderLeftWidth:0.5,borderBottomRightRadius:10,borderTopRightRadius:10}}>
                                             <TextInput
                                                 placeholder={'click để nhập...'}value={this.state.parameter} ref={(content) => { this.TextInput4 = content }}
                                                 onChangeText={(content) => this.setState({content})} 
@@ -223,11 +232,13 @@ export default class DetaisNote extends React.Component{
                                         </View>
                                         
                                     </View>
-                                    <View style={{flex:1,flexDirection:'row',alignItems:'center',margin:5,borderWidth:0.5}}>
+                                    <View style={{flex:1,flexDirection:'row',alignItems:'center',margin:5,borderWidth:0.5,borderTopRightRadius:10,borderBottomRightRadius:10,
+                                    borderTopLeftRadius:10,borderBottomLeftRadius:10,
+                                    backgroundColor:'rgb(230, 230, 230)',}}>
                                         <View  style={{flex:0.4,alignItems:'center'}}>
                                              <Text>Level </Text>
                                         </View>
-                                        <View style={{flex:0.6,backgroundColor:'rgb(249, 250, 252)',borderLeftWidth:0.5}}>
+                                        <View style={{flex:0.6,backgroundColor:'rgb(249, 250, 252)',borderLeftWidth:0.5,borderBottomRightRadius:10,borderTopRightRadius:10}}>
                                         <TextInput
                                         placeholder={'click để nhập...'}value={this.state.level}  ref={(level) => { this.TextInput4 = level }}
                                         onChangeText={(level) => this.setState({level})}
@@ -235,11 +246,13 @@ export default class DetaisNote extends React.Component{
                                         </View>
                                         
                                     </View>
-                                    <View style={{flex:1,flexDirection:'row',alignItems:'center',margin:5,borderWidth:0.5}}>
+                                    <View style={{flex:1,flexDirection:'row',alignItems:'center',borderTopRightRadius:10,borderBottomRightRadius:10,
+                                    borderTopLeftRadius:10,borderBottomLeftRadius:10,
+                                    backgroundColor:'rgb(230, 230, 230)',margin:5,borderWidth:0.5}}>
                                         <View style={{flex:0.4,alignItems:'center'}}>
                                         <Text >Người theo dõi </Text>
                                         </View>
-                                        <View  style={{flex:0.6,backgroundColor:'rgb(249, 250, 252)',borderLeftWidth:0.5}}>
+                                        <View  style={{flex:0.6,backgroundColor:'rgb(249, 250, 252)',borderBottomRightRadius:10,borderTopRightRadius:10,borderLeftWidth:0.5}}>
                                         <TextInput
                                         placeholder={'click để nhập...'}value={this.state.follower} ref={(follower) => { this.TextInput4 = follower }}
                                         onChangeText={(follower) => this.setState({follower})}
