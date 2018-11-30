@@ -95,16 +95,16 @@ class RoomScreen extends React.Component{
                                 API.deleteRoom(email.id).then(
                                     res => {
                                         if (res.data==="SUCCESS"){
-                                            alert('Đã xóa');
+                                            Alert.alert("Xong!",'Đã xóa');
                                             this.getDataFromServer()
                                             
                                         }
-                                        else alert('lỗi');
+                                        else Alert.alert("Lỗi",'Chưa xóa được!');
                                         
                                     },
                                     err => {
                                         // console.log('chạy err: '+JSON.stringify(err));
-                                        alert('lỗi');
+                                        Alert.alert("Lỗi",'Chưa xóa được!');
                                     }
                                 );
                             }}

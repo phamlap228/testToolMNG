@@ -25,6 +25,7 @@ class MainScreen extends React.Component{
             loading:true,
             keyItem:null,
         }
+        this.getDataFromServer.bind(this);
       }
       searchUpdated(term) {
         this.setState({ searchTerm: term })
@@ -117,16 +118,16 @@ class MainScreen extends React.Component{
                                 API.deleteDevice(email.id).then(
                                     res => {
                                         if (res.data==="SUCCESS"){
-                                            alert('Đã xóa');
+                                            Alert.alert("Xong!",'Đã xóa');
                                             this.getDataFromServer()
                                             
                                         }
-                                        else alert('lỗi');
+                                        else Alert.alert("Thông báo!",'lỗi');
                                         
                                     },
                                     err => {
                                         // console.log('chạy err: '+JSON.stringify(err));
-                                        alert('lỗi');
+                                        Alert.alert("Thông báo!",'lỗi');
                                     }
                                 );
                             }}
@@ -141,7 +142,7 @@ class MainScreen extends React.Component{
                     <ListItem
                         key={email.id}
                         onPress={()=>{
-                            this.gotoDetails(email)
+                            this.gotoDetails(email.id)
                         }}
                         avatar={<View style={{width: 80, height: 80, backgroundColor: 'rgb(179, 102, 255)', alignItems: 'center', justifyContent: 'center'}}>
                         <Image source={require('./../images/icon_butchi.jpg')}

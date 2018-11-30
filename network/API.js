@@ -52,4 +52,7 @@ API.addUse = (params) => {
 API.getUseHistory =  (page,size,deviceId) =>{
     return API.instance.get(`useHistory/getByDevice?page=${page}&size=${size}&deviceId=${deviceId}`)
 }
+API.getDeviceById =  (id) =>{
+    return API.instance.get(`device/getById?id=${id}`)
+}
 //171.244.4.48:6969/api/useHistory/getByDevice?page=0&size=20&deviceId=3

@@ -176,11 +176,11 @@ addItem(){
         API.addDevice(params).then(
             res=>{
                 if(res.data==='SUCCESS'){
-                    alert("Thêm thành công!");
+                    Alert.alert("Xong","Thêm thành công!");
                     this.props.navigation.goBack();
                 }
                 else return (
-                    alert("Chưa thêm được!")
+                    Alert.alert("Lỗi","Chưa thêm được!")
                 )
                 
             },

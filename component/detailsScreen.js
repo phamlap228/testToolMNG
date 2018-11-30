@@ -6,6 +6,7 @@ import HeaderContainer from './headerContainer.js';
 import DetailsItem from './detailsItem.js';
 import DetaisUsing from './detailsUsing.js';
 import DetaisNote from './detailsNote.js';
+import {API} from '../network/API.js';
 import ColorApp from './../config/ColorApp'
 
 
@@ -13,7 +14,32 @@ class DetailsScreen extends React.Component{
     constructor (props){
         super(props);
         this.state={
+            id:this.props.navigation.state.params.data,
+            data:[]
         }
+        console.log(this.state.id);
+        console.log(JSON.stringify(this.props));
+        //this.handleUpdate.bind(this);
+    }
+    // handleUpdate = () => {
+    //     this.props.navigation.state.params.getDataFromServer()
+    // }
+    async componentWillMount(){
+        await this.getDataFromServer();
+    }
+    getDataFromServer(){  
+       var id = this.state.id
+        API.getDeviceById(id).then(
+            res => {
+                console.log(JSON.stringify(res))
+                this.setState({
+                    data: res.data
+                })
+            },
+            err => {
+                console.log('chạy err: '+JSON.stringify(err));
+            }
+        );
     }
     static navigationOptions = () => {
         let drawerLabel = 'Details'
@@ -24,14 +50,14 @@ class DetailsScreen extends React.Component{
     }
     render(){
        // <StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
-        const info = this.props.navigation.state.params.data;
-        // console.log(JSON.stringify(this.props.navigation.state.params))
+        const info = this.state.data;
+        
         return(
                 <View style={{flex: 1}}>
                     <View style ={{backgroundColor:ColorApp.headerColor,width:'100%',flexDirection: 'row',
                     justifyContent:'center',alignItems: 'center',height:'8%',alignSelf: 'flex-start'}}>
                     <TouchableHighlight style={{left: 10,alignItems: 'center',position:'absolute'}}  
-                            onPress={() => this.props.navigation.goBack()}>
+                            onPress={() => { this.props.navigation.goBack()}}>
                             <Icon name="times" type='font-awesome' color="white" marginLeft={5}/>
                         </TouchableHighlight>
                         <Text style={{fontWeight: 'bold',fontSize: 16,alignItems: 'center',justifyContent:'center',color:'white'}}>
@@ -52,7 +78,7 @@ class DetailsScreen extends React.Component{
                         <Tab  heading={<TabHeading style={{backgroundColor: 'rgb(153, 0, 255)',flexDirection:'column'}}>
                         <Icon name="table" type='font-awesome' color='white' />
                         <Text style={{color:'white', marginLeft: 5}}>Quá trình SD</Text></TabHeading>}>
-                            <DetaisUsing data={info}/>
+                            <DetaisUsing data={info} />
                     </Tab>
                 </Tabs>
                 

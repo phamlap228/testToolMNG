@@ -116,13 +116,15 @@ export default class DetaisItem extends React.Component{
             //f
             
         }
+        
         this.setState({newPrice:this.state.price});
         API.addDevice(params).then(
             res => {
-                if(res.data==='SUCCESS')return Alert.alert('Sửa','Thành công!');
+                if(res.data==='SUCCESS')return (Alert.alert('Sửa','Thành công!') ,console.log(JSON.stringify(res)))
+                
                 else{
                     Alert.alert('Sửa','Không thành công!')
-                    this.forceUpdate();
+                    
                 }
             },
             err => {
@@ -130,6 +132,7 @@ export default class DetaisItem extends React.Component{
             }
         );
     }
+    
     async componentDidMount(){
         await this.getRoomFromServer();
     }
@@ -188,7 +191,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',flexDirection:'row',borderWidth:0.5}}>
                                 <TextInput editable={this.state.enableEditName} 
-                                placeholder={info.name} ref={(name) => { this.TextInput1 = name }}
+                                placeholder={info.name===null?"":info.name} ref={(name) => { this.TextInput1 = name }}
                                 onChangeText={(name) => this.setState({name})}/>
                                 
                             </View>
@@ -213,7 +216,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',flexDirection:'row',borderWidth:0.5}}>
                                     <TextInput editable={this.state.enableEditCode}
-                                    placeholder={info.code} ref={(code) => { this.TextInput2 = code }}
+                                    placeholder={info.code===null?"":info.code} ref={(code) => { this.TextInput2 = code }}
                                     onChangeText={(code) => this.setState({code})}/>
 
                                     
@@ -238,7 +241,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View style={{flexDirection:'row',fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
                                 <TextInput editable={this.state.enableEditNumber}
-                                placeholder={''+info.number} ref={(number) => { this.TextInput17 = number }}
+                                placeholder={info.number===null?"":info.number+""} ref={(number) => { this.TextInput17 = number }}
                                 onChangeText={(number) => this.setState({number})} keyboardType='numeric'/>
                                 
                             </View>
@@ -328,7 +331,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View  style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5,}}>
                                 <TextInput editable={this.state.enableEditMadeYear}
-                             placeholder={''+info.madeYear} ref={(madeYear) => { this.TextInput7 = madeYear }}
+                             placeholder={''+info.madeYear===null?"":info.madeYear+""} ref={(madeYear) => { this.TextInput7 = madeYear }}
                              onChangeText={(madeYear) => this.setState({madeYear})} keyboardType='numeric'/>
                             </View>
                             <View style={{width:'10%',alignItems:'center'}}>
@@ -352,7 +355,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
                                 <TextInput editable={this.state.enableEditMadeIn}
-                             placeholder={info.madeIn} ref={(madeIn) => { this.TextInput16 = madeIn }}
+                             placeholder={info.madeIn===null?"":info.madeIn} ref={(madeIn) => { this.TextInput16 = madeIn }}
                              onChangeText={(madeIn) => this.setState({madeIn})}/>
                             </View>
                             <View style={{width:'10%'}}>
@@ -377,7 +380,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
                             <TextInput editable={this.state.enableEditPrice}
-                             placeholder={value} ref={(price) => { this.TextInput4 = price }}
+                             placeholder={value===null?"":value} ref={(price) => { this.TextInput4 = price }}
                              onChangeText={(price) => {this.setState({price}) }} keyboardType='numeric'/>
                             </View>
                             <View style={{width:'10%'}}>
@@ -403,7 +406,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View style={{flexDirection:'row',fontSize:14,color:'black',width:'15%', backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5,alignItems:'center'}}>
                                     <TextInput editable={this.state.enableEditVoltageFrom}
-                                        placeholder={''+info.voltageFrom} ref={(voltageFrom) => { this.TextInput5 = voltageFrom }}
+                                        placeholder={''+info.voltageFrom===null?"":info.voltageFrom+""} ref={(voltageFrom) => { this.TextInput5 = voltageFrom }}
                                         onChangeText={(voltageFrom) => this.setState({voltageFrom})}keyboardType='numeric'/>
                             </View>
                             <View style={{width:'10%'}}>
@@ -423,7 +426,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View style={{fontSize:14,color:'black',width:'15%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
                                             <TextInput editable={this.state.enableEditVoltageTo} 
-                                        placeholder={''+info.voltageTo} ref={(voltageTo) => { this.TextInput6 = voltageTo }}
+                                        placeholder={''+info.voltageTo===null?"":info.voltageTo+""} ref={(voltageTo) => { this.TextInput6 = voltageTo }}
                                         onChangeText={(voltageTo) => this.setState({voltageTo})} keyboardType='numeric'/>
                                 </View>
                             <View style={{width:'10%',justifyContent:'center',marginRight:5}}>
@@ -447,7 +450,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View  style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
                                 <TextInput editable={this.state.enableEditAmpe} 
-                                placeholder={''+info.ampe} ref={(ampe) => { this.TextInput8 = ampe }}
+                                placeholder={info.ampe===null?"":info.ampe+""} ref={(ampe) => { this.TextInput8 = ampe }}
                                 onChangeText={(ampe) => this.setState({ampe})} keyboardType='numeric'/>
                             </View>
                             <View style={{width:'10%'}}>
@@ -471,7 +474,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}> 
                                 <TextInput editable={this.state.enableEditCapacity}
-                                placeholder={''+info.capacity} ref={(capacity) => { this.TextInput9 = capacity }}
+                                placeholder={info.capacity===null?"":info.capacity+""} ref={(capacity) => { this.TextInput9 = capacity }}
                                 onChangeText={(capacity) => this.setState({capacity})}/>
                             </View>
                             <View style={{width:'10%'}}>
@@ -495,7 +498,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
                                     <TextInput editable={this.state.enableEditAccessory} 
-                                        placeholder={info.accessory} ref={(accessory) => { this.TextInput10 = accessory }}
+                                        placeholder={info.accessory===null?"":info.accessory} ref={(accessory) => { this.TextInput10 = accessory }}
                                         onChangeText={(accessory) => this.setState({accessory})}/>
                             </View>
                             <View style={{width:'10%'}}>
@@ -519,7 +522,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View  style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
                                 <TextInput editable={this.state.enableEditReceiver}
-                             placeholder={info.receiver} ref={(receiver) => { this.TextInput11 = receiver }}
+                             placeholder={info.receiver===null?"":info.receiver} ref={(receiver) => { this.TextInput11 = receiver }}
                              onChangeText={(receiver) => this.setState({receiver})}/>
                             </View>
                             <View style={{width:'10%'}}>
@@ -544,7 +547,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
                                 <TextInput editable={this.state.enableEditMoneySource}
-                             placeholder={""+info.moneySource} ref={(moneySource) => { this.TextInput12 = moneySource }}
+                             placeholder={""+info.moneySource===null?"":info.moneySource+""} ref={(moneySource) => { this.TextInput12 = moneySource }}
                              onChangeText={(moneySource) => this.setState({moneySource})}/>
                             </View>
                             <View style={{width:'10%'}}>
@@ -593,7 +596,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View  style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
                                 <TextInput editable={this.state.enableEditStatusReceipt}
-                             placeholder={""+info.statusReceipt} ref={(statusReceipt) => { this.TextInput13 = statusReceipt }}
+                             placeholder={""+info.statusReceipt===null?"":info.statusReceipt+""} ref={(statusReceipt) => { this.TextInput13 = statusReceipt }}
                              onChangeText={(statusReceipt) => this.setState({statusReceipt})}/>
                             </View>
                             <View style={{width:'10%'}}>
@@ -618,7 +621,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
                                 <TextInput editable={this.state.enableEditLevelQuality} 
-                             placeholder={""+info.levelQuality} ref={(levelQuality) => { this.TextInput14 = levelQuality }}
+                             placeholder={""+info.levelQuality===null?"":info.levelQuality+""} ref={(levelQuality) => { this.TextInput14 = levelQuality }}
                              onChangeText={(levelQuality) => this.setState({levelQuality})} keyboardType='numeric' />
                             </View>
                             <View style={{width:'10%'}}>
@@ -642,7 +645,7 @@ export default class DetaisItem extends React.Component{
                             </View>
                             <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
                                  <TextInput editable={this.state.enableEditDescription}
-                             placeholder={info.description} ref={(description) => { this.TextInput15 = description }}
+                             placeholder={info.description===null?"":info.description} ref={(description) => { this.TextInput15 = description }}
                              onChangeText={(description) => this.setState({description})}/>
                             </View>
                             <View style={{width:'10%'}}>

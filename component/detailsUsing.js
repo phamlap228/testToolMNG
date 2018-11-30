@@ -114,7 +114,7 @@ export default class DetaisUsing extends React.Component{
                         if(res.data==="SUCCESS"){
                             // console.log(JSON.stringify(res));
                             // console.log("\n params" +JSON.stringify(params));
-                            Alert.alert('Done','Thêm thành công!')
+                            Alert.alert('Xong','Thêm thành công!')
                             this.getDataFromServer();
                             this.setModalVisible(false);
                             this.setState({
@@ -124,7 +124,7 @@ export default class DetaisUsing extends React.Component{
                             });
                         }
                         else{
-                            Alert.alert('Failed','Thêm không thành công!')
+                            Alert.alert('Lỗi','Thêm không thành công!')
                             
                         // console.log("\n params" +JSON.stringify(params));
                         }
@@ -132,7 +132,7 @@ export default class DetaisUsing extends React.Component{
                     },
                     err=>{
                         // console.log('lỗi:'+err)
-                        Alert.alert('Failed','Thêm không thành công!')
+                        Alert.alert('Lỗi','Thêm không thành công!')
                     }
                 )
             )

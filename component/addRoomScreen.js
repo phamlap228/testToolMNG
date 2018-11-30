@@ -55,10 +55,10 @@ addItem(){
     API.addRoom(params).then(
         res=>{
             if(res.data==='SUCCESS'){
-                Alert.alert("Note","Thêm thành công!");
+                Alert.alert("Xong","Thêm thành công!");
                 this.props.navigation.goBack() 
             }
-            else return alert("Chưa thêm được!");
+            else return Alert.alert("Lỗi","Thêm không thành công!");
             
         },
         err=>{

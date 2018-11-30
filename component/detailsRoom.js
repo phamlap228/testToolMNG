@@ -58,7 +58,7 @@ import {API} from '../network/API.js';
             code: this.state.code===""? this.props.data.code :this.state.code,
             manager:this.state.manager===""? this.props.data.manager :this.state.manager,
         }
-        console.log("params:"+ JSON.stringify(params));
+        //console.log("params:"+ JSON.stringify(params));
         API.addRoom(params).then(
             res=>{
                 if(res.data==='SUCCESS'){
@@ -67,11 +67,11 @@ import {API} from '../network/API.js';
                         showInputName:false,
                         showInputCode:false,
                         showInputmanager:false,
-                    },()=>{alert("Thêm thành công!");})
+                    },()=>{Alert.alert("Xong!","Thêm thành công!");})
                     
                     
                 }
-                else return alert("Chưa thêm được!");
+                else return Alert.alert("Lỗi!","Thêm không thành công!");
                 
             },
             err=>{
