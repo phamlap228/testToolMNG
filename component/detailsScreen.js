@@ -31,7 +31,7 @@ class DetailsScreen extends React.Component{
        var id = this.state.id
         API.getDeviceById(id).then(
             res => {
-                console.log(JSON.stringify(res))
+                //console.log(JSON.stringify(res))
                 this.setState({
                     data: res.data
                 })
@@ -51,7 +51,7 @@ class DetailsScreen extends React.Component{
     render(){
        // <StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
         const info = this.state.data;
-        
+        console.log("info details screen"+JSON.stringify(info));
         return(
                 <View style={{flex: 1}}>
                     <View style ={{backgroundColor:ColorApp.headerColor,width:'100%',flexDirection: 'row',

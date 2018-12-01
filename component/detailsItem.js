@@ -22,10 +22,11 @@ export default class DetaisItem extends React.Component{
             madeYear:'',
             code:'',
             madeIn:'',
-            useIn: this.props.data.useIn,
+            useIn:this.props.data.useIn,
+            useInNew:"",
             dateReceived:'',
             dateUse:'',
-            price:0,
+            price:this.props.data.price,
             description:'',
             voltageFrom:'',
             voltageTo:'',
@@ -94,7 +95,7 @@ export default class DetaisItem extends React.Component{
             madeYear:this.state.madeYear===''?this.props.data.madeYear:this.state.madeYear,
             code:this.state.code===''?this.props.data.code:this.state.code,
             madeIn:this.state.madeIn===''?this.props.data.madeIn:this.state.madeIn,
-            useIn:this.state.useIn===''?this.props.data.useIn:this.state.useIn,
+            useIn:this.state.useIn===''||undefined||null?this.props.data.useIn:this.state.useIn,
             dateReceived:this.state.dateReceived===''?this.props.data.dateReceived:this.state.dateReceived,
             dateUse:this.state.dateUse===''?this.props.data.dateUse:this.state.dateUse,
             price:this.state.price===''?this.props.data.price:this.state.price,
@@ -110,17 +111,20 @@ export default class DetaisItem extends React.Component{
             dateIn:this.state.dateIn===''?this.props.data.dateIn:this.state.dateIn,
             statusReceipt:this.state.statusReceipt===''?this.props.data.statusReceipt:this.state.statusReceipt,
             levelQuality:this.state.levelQuality===''?this.props.data.levelQuality:this.state.levelQuality,
-            number:this.state.name===null?this.props.data.number:this.state.number,
+            number:this.state.number===""?this.props.data.number:this.state.number,
             
             //department:this.state.department===null?this.props.data.department:this.state.department,
             //f
             
         }
         
-        this.setState({newPrice:this.state.price});
+        this.setState({
+            newPrice:this.state.price,
+            //useIn:this.state.useIn
+        });
         API.addDevice(params).then(
             res => {
-                if(res.data==='SUCCESS')return (Alert.alert('Sửa','Thành công!') ,console.log(JSON.stringify(res)))
+                if(res.data==='SUCCESS') return (Alert.alert('Sửa','Thành công!'))
                 
                 else{
                     Alert.alert('Sửa','Không thành công!')
@@ -132,9 +136,16 @@ export default class DetaisItem extends React.Component{
             }
         );
     }
-    
+    componentWillMount(){
+        // this.setState({useIn: this.props.data.useIn,})
+        
+        // console.log("data Trong details"+JSON.stringify(this.props.data));
+        // console.log("useIn Trong details"+this.props.data.useIn);
+    }
     async componentDidMount(){
+       // this.setState({useIn: this.props.data.useIn})
         await this.getRoomFromServer();
+        
     }
     getRoomFromServer(){
     
@@ -142,6 +153,7 @@ export default class DetaisItem extends React.Component{
             res => {
                 this.setState({
                     nameRoom: res.data.content,
+                   // useIn: this.state.nameRoom
                 })
             },
             err => {
@@ -176,11 +188,13 @@ export default class DetaisItem extends React.Component{
        var dateUseNew = new Date(this.state.dateUse).toLocaleDateString();
        var dateInNew = new Date(this.state.dateIn).toLocaleDateString();
        let roomItems = this.state.nameRoom.map( (s, i) => {
-        return <Picker.Item key={i} value={s.name} label={s.name} />
-    });
+        return <Picker.Item key={i} value={s.name} label={s.name} />});
     //<Image style={{width:'100%',height:'40%' }} source={require('../images/icon_butchi.jpg')}/>backgroundColor:'rgb(230, 230, 230)',
-    var price = this.state.price===0 ? info.price:this.state.newPrice
+    var price = this.state.newPrice===0? info.price:this.state.newPrice
     var value = numeral(price).format('0,0');
+    
+   // {console.log("Ở phòng: "+this.state.useIn+"\n DỮ liệu"+JSON.stringify( this.props.data))}
+    
         return(
                 <View style={{width:'100%',height:'100%'}}>
                 <View style={{flex: 1,backgroundColor:'white',alignItems:'center'}}>
@@ -268,8 +282,11 @@ export default class DetaisItem extends React.Component{
                             <View style={{width:'55%',backgroundColor:'white',borderWidth:0.5,alignSelf:'flex-start'}}>
                             <Picker
                                 style={{width:'100%'}}
-                                selectedValue={this.state.useIn}
-                                onValueChange={ (room) => {this.setState({useIn:room}),()=>{this.addRoomEdit()}}  } >
+                                selectedValue={this.state.useIn===undefined?this.props.data.useIn:this.state.useIn}
+                                onValueChange={ (room) => {
+                                    this.setState({useIn:room},()=>{
+                                        this.addRoomEdit()
+                                    })}} >
                                 {roomItems}
                             </Picker>
                             </View>
@@ -298,7 +315,7 @@ export default class DetaisItem extends React.Component{
                             
                             
                         </View>
-                        
+
                     
                         <View style={{flexDirection:'row',width:'98%',borderWidth: 1,backgroundColor:"rgb(230, 230, 230)",justifyContent:'center',alignItems:'center',borderRadius:5,marginLeft:5,marginRight:5}}>
                             
@@ -379,9 +396,9 @@ export default class DetaisItem extends React.Component{
                                 <Text style={{color:'black'}}>Giá thiết bị:  </Text>
                             </View>
                             <View style={{fontSize:14,color:'black',width:'45%',backgroundColor:'white',borderLeftWidth: 0.5,borderRightWidth:0.5}}>
-                            <TextInput editable={this.state.enableEditPrice}
-                             placeholder={value===null?"":value} ref={(price) => { this.TextInput4 = price }}
-                             onChangeText={(price) => {this.setState({price}) }} keyboardType='numeric'/>
+                            <TextInput editable={this.state.enableEditPrice} 
+                             placeholder={value} ref={(price) => { this.TextInput4 = price }}
+                             onChangeText={(value) => {this.setState({price:value}) }} keyboardType='numeric'/>
                             </View>
                             <View style={{width:'10%'}}>
                             {!this.state.showIconEditPrice? 

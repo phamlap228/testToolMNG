@@ -23,8 +23,13 @@ class RoomScreen extends React.Component{
             searchType:'name',
             loading:false,
             keyItem:null,
+            updateRoom:false,
         }
+        this.refreshFunction=this.refreshFunction.bind(this)
     }
+    searchUpdated(term) {
+        this.setState({ searchTerm: term })
+      }
     static navigationOptions = () => {
         let drawerLabel = 'Khoa'
         let drawerIcon = () =>(
@@ -48,11 +53,13 @@ class RoomScreen extends React.Component{
             }
         );
     }
-    refreshFunction () {
-        //do refresh
-        this.getDataFromServer();
-     }
+    refreshFunction = updateRoom => {
+            if(updateRoom===true){
+                this.getDataFromServer()
+            }
+          };
     gotoDetails=(item)=>{
+        //this.props.navigation.setParams({refreshFunction:this.refreshFunction.bind(this)});
         this.props.navigation.navigate('DetailsRoomScreen', {data:item});
         // this.props.navigation.reset([NavigationActions.navigate('DetailsRoomScreen', {data:item},{refresh: refreshFunction})], 0)
     }
@@ -76,7 +83,7 @@ class RoomScreen extends React.Component{
                 selectedValue={this.state.searchType}
                 style={{width:'40%',end:0,position:'absolute'}}
                 onValueChange={(itemValue, itemIndex) => this.setState({searchType: itemValue})}>
-                <Picker.Item label="Người nhận" value="receiver" />
+                <Picker.Item label="Trưởng khoa" value="manager" />
                 <Picker.Item label="Tên" value="name" />
             </Picker>
         </View>
@@ -144,7 +151,7 @@ class RoomScreen extends React.Component{
         <TouchableOpacity style={{position:'absolute',right: 20, bottom:20,alignItems:'center', 
             width:50,height:50,borderRadius: 25,backgroundColor:ColorApp.fabsColor}}
             onPress={()=>{
-                this.props.navigation.navigate('AddRoom')
+                this.props.navigation.navigate('AddRoom',{refreshFunction:this.refreshFunction.bind(this)})
             }}>
             <Text style={{fontSize: 36,color:'white',alignItems:'center',justifyContent:'center'}}>+</Text>
         </TouchableOpacity>

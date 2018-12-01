@@ -1,7 +1,7 @@
 
 import React, {  Component } from 'react';
 import { Platform,Alert,StyleSheet,ScrollView,TouchableHighlight,Button,
-     Text, View,StatusBar,Dimensions,Keyboard,TextInput, Picker,Image} from 'react-native';
+     Text, View,StatusBar,Dimensions,Keyboard,TextInput, Picker,BackHandler,Image} from 'react-native';
 // import { Button, Input } from 'native-base';
 import { Icon } from 'react-native-elements';
 import ColorApp from '../config/ColorApp.js';
@@ -9,7 +9,7 @@ import HeaderContainer from './headerContainer.js';
 import {Actions} from 'react-native-router-flux';
 import {list} from './data.js';
 import axios from 'axios';
-
+var numeral = require('numeral');
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import {API} from '../network/API.js';
 
@@ -75,6 +75,21 @@ static navigationOptions = () => {
     );
     return{drawerLabel,drawerIcon};
 }
+componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+  }
+componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+  }
+
+handleBackPress = () => {
+    
+        const { navigation } = this.props;
+        navigation.state.params.refreshFunction(true);
+        this.props.navigation.goBack();
+    //this.goBack(); // works best when the goBack is async
+    return true;
+  }
 appendObjTo=(list, newObj)=> {
     const frozenObj = Object.freeze(newObj);
     return Object.freeze(list.concat(frozenObj));
@@ -256,8 +271,8 @@ render(){
         return <Picker.Item key={i} value={s.name} label={s.name} />
     });
     //<StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
-    // var price = this.state.price===0 ? info.price:this.state.newPrice
-    // var value = numeral(price).format('0,0');
+    var price = this.state.price//===0 ? info.price:this.state.newPrice
+    var value = numeral(price).format('0,0');
     return(
         <View style={{flexDirection: 'column',flex: 1}}>
         <StatusBar backgroundColor={ColorApp.statusBarColor} barStyle="light-content" />
@@ -283,7 +298,7 @@ render(){
             <View style={styles.textInput}>
                 <TextInput value={this.state.number} ref={(input) => { this.TextInput20 = input }}
                 onChangeText={(number) => this.setState({number})} placeholder='click để nhập..' 
-                onSubmitEditing={() => { Keyboard.dismiss()}}
+                onSubmitEditing={() => { Keyboard.dismiss()}} keyboardType='numeric'
                 />
             </View>
             
@@ -390,11 +405,14 @@ render(){
                 <View  style={{flex: 0.4,marginLeft:5}}>
                     <Text>Giá:</Text> 
                 </View>
-                <View style={styles.textInput}>
+                <View style={{flex:1,backgroundColor:'white',width: '100%',height: '100%',borderWidth:0.5,
+                borderTopRightRadius:10,borderBottomRightRadius:10,flexDirection:'row'}}>
+                    
                     <TextInput value={this.state.price} ref={(input) => { this.TextInput8 = input }}
                     onChangeText={(price) => this.setState({price})} placeholder='click để nhập..' keyboardType='numeric' 
-                    onSubmitEditing={() => { this.TextInput9.focus(); }}
+                    onSubmitEditing={() => { this.TextInput9.focus();  }} numberOfLines={2} maxLength={14}
                     />
+                    <TextInput editable={false} placeholder={'= '+(value)} numberOfLines={2}/>
                 </View>
                 
             </View>

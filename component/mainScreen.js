@@ -24,6 +24,7 @@ class MainScreen extends React.Component{
             searchType:'name',
             loading:true,
             keyItem:null,
+            updateDevice:false
         }
         this.getDataFromServer.bind(this);
       }
@@ -40,6 +41,11 @@ class MainScreen extends React.Component{
     async componentWillMount(){
         await this.getDataFromServer();
     }
+    refreshFunction = updateDevice => {
+        if(updateDevice===true){
+            this.getDataFromServer()
+        }
+      };
     getDataFromServer(){    
         // this.setState({
         //     data:listDevice
@@ -99,7 +105,7 @@ class MainScreen extends React.Component{
                 selectedValue={this.state.searchType}
                 style={{width:'40%',end:0,position:'absolute'}}
                 onValueChange={(itemValue, itemIndex) => this.setState({searchType: itemValue})}>
-                <Picker.Item label="Khoa" value="department" />
+                <Picker.Item label="Khoa" value="useIn" />
                 <Picker.Item label="Tên thiết bị" value="name" />
             </Picker>
         </View>
@@ -167,7 +173,7 @@ class MainScreen extends React.Component{
         <TouchableOpacity style={{position:'absolute',right: 20, bottom:20,alignItems:'center', 
         width:50,height:50,borderRadius: 25,backgroundColor:ColorApp.fabsColor}}
         onPress={()=>{
-            this.props.navigation.navigate('Add')
+            this.props.navigation.navigate('Add',{refreshFunction:this.refreshFunction.bind(this)})
         }}
         >
             <Text style={{fontSize: 36,color:'white',alignItems:'center',justifyContent:'center'}}>+</Text>

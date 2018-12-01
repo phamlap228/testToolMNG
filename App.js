@@ -47,6 +47,7 @@ const Drawer = DrawerNavigator(routerConfigs,drawerNavigatorConfig);
 const App = StackNavigator(
   {
     Drawer: { screen: Drawer, navigationOptions:() => ({ header:null}) },
+    //Add: { screen: AddScreen, navigationOptions:() => ({ header:null}) },
     AddRoom:{screen: AddRoomScreen, navigationOptions:() => ({ header:null})},
     Details:{ screen:DetailsScreen, navigationOptions:() => ({ header:null}) },
     DetailsRoomScreen:{ screen:DetailsRoomScreen, navigationOptions:() => ({ header:null}) }

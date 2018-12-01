@@ -23,7 +23,10 @@ export default class AddRoomScreen extends Component {
         code:'',
         manager:'',
     }
+   
+    console.log("props:"+JSON.stringify(this.props));
 }
+
 static navigationOptions = () => {
     let drawerLabel = 'Thêm phòng'
     let drawerIcon = () =>(
@@ -35,13 +38,18 @@ appendObjTo=(list, newObj)=> {
     const frozenObj = Object.freeze(newObj);
     return Object.freeze(list.concat(frozenObj));
 }
+goBackRoom(){
+    const { navigation } = this.props;
+    navigation.state.params.refreshFunction(true);
+    this.props.navigation.goBack();
+}
 quaylai=()=>{
     Alert.alert(
-        'Thêm thành công',
+        'Xong',
         "Bấm Yes để về màn hình main",
         [
           { text:'No', onPress: () => { } },
-          { text: 'Yes', onPress: () => this.props.navigation.goBack() },
+          { text: 'Yes', onPress: () => {this.goBack} },
         ],
         { cancelable: false }
       )
@@ -56,7 +64,7 @@ addItem(){
         res=>{
             if(res.data==='SUCCESS'){
                 Alert.alert("Xong","Thêm thành công!");
-                this.props.navigation.goBack() 
+                this.goBackRoom() 
             }
             else return Alert.alert("Lỗi","Thêm không thành công!");
             

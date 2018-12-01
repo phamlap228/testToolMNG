@@ -1,6 +1,6 @@
 import React,{Comment} from 'react';
 import {Container} from 'native-base';
-import {View,StyleSheet,TextInput,FlatList,Text,ScrollView,Image,Dimensions} from 'react-native';
+import {View,StyleSheet,TextInput,Alert,FlatList,Text,ScrollView,Image,Dimensions} from 'react-native';
 import { ListItem, Card, Icon } from 'react-native-elements';
 import {DeviceEventEmitter} from 'react-native'
 import {API} from '../network/API.js';

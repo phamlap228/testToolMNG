@@ -279,19 +279,20 @@ export default class DetaisNote extends React.Component{
                           </Modal>
                             </View>
                     </ScrollView>
+                    <TouchableOpacity style={{position:'absolute',right: 20, bottom:30+(height/5),alignItems:'center',zIndex:999, //30+(height/5)
+                    width:50,height:50,borderRadius: 25,backgroundColor:ColorApp.fabsColor}}
+                    onPress={()=>{
+                        this.setModalVisible(true);
+                    }}
+                    ><View style={{flex:1}}>
+                        <Text style={{fontSize: 36,color:'white',alignItems:'center',justifyContent:'center'}}>+</Text>
+                    </View>
+            
+                </TouchableOpacity>
                     </View>
                     
                     
-                    <TouchableOpacity style={{position:'absolute',right: 40, bottom:40+(height/5),alignItems:'center',zIndex:2, 
-                        width:50,height:50,borderRadius: 25,backgroundColor:ColorApp.fabsColor}}
-                        onPress={()=>{
-                            this.setModalVisible(true);
-                        }}
-                        ><View style={{flex:1}}>
-                            <Text style={{fontSize: 36,color:'white',alignItems:'center',justifyContent:'center'}}>+</Text>
-                        </View>
-                
-                    </TouchableOpacity>
+                   
             </View>
             
         )

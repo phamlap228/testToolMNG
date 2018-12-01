@@ -161,7 +161,7 @@ export default class DetaisUsing extends React.Component{
                             </View>
 
                     </View>
-                    <TouchableOpacity style={{position:'absolute',right: 40, bottom:40+(height/5),alignItems:'center',zIndex:2, 
+                    <TouchableOpacity style={{position:'absolute',right:20, bottom:30+(height/5),alignItems:'center',zIndex:2, 
                         width:50,height:50,borderRadius: 25,backgroundColor:ColorApp.fabsColor}}
                         onPress={()=>{
                             this.setModalVisible(true);
