@@ -241,7 +241,7 @@ export default class DetaisNote extends React.Component{
                                         <View style={{flex:0.6,backgroundColor:'rgb(249, 250, 252)',borderLeftWidth:0.5,borderBottomRightRadius:10,borderTopRightRadius:10}}>
                                         <TextInput
                                         placeholder={'click để nhập...'}value={this.state.level}  ref={(level) => { this.TextInput4 = level }}
-                                        onChangeText={(level) => this.setState({level})}
+                                        onChangeText={(level) => this.setState({level})} keyboardType='numeric'
                                         />
                                         </View>
                                         

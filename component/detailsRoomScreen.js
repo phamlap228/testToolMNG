@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Header, Container,Card, Body, Left,Tab,Tabs, TabHeading,Right } from 'native-base';
-import {View,Text,StatusBar,Image,TouchableHighlight,TouchableOpacity,ScrollView,StyleSheet} from 'react-native';
+import {View,Text,StatusBar,BackHandler,Image,TouchableHighlight,TouchableOpacity,ScrollView,StyleSheet} from 'react-native';
 import { Icon } from 'react-native-elements';
 import HeaderContainer from './headerContainer.js';
 import DetailsItem from './detailsItem.js';
@@ -17,6 +17,7 @@ class DetailsRoomScreen extends React.Component{
         this.state={
         }
     }
+    
     static navigationOptions = () => {
         let drawerLabel = 'DetailsRoomScreen'
         let drawerIcon = () =>(
@@ -24,6 +25,21 @@ class DetailsRoomScreen extends React.Component{
         );
         return{drawerLabel,drawerIcon};
     }
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+      }
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+      }
+    
+    handleBackPress = () => {
+        
+            const { navigation } = this.props;
+            navigation.state.params.refreshFunction(true);
+            this.props.navigation.goBack();
+        //this.goBack(); // works best when the goBack is async
+        return true;
+      }
     render(){
        // <StatusBar backgroundColor="rgb(255, 77, 255)" barStyle="light-content" />
         const info = this.props.navigation.state.params.data;
@@ -33,7 +49,7 @@ class DetailsRoomScreen extends React.Component{
                 <View style ={{backgroundColor:ColorApp.headerColor,width:'100%',flexDirection: 'row',
                     justifyContent:'center',alignItems: 'center',height:'8%',alignSelf: 'flex-start'}}>
                     <TouchableHighlight style={{left: 10,alignItems: 'center',position:'absolute'}}  
-                            onPress={() => this.props.navigation.goBack()}>
+                            onPress={() => this.handleBackPress()}>
                             <Icon name="times" type='font-awesome' color="white" marginLeft={5}/>
                         </TouchableHighlight>
                     <Text style={{fontWeight: 'bold',fontSize: 16,alignItems: 'center',justifyContent:'center',color:'white'}}>

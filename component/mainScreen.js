@@ -94,20 +94,26 @@ class MainScreen extends React.Component{
         <StatusBar backgroundColor={ColorApp.statusBarColor} barStyle="light-content" />
         <HeaderContainer {...this.props} header='Danh sách thiết bị'/>
         <View style={{width:'100%',height:50,flexDirection:'row'}}>
-            <SearchInput 
+            <View style={{width:'60%',}}>
+                <SearchInput 
                 onChangeText={(term) => { this.searchUpdated(term) }} 
-                style={styles.searchInput}
+                style={{width:'100%'}}
                 placeholder="Nhập để tìm kiếm..."
                 ref = {this.refs.filterInput}
                 
             />
-            <Picker
+            </View>
+            <View style={{width:'40%'}}>
+                <Picker
                 selectedValue={this.state.searchType}
-                style={{width:'40%',end:0,position:'absolute'}}
+                style={{width:'100%',end:0,position:'absolute'}}
                 onValueChange={(itemValue, itemIndex) => this.setState({searchType: itemValue})}>
                 <Picker.Item label="Khoa" value="useIn" />
                 <Picker.Item label="Tên thiết bị" value="name" />
             </Picker>
+            </View>
+            
+            
         </View>
         <ScrollView>
             {filteredEmails.map(email => {
@@ -193,9 +199,9 @@ styles = StyleSheet.create({
       color: 'black'
     },
     searchInput:{
-        width:'70%',
+        width:'100%',
         backgroundColor: '#ececec',
-        padding: 10
+        padding: 5
     }
   })
 export default MainScreen

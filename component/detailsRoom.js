@@ -1,6 +1,6 @@
 import React,{Comment} from 'react';
 import {Container} from 'native-base';
-import {View,StyleSheet,TextInput,Alert,FlatList,Text,ScrollView,Image,Dimensions} from 'react-native';
+import {View,StyleSheet,TextInput,Alert,BackHandler,FlatList,Text,ScrollView,Image,Dimensions} from 'react-native';
 import { ListItem, Card, Icon } from 'react-native-elements';
 import {DeviceEventEmitter} from 'react-native'
 import {API} from '../network/API.js';
@@ -42,6 +42,7 @@ import {API} from '../network/API.js';
             }
         );
     }
+
     // _renderIconSua = ()=>{
     //     if(this.state.showIconEdit){
     //         return <Icon name='edit'  color='rgb(200, 203, 209)' size={24}/>

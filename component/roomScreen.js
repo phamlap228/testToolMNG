@@ -25,7 +25,7 @@ class RoomScreen extends React.Component{
             keyItem:null,
             updateRoom:false,
         }
-        this.refreshFunction=this.refreshFunction.bind(this)
+        this.getDataFromServer.bind(this);
     }
     searchUpdated(term) {
         this.setState({ searchTerm: term })
@@ -60,7 +60,7 @@ class RoomScreen extends React.Component{
           };
     gotoDetails=(item)=>{
         //this.props.navigation.setParams({refreshFunction:this.refreshFunction.bind(this)});
-        this.props.navigation.navigate('DetailsRoomScreen', {data:item});
+        this.props.navigation.navigate('DetailsRoomScreen', {data:item,refreshFunction:this.refreshFunction.bind(this)});
         // this.props.navigation.reset([NavigationActions.navigate('DetailsRoomScreen', {data:item},{refresh: refreshFunction})], 0)
     }
 
@@ -72,20 +72,25 @@ class RoomScreen extends React.Component{
         <StatusBar backgroundColor={ColorApp.statusBarColor} barStyle="light-content" />
         <HeaderContainer {...this.props} header='Danh sách Khoa'/>
         <View style={{width:'100%',height:50,flexDirection:'row'}}>
+            <View style={{width:'60%'}}>
             <SearchInput 
                 onChangeText={(term) => { this.searchUpdated(term) }} 
-                style={styles.searchInput}
+                style={{width:'100%'}}
                 placeholder="Nhập để tìm kiếm..."
                 ref = {this.refs.filterInput}
                 
             />
+            </View>
+            <View style={{width:'40%'}}>
             <Picker
                 selectedValue={this.state.searchType}
-                style={{width:'40%',end:0,position:'absolute'}}
+                style={{width:'100%',end:0,position:'absolute'}}
                 onValueChange={(itemValue, itemIndex) => this.setState({searchType: itemValue})}>
                 <Picker.Item label="Trưởng khoa" value="manager" />
                 <Picker.Item label="Tên" value="name" />
             </Picker>
+            </View>
+            
         </View>
         <ScrollView>
             {filteredEmails.map(email => {
